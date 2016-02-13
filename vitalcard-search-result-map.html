@@ -1,0 +1,58 @@
+
+<div data-role="page" id="vitalcard-search-result-map">
+
+	<style>
+#vitalcard-search-result-map #cabecera {
+	margin: 0px 10px;
+}
+
+#vitalcard-search-result-map #cabecera li {
+	background-color: rgba(255, 255, 255, 0.9);
+}
+
+#vitalcard-search-result-map #cabecera li h3,#vitalcard-search-result-map #search-places-list ul p,#vitalcard-search-result-map #search-places-list ul a,#vitalcard-search-result-map #search-places-list ul h3
+	{
+	color: #333;
+}
+
+#vitalcard-search-result-map #search-places-list ul {
+	margin: 75px 15px 0 15px;
+}
+</style>
+
+	<script src="scripts/vitalcard-search-result-map.js"></script>
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false" class="">
+		<a href="#" data-direction="reverse" class="backButton" data-bind="click: backh">&nbsp;</a>
+		<h1>Red Vitalcard</h1>
+	</div>
+
+	<div class="ui-content" style="padding: 0; position: relative; overflow: hidden;">
+		<div id="search-places-mapC" style="display: none; width: 100%;"></div>
+		<div id="search-places-list" style="margin-top: 65px;">
+			<ul data-role="listview" style=""></ul>
+		</div>
+		<div id="header-text1" style="top: 0; width: 100%; position: absolute; opacity: 1; margin-top: -10px;">
+
+			<div id="header-text" style="margin-top: 10px; height: 70px;">
+
+				<ul data-role="listview" id="cabecera">
+
+				</ul>
+
+			</div>
+
+		</div>
+	</div>
+
+	<div data-id="catalog-menu" data-role="footer" data-position="fixed" data-tap-toggle="false">
+		<div data-role="navbar" data-iconpos="top" class="ui-nodisc-icon">
+			<ul>
+				<li><a href="#" id="search-places-tab-list" data-action="set-tab" data-tab-name="list" data-icon="bullets"
+					class="ui-btn-active ui-state-persist">Listado</a></li>
+				<li><a href="#" id="search-places-tab-map" data-action="set-tab" data-tab-name="map" data-icon="location">Mapa</a></li>
+			</ul>
+		</div>
+	</div>
+
+</div>

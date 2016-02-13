@@ -1,0 +1,51 @@
+
+<div data-role="page" id="search-on-club-items">
+	<script src="scripts/search-on-club-items.js"></script>
+
+	<style>
+#search-on-club-items .detail {
+	background-color: rgba(52, 60, 75, 0.6) !important;
+}
+
+#search-on-club-items #itemsBenefitsList [data-action="toggle-detail"] {
+	border-radius: 10px 0 0 10px;
+}
+
+#search-on-club-items #itemsBenefitsList [data-action="show-presentation-info"]
+	{
+	border-radius: 0 10px 10px 0;
+}
+</style>
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+		class="ui-alt-icon ui-nodisc-icon">
+		<a href="search-on-club.html" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1>Clubes</h1>
+	</div>
+
+	<div class="ui-content">
+		<section id="logot"></section>
+		<div data-role="navbar"
+			style="margin-bottom: 15px; position: relative; max-width: none; margin-left: -15px; margin-right: -15px;">
+			<ul>
+				<li><a href="#" data-action="change-tab" data-view="search-benefits" data-theme="a"
+					class="ui-btn-active ui-state-persist" style="border: none;">Beneficios Productos</a></li>
+				<li><a id="another" href="#" data-action="change-tab" data-view="another-benefits" data-theme="a"
+					style="border: none;">Más Beneficios</a></li>
+			</ul>
+		</div>
+
+		<ul style="margin-bottom: 22px; margin-top: -5px;" id="item-name" data-role="listview" data-divider-theme="b"></ul>
+
+		<ul data-role="listview" id="itemsBenefitsList" class="listDefault"></ul>
+
+	</div>
+
+	<div data-theme="a" data-role="footer" data-position="fixed" data-tap-toggle="false">
+		<div data-id="mainTab" data-role="navbar">
+			<ul id="footer_tabs">
+				<li></li>
+			</ul>
+		</div>
+	</div>
+</div>

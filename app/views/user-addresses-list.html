@@ -1,0 +1,95 @@
+<div data-role="page" id="user-addresses-list">
+	<script src="../viewmodels/user-addresses-list.js"></script>
+
+	<div data-role="header" data-position="fixed" data-tap-toggle="false" class="ui-alt-icon ui-nodisc-icon"
+		style="overflow: hidden;">
+		<a href="../../index.html#menu-mifybeca" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1>Mis direcciones</h1>
+	</div>
+
+	<div class="ui-content">
+
+		<p class="no-li-items"
+			style="color: #333; padding: 15px; background-color: rgba(255, 255, 255, 0.75); border-radius: 10px;"
+			data-bind="visible: wasAddressLoaded() && addresses().length==0">No dispones de direcciones, puedes agregarlas
+			pulsando el boton inferior</p>
+
+		<ul data-role="listview" id="addressesList" class="listDefault" data-bind="foreach: addresses()" style="margin-bottom: 5px">
+
+			<li data-icon="false" data-bind="css:{'selected-address':addressId==customer.selectedAddress()}"><a href="#"
+				data-bind="click: $root.showAddress, attr:{id:'addressLi_'+addressId}">
+					<h2 style="font-weight: normal; font-size: 14px; color: #333; white-space: normal;"
+						data-bind="html:neighborhoodName + ', ' + cityName + ((principalAddress()) ? ' - <strong>Predeterminada</strong>':'')"></h2>
+					<p
+						data-bind="html: main + ' ' + number + ' y ' + intersection + '<br><span style=\'font-weight: bold;\'>' + addressTypeText() + '</span>'"></p>
+			</a></li>
+		</ul>
+	</div>
+
+	<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+		<div class="footer-actions">
+			<a id="logout" data-role="button" data-theme="b" class="footerAloneButton" href="user-addresses-add.html">+ Agregar</a>
+		</div>
+	</div>
+
+	<div data-role="popup" id="popupAddress">
+		<style>
+#popupAddress {
+	font-size: 14px;
+	background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+#popupAddress .ui-content .ui-grid-a {
+	margin-bottom: 10px;
+}
+
+#popupAddress .form-label {
+	width: 35%;
+	text-align: right;
+	padding-right: 10px;
+	color: #333;
+}
+
+#popupAddress .form-field {
+	width: 65%;
+	color: #333;
+}
+</style>
+		<div class="ui-content">
+			<div class="ui-grid-a">
+				<div class="ui-block-a form-label">Principal:</div>
+				<div class="ui-block-b form-field" data-bind="text:selectedAddress().main"></div>
+			</div>
+			<div class="ui-grid-a">
+				<div class="ui-block-a form-label">Número:</div>
+				<div class="ui-block-b form-field" data-bind="text:selectedAddress().number"></div>
+			</div>
+			<div class="ui-grid-a">
+				<div class="ui-block-a form-label">Intersección:</div>
+				<div class="ui-block-b form-field" data-bind="text:selectedAddress().intersection"></div>
+			</div>
+			<div class="ui-grid-a">
+				<div class="ui-block-a form-label">Referencia:</div>
+				<div class="ui-block-b form-field" data-bind="text:selectedAddress().reference"></div>
+			</div>
+			<div class="ui-grid-a">
+				<div class="ui-block-a form-label">Ciudad:</div>
+				<div class="ui-block-b form-field" data-bind="text:selectedAddress().cityName"></div>
+			</div>
+			<div class="ui-grid-a">
+				<div class="ui-block-a form-label">Barrio:</div>
+				<div class="ui-block-b form-field" data-bind="text:selectedAddress().neighborhoodName"></div>
+			</div>
+		</div>
+		<div data-role="footer">
+			<div class="ui-grid-a" style="background-color: rgba(255, 255, 255, 0.9) !important;">
+				<div class="ui-block-a">
+					<a href="#" data-role="button" data-mini="true" data-bind="click: selectAddress" style="display: block;" data-theme="c">Predeterminar</a>
+				</div>
+				<div class="ui-block-b">
+					<a href="#" data-role="button" data-mini="true" data-theme="b" data-bind="click: editAddress" style="display: block;">Editar</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

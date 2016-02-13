@@ -1,0 +1,44 @@
+
+<div data-role="page" id="show-benefits-per-person">
+
+	<script src="scripts/show-benefits-per-person.js"></script>
+
+	<style>
+#show-benefits-per-person .liInfo {
+	margin-top: 15px;
+	background-color: rgba(255, 255, 255, 0.9) !important;
+	color: #333 !important;
+	white-space: normal;
+	margin: 15px;
+	text-align: justify;
+}
+
+#item-benefits-list .detail {
+	background-color: rgba(52, 60, 75, 0.6) !important;
+}
+</style>
+
+	<div data-id="main-header" data-role="header" data-position="fixed"
+		data-tap-toggle="false" class="ui-alt-icon ui-nodisc-icon">
+		<a href="explore-my-benefits.html" data-direction="reverse"
+			class="backButton">&nbsp;</a>
+		<h1 onselectstart="return false;">Clubes</h1>
+	</div>
+
+	<div class="ui-content">
+		<section id="logot"></section>
+		<ul data-role="listview" id="item-benefits-list"
+			style="margin-bottom: 10px; margin-top: 10px; padding: 0;"
+			class="listDefault"></ul>
+
+	</div>
+	<div data-theme="a" data-role="footer" data-position="fixed"
+		data-tap-toggle="false">
+		<div class="footer-actions">
+			<a id="btnMasBeneficios" data-theme="b" data-role="button"
+				class="footerAloneButton">Ver otros beneficios</a>
+		</div>
+	</div>
+
+</div>
+

@@ -1,0 +1,87 @@
+<div data-role="page" id="vitalcard-search">
+	<script src="scripts/vitalcard-search.js"></script>
+
+	<style>
+#vitalcard-search .ui-btn {
+	border-radius: 10px;
+}
+
+#vitalcard-search #vitalcardCategoriesList a,#vitalcard-search #vitalcardCitiesList a
+	{
+	background-color: rgba(255, 255, 255, 0.9);
+	color: #333;
+}
+
+#vitalcard-search [data-role="list-divider"] {
+	text-align: center;
+}
+
+#vitalcard-search [data-rel="popup"],#vitalcard-search [data-rel="popup"]:hover
+	{
+	background-color: rgba(52, 60, 75, 0.9);
+	border: none;
+	color: white;
+	text-shadow: none;
+	font-size: 14px;
+}
+</style>
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false" class="">
+		<a href="vitalcard.html" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1>Red Vitalcard</h1>
+	</div>
+
+	<div class="ui-content">
+		<ul data-role="listview" data-inset="true" style="background-color: rgba(255, 255, 255, 0.9);">
+			<li data-role="fieldcontain" class="ui-hide-label" style="padding: 20px;"><a href="#popupVitalcardCities"
+				data-rel="popup" class="ui-btn ui-icon-carat-d ui-btn-icon-right" style="text-align: center;"
+				data-bind="text: selectedCityText"></a></li>
+			<li data-role="fieldcontain" class="ui-hide-label" style="padding: 20px;"><a href="#popupVitalcardCategories"
+				data-rel="popup" class="ui-btn ui-icon-carat-d ui-btn-icon-right" style="text-align: center;"
+				data-bind="text: selectedCategoryText"></a></li>
+			<li data-role="fieldcontain" class="ui-hide-label" style="padding: 20px;"><a href="#"
+				class="ui-btn ui-btn-b ui-icon-search ui-btn-icon-right" style="text-align: center;"
+				data-bind="click: openSearch,text: 'Buscar'"></a></li>
+		</ul>
+		<div id="establishmentsList">
+			<ul data-role="listview" style="margin: 0;"></ul>
+		</div>
+	</div>
+
+	<div data-role="popup" id="popupVitalcardCategories" data-theme="a">
+
+		<div style="background: #333" data-role="header" class="popup_header">
+			<h1 style="color: #FFF;">Categoría</h1>
+			
+		</div>
+
+		<ul data-role="listview" data-inset="true" style="max-height: 400px; overflow: auto;" id="vitalcardCategoriesList">
+			<!-- <li data-role="list-divider">Selecciona una categoria</li> -->
+
+			<!-- ko foreach: vitalcardCategories() -->
+			<li data-icon="false" style="height: 45px;"><a href="#" data-bind="click: $root.chooseCategory"><img
+					style="width: 15%; padding-left: 5px;" data-bind="attr: {src: 'themes/default/images2/categories/' + code + '.png'}" />
+					<span style="margin-left: -35px; font-size: 13px;" data-bind="text: name"></span></a></li>
+			<!-- /ko -->
+
+		</ul>
+	</div>
+
+	<div data-role="popup" id="popupVitalcardCities" data-theme="a">
+		<div style="background: #333" data-role="header" class="popup_header">
+			<h1 style="color: #FFF;">Ciudad</h1>
+			
+		</div>
+		<ul data-role="listview" data-inset="true" style="max-height: 400px; overflow: auto;" id="vitalcardCitiesList">
+
+
+			<!-- <li data-role="list-divider">Selecciona una ciudad</li> -->
+
+			<!-- ko foreach: vitalcardCities() -->
+			<li data-icon="false" style="height: 45px;"><a href="#" style="font-size: 13px;"
+				data-bind="click: $root.chooseCity, text: name"> </a></li>
+			<!-- /ko -->
+
+		</ul>
+	</div>
+
+</div>

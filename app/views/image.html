@@ -1,0 +1,19 @@
+
+<div data-role="page" id="image">
+
+	<script src="../viewmodels/image.js"></script>
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+		class="ui-alt-icon ui-nodisc-icon">
+		<a href="#" class="backButton" data-direction="reverse" data-bind="click: backh">&nbsp;</a>
+		<h1 onselectstart="return false;" style="white-space: normal; max-width: 90%; margin-left: 10% !important;"
+			data-bind="text: itemName"></h1>
+	</div>
+
+	<div class="ui-content">
+		<div class="panzoom">
+			<img style="max-width: 100%;" data-bind="doubletap: toggleZoom, attr: {src: imageUrl}" />
+		</div>
+	</div>
+
+</div>

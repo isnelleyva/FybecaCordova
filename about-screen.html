@@ -1,0 +1,30 @@
+<div data-role="page" id="about-screen">
+	<script type="text/javascript">
+	(function(){
+		
+		var $page = $('#about-screen');
+		$page.on('pageinit', function() {
+			$page.find('#version').html('Fybeca App Móvil Versión ' + version);
+			//localStorage.removeItem('featureShowed')
+		});
+	})();    
+	</script>
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+		class="ui-alt-icon ui-nodisc-icon">
+		<a href="app/views/info.html" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1>Acerca de</h1>
+	</div>
+
+	<div class="ui-content">
+
+		<div style="text-align: center; margin-bottom: -20px;">
+			<img src="themes/default/images2/logo_home.png" style="margin-top: 40px; margin-bottom: 40px; width: 200px;">
+		</div>
+
+		<p id="version" style="text-align: center; font-weight: bold;"></p>
+		<p style="text-align: center; font-weight: bold;">Desarrollado por Bayteq Cia. Ltda.</p>
+
+	</div>
+
+</div>

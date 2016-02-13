@@ -1,0 +1,5 @@
+.homeOverlay{
+	-webkit-transition: opacity 1.5s ease-in-out;
+    -moz-transition: opacity 1.5s ease-in-out;
+    transition: opacity 1.5s ease-in-out;
+}

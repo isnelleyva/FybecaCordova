@@ -1,0 +1,94 @@
+
+<div data-role="page" id="show-event-detail">
+	<script src="scripts/show-event-detail.js"></script>
+	<style>
+#show-event-detail .ui-content ul {
+	background-color: rgba(255, 255, 255, 0.9);
+}
+
+#show-event-detail .ui-content a,#show-event-detail .ui-content h3,#show-event-detail .ui-content p,#show-event-detail .ui-content li
+	{
+	color: #333;
+}
+</style>
+
+
+	<script src="scripts/cordova/calendar.js"></script>
+	<script src="scripts/DateFormat.js"></script>
+
+	<div data-id="main-header" data-role="header" data-position="fixed"
+		data-tap-toggle="false" class="">
+		<a href="events-calendar.html" data-direction="reverse"
+			class="backButton">&nbsp;</a>
+		<h1>Detalles</h1>
+	</div>
+
+	<div class="ui-content">
+
+		<!--  <ul data-role="listview" id="cabecera"></ul> -->
+
+		<ul style="margin-bottom: -15px;" data-role="listview"
+			data-inset="true" data-theme="d" data-divider-theme="d"
+			id="event-description-list">
+			<li>
+				<h3 style="margin-top: -5px; margin-top: 0; margin-bottom: 0;">Tipo:</h3>
+				<p style="text-align: right; font-size: 15px; margin-top: -17px;">
+					-</strong>
+				</p>
+			</li>
+			<li>
+				<h3 style="margin-top: -5px; margin-top: 0; margin-bottom: 0;">Inicia:</h3>
+				<p style="text-align: right; font-size: 15px; margin-top: -17px;">
+					-</strong>
+				</p>
+			</li>
+			<li>
+				<h3 style="margin-top: -5px; margin-top: 0; margin-bottom: 0;">Termina:</h3>
+				<p style="text-align: right; font-size: 15px; margin-top: -17px;">
+					-</strong>
+				</p>
+			</li>
+			<li>
+				<h3 style="margin-top: -5px; margin-top: 0; margin-bottom: 0;">Farmacias:</h3>
+				<p style="text-align: right; font-size: 15px; margin-top: -17px;">-</p>
+			</li>
+		</ul>
+
+	</div>
+	<div data-theme="c" data-role="footer" data-position="fixed"
+		data-tap-toggle="false" style="margin-bottom: -2px;">
+		<div class="footer-actions"
+			style="margin-bottom: 0px; margin-top: -3px;">
+			<!-- <a data-action="mas" data-icon="arrow-d" data-iconpos="notext" data-theme="c" data-rel="popup" data-role="button"
+				data-position-to="window" id="btnMas" style="margin: 0 auto; margin-top: -9px; top: 10px;"></a> -->
+
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+					<button id="share" data-mini="true" data-theme="c" data-rel="popup"
+						data-role="button" data-position-to="window" style="width: 100%;">Compartir</button>
+				</div>
+				<div class="ui-block-b">
+					<button data-mini="true" data-theme="b" data-role="button"
+						data-action="agendar" style="width: 100%;">Agendar</button>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+
+	<div id="shareMenu" data-role="popup" data-transition="flip">
+		<ul data-role="listview">
+			<li>
+				<a href="#" id="btnFacebook"> Facebook </a>
+			</li>
+			<li>
+				<a href="#" id="btnTwitter"> Twitter </a>
+			</li>
+			<li>
+				<a href="#" id="btnGoogle"> Google + </a>
+			</li>
+		</ul>
+	</div>
+
+</div>

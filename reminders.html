@@ -1,0 +1,57 @@
+<div data-role="page" id="reminders">
+	<script src="scripts/reminders.js"></script>
+
+	<style>
+#reminders .liInfo {
+	margin-top: 15px;
+	background-color: rgba(255, 255, 255, 0.9) !important;
+	color: #333 !important;
+}
+</style>
+
+	<div data-id="reminders-header" data-role="header"
+		data-position="fixed" data-tap-toggle="false"
+		class="ui-alt-icon ui-nodisc-icon">
+		<a href="index.html" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1>Recordatorios</h1>
+	</div>
+
+	<div class="ui-content">
+
+		<div data-role="navbar"
+			style="margin-left: -15px; margin-right: -17px; margin-top: -17px; max-width: none;">
+			<ul>
+				<li>
+					<a href="reminders.html" data-action="show-list" id="showl"
+						class="ui-btn-active ui-state-persist" data-theme="a">Listado</a>
+				</li>
+				<li>
+					<a href="reminders-calendar.html" data-action="show-calendar"
+						id="showc" data-theme="a">Calendario</a>
+				</li>
+			</ul>
+		</div>
+
+		<ul data-role="listview" id="reminders-list" class="listDefault"
+			style="margin-top: 15px;">
+			<!-- ko foreach: reminders()-->
+			<li>
+				<a
+					data-bind="text: name, attr: {href: 'app/views/reminder-new.html?id=' + id}"></a>
+			</li>
+			<!-- /ko -->
+
+			<!-- ko if: reminders().length==0 -->
+			<li class="liInfo">No tienes recordatorios</li>
+			<!-- /ko -->
+
+		</ul>
+	</div>
+	<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+		<div class="footer-actions">
+			<a id="add-reminder" data-theme="b" data-role="button"
+				class="footerAloneButton" data-bind="click: addReminder">+
+				Agregar</a>
+		</div>
+	</div>
+</div>

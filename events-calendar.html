@@ -1,0 +1,49 @@
+<div data-role="page" id="events-calendar">
+	<script src="scripts/events-calendar.js"></script>
+
+	<style>
+#events-calendar [data-action="pulsado"],#events-calendar [data-action="pulsado"]:HOVER,#events-calendar [data-action="pulsado"]:ACTIVE
+	{
+	background-color: rgba(255, 255, 255, 0.9) !important;
+	color: #000 !important;
+}
+
+#events-calendar .Highlighted a {
+	background: #ff8700 !important;
+	color: #fff !important;
+}
+</style>
+
+	<div data-id="main-header" data-role="header" data-position="fixed"
+		data-tap-toggle="false" class="ui-alt-icon ui-nodisc-icon">
+		<a href="index.html" class="backButton" data-direction="reverse">&nbsp;</a>
+		<h1 onselectstart="return false;">Eventos</h1>
+	</div>
+
+	<div class="ui-content">
+		<div class="ui-grid-b"
+			style="background: rgba(255, 255, 255, 0.75); margin: -1em; margin-bottom: 1em;">
+			<div class="ui-block-a" style="width: 34%; margin-left: -35px;">
+				<ul style="margin-top: 11px; height: 0px;">
+					<legend style="font-size: 17px;">Ciudad:</legend>
+				</ul>
+			</div>
+			<div class="ui-block-b" style="width: 60%;">
+				<select id="selCiudades" name="Ciudad" data-mini="true">
+					<option value="0">Todas</option>
+				</select>
+			</div>
+			<div class="ui-block-c"
+				style="width: 6%; margin-left: 5px; margin-right: -60px;">
+				<img id="btnHoy" alt="" src="themes/default/images2/today.png"
+					style="width: 28px; margin-top: 5px;">
+			</div>
+		</div>
+		<div id="datepickerE"></div>
+		<ul data-role="listview" id="eventos"
+			style="margin-top: 10px; background-color: rgba(255, 255, 255, 0.9); border-radius: 10px; margin-left: 0px; margin-right: -7px;">
+			<li data-role="list-divider">Eventos:</li>
+		</ul>
+
+	</div>
+</div>

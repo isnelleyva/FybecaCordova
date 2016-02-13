@@ -1,0 +1,130 @@
+<div data-role="page" id="user-update">
+	<link rel="stylesheet" href="themes/libs/mobiscroll-2.3.1.custom.min.css" />
+	<style>
+#user-update #collapsible-social .ui-grid-a {
+	margin-left: -10px;
+}
+
+#user-update #collapsible-social .ui-block-a {
+	width: 52px;
+}
+
+#user-update #collapsible-social .ui-block-b {
+	width: initial;
+}
+
+#user-update #collapsible-social .ui-block-a img {
+	width: 52px;
+}
+</style>
+	<!-- <script src="scripts/mobiscroll-2.3.1.custom.min.js"></script>  -->
+
+	<script src="libraries/other/mobiscroll-2.3.1.custom.min.js"></script>
+	<script src="scripts/user-update.js"></script>
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+		class="ui-alt-icon ui-nodisc-icon">
+		<a href="index.html#menu-mifybeca" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1>Actualizar datos</h1>
+	</div>
+
+	<form id="userUpdate" data-action="update" data-ajax="false">
+
+		<div class="ui-content">
+
+			<ul data-role="listview" data-inset="true" style="background-color: rgba(255, 255, 255, 0.9);">
+				<li data-role="fieldcontain" class="ui-hide-label"><label for="txt-password">Contraseña actual:</label> <input
+					type="password" name="password" id="txt-password" value="" placeholder="Contraseña actual" class="required"
+					autocapitalize="off" autocorrect="off"> <input type="checkbox" id="showPass" name="showPass"
+					style="display: none;" class="custom" data-mini="true" /> <label for="showPass"
+					style="border: none; background: none; color: #000">Mostrar contraseña</label></li>
+				<li data-role="fieldcontain" data-theme="h" style="border: none; margin-top: -15px; white-space: normal">Ingrese su
+					contraseña actual para autorizar la actualización de sus datos</li>
+			</ul>
+
+			<ul data-role="listview" data-inset="true" style="background-color: rgba(255, 255, 255, 0.9);">
+				<li data-role="fieldcontain" class="ui-hide-label"><label for="txt-id">Identificación:</label> <input type="text"
+					disabled="disabled" name="Identificación" id="txt-id" value="" placeholder="Identificación"
+					class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset"></li>
+				<li data-role="fieldcontain" class="ui-hide-label"><label for="txt-nombres">Nombres:</label> <input type="text"
+					name="nombres" id="txt-nombres" value="" placeholder="Nombres" class="required"></li>
+				<li data-role="fieldcontain" class="ui-hide-label"><label for="txt-apellidos">Apellidos:</label> <input type="text"
+					name="apellidos" id="txt-apellidos" value="" placeholder="Apellidos" class="required"></li>
+				<li data-role="fieldcontain" class="ui-hide-label"><label for="gender">Sexo:</label> <select id="gender"
+					name="gender" data-bind="value:gender">
+						<option value="all">Seleccione su sexo</option>
+						<option value="male">Masculino</option>
+						<option value="female">Femenino</option>
+				</select></li>
+				<li data-role="fieldcontain" class="ui-hide-label"><label for="fechaNacimiento">Fecha de nacimiento:</label> <input
+					id="fechaNacimiento" name="fechaNacimiento" placeholder="Fecha de nacimiento" class="datetime required" readonly /></li>
+				<li data-role="fieldcontain" class="ui-hide-label"><label for="txt-email">Email:</label> <input type="email"
+					name="email" id="txt-email" value="" placeholder="Email" class="required"></li>
+				<li data-role="fieldcontain" data-theme="h" style="border: none; margin-top: -15px;">Todos los campos son
+					mandatorios</li>
+			</ul>
+			<ul data-role="listview" data-inset="true" style="background-color: rgba(255, 255, 255, 0.9);">
+				<li data-role="fieldcontain" class="ui-hide-label"><label for="txt-celular">Celular:</label> <input type="tel"
+					name="celular" id="txt-celular" value="" placeholder="Celular" class="required"></li>
+				<li data-role="fieldcontain" class="ui-hide-label"><label for="txt-telfijo">Teléfono convencional:</label> <input
+					type="tel" name="telFijo" id="txt-telfijo" value="" placeholder="Teléfono convencional" class="required"></li>
+				<li data-role="fieldcontain" data-theme="h" style="border: none; margin-top: -15px; white-space: normal;">Debe
+					ingresar al menos un número telefónico fijo o celular</li>
+			</ul>
+
+			<div id="collapsible-social" data-role="collapsible">
+				<h3>Redes sociales</h3>
+				<p style="color: #000;">Ingresa tus nombres de usuario en las siguientes redes:</p>
+				<div class="ui-grid-a">
+					<div class="ui-block-a">
+						<img src="themes/default/images2/icon-facebook.png" />
+					</div>
+					<div class="ui-block-b">
+						<input id="txt-facebook" placeholder="Facebook" type="text" />
+					</div>
+				</div>
+				<div class="ui-grid-a">
+					<div class="ui-block-a">
+						<img src="themes/default/images2/icon-twitter.png" />
+					</div>
+					<div class="ui-block-b">
+						<input id="txt-twitter" placeholder="Twitter" type="text" />
+					</div>
+				</div>
+				<div class="ui-grid-a">
+					<div class="ui-block-a">
+						<img src="themes/default/images2/icon-gplus.png" />
+					</div>
+					<div class="ui-block-b">
+						<input id="txt-googleplus" placeholder="Google+" type="text" />
+					</div>
+				</div>
+				<div class="ui-grid-a">
+					<div class="ui-block-a">
+						<img src="themes/default/images2/icon-pinterest.png" />
+					</div>
+					<div class="ui-block-b">
+						<input id="txt-pinterest" placeholder="Pinterest" type="text" />
+					</div>
+				</div>
+				<div class="ui-grid-a">
+					<div class="ui-block-a">
+						<img src="themes/default/images2/icon-foursquare.png" />
+					</div>
+					<div class="ui-block-b">
+						<input id="txt-foursquare" placeholder="Foursquare" type="text" />
+					</div>
+				</div>
+			</div>
+
+			<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+				<div class="footer-actions">
+					<button data-action="aceptar" type="submit" data-theme="b" class="footerAloneButton">Actualizar</button>
+				</div>
+			</div>
+
+		</div>
+
+	</form>
+
+</div>

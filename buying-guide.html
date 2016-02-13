@@ -1,0 +1,100 @@
+<div data-role="page" id="buying-guide">
+	<style>
+#buying-guide #promotions1-nav1 {
+	z-index: 9999;
+	text-align: center;
+	position: absolute;
+	margin-top: -20px;
+	width: 100%;
+	left: 0;
+}
+
+#buying-guide #promotions1-nav1 a {
+	margin: 5px;
+	width: 6px;
+	height: 6px;
+	overflow: hidden;
+	display: inline-block;
+	border-radius: 50%;
+	text-decoration: none;
+	color: #FFF;
+	background: #FFF;
+	border: 1px solid #333;
+	text-shadow: 0 0 0 !important;
+}
+
+#buying-guide #promotions1-nav1 a.activeSlide {
+	background: #333;
+	color: #333;
+	border: 1px solid #333;
+	text-shadow: 0 0 0 !important;
+}
+
+#buying-guide #promotions1 {
+	background: #FFF;
+	border: 1px solid #CCC;
+	/*height: 250px;*/
+	margin-bottom: -10px;
+	text-align: center;
+}
+
+#buying-guide #promotions1 img {
+	width: 75%;
+}
+
+#buying-guide #nav1 {
+	position: absolute;
+	left: 105px;
+	z-index: 50;
+	margin-top: -5px
+}
+
+#buying-guide #nav1 li {
+	list-style: none;
+	float: left;
+	margin-right: -5px;
+	width: 20px;
+}
+
+#buying-guide #nav1 a {
+	display: block;
+	border: 1px solid #CCCCCC;
+	border-radius: 100%;
+	width: 5px;
+	height: 5px;
+	background-color: silver;
+}
+
+#buying-guide #nav1 li.activeSlide a {
+	background-color: gray;
+}
+</style>
+	<script src="scripts/jquery/jquery.cycle.all.js"></script>
+	<script src="scripts/jquery/jquery.prettydate.js"></script>
+	<script src="scripts/jquery/jquery.prettydate-es.js"></script>
+	<script src="scripts/buying-guide.js"></script>
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+		class="ui-alt-icon ui-nodisc-icon">
+		<a href="index.html#menu-offers" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1>Guía de compras</h1>
+	</div>
+	<div class="ui-content">
+		<div id="promotions1">
+
+			<div id="imagesCarousel" class="owl-carousel owl-theme" data-bind="foreach: images">
+				<div class="item">
+					<img data-bind="attr: {src: image64}">
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+		<div class="footer-actions">
+			<a id="descargarGuia" data-role="button" data-theme="b" class="footerAloneButton">Ver Guía de Compras</a>
+		</div>
+	</div>
+
+</div>

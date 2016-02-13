@@ -1,0 +1,50 @@
+
+<div data-role="page" id="presentation-info-nm">
+
+	<style>
+.ui-collapsible-inset.ui-collapsible-themed-content .ui-collapsible-content
+	{
+	background-color: rgba(255, 255, 255, 0.75);
+	border: none;
+}
+
+#presentation-info-nm [data-role="collapsible"] a {
+	color: #333 !important;
+}
+</style>
+
+	<script src="scripts/presentation-info-nm.js"></script>
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+		class="ui-alt-icon ui-nodisc-icon">
+		<a data-action="backh" href="#" data-action="backh" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1>Información</h1>
+	</div>
+
+	<div class="ui-content">
+		<h3 id="presentationName" class="capitalized" style="margin-bottom: 30px; margin-top: 15px;"></h3>
+		<div data-role="collapsible-set" data-theme="c" data-content-theme="d"
+			style="border-radius: .6em; box-shadow: 0 1px 4px rgba(0, 0, 0, .3); -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, .3);">
+			<div data-role="collapsible" class="collapsible-element" option="10">
+				<h2>Descripción</h2>
+				<div id="list_10" class="capitalized"></div>
+			</div>
+			<div data-role="collapsible" class="collapsible-element" option="14">
+				<h2>Composición</h2>
+				<div id="list_14" class="capitalized"></div>
+			</div>
+			<div data-role="collapsible" class="collapsible-element" option="16">
+				<h2>Beneficios</h2>
+				<div id="list_16" class="capitalized"></div>
+			</div>
+			<div data-role="collapsible" class="collapsible-element" option="17">
+				<h2>Recomendaciones</h2>
+				<div id="list_17" class="capitalized"></div>
+			</div>
+			<div data-role="collapsible" class="collapsible-element" option="8">
+				<h2>Dosificación</h2>
+				<div id="list_8" class="capitalized"></div>
+			</div>
+		</div>
+	</div>
+</div>

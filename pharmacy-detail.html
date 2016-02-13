@@ -1,0 +1,42 @@
+<div data-role="page" id="pharmacy-detail">
+
+	<style>
+#pharmacy-detail .pharmacyInfo {
+	background-color: rgba(255, 255, 255, 0.9);
+	padding: 15px;
+	border-radius: 10px;
+}
+
+#pharmacy-detail .pharmacyInfo h2,#pharmacy-detail .pharmacyInfo span,#pharmacy-detail .pharmacyInfo p,#pharmacy-detail .pharmacyInfo h3,#pharmacy-detail .pharmacyInfo a
+	{
+	color: #333;
+}
+</style>
+
+	<script src="scripts/pharmacy-detail.js"></script>
+
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false" class="">
+		<a href="presentation-near.html" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1>Farmacias</h1>
+	</div>
+
+	<div class="ui-content">
+
+		<div class="pharmacyInfo">
+			<h2 class="field_name" style="margin-bottom: 0;"></h2>
+			<span class="field_distance " style="font-weight: normal; font-size: 11px; color: #99999;"></span> <img
+				class="field_image" style="width: 100%;" />
+			<p class="field_address capitalized"></p>
+			<<p id="ver-mapa" style="text-align: center;">
+				<a href="#" data-action="show-map">Ver en mapa</a>
+			</p>
+			<h3>Teléfonos</h3>
+			<p class="field_phones"></p>
+			<h3>Horarios de atención</h3>
+			<p class="field_hours"></p>
+			<h3>Servicios</h3>
+			<p class="field_services"></p>
+		</div>
+	</div>
+</div>

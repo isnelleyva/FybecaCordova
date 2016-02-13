@@ -1,0 +1,113 @@
+<div data-role="page" id="reminders-calendar">
+	<style>
+#reminders-calendar .highlight-red a {
+	color: red !important;
+}
+
+#reminders-calendar .highlight-green a {
+	color: limegreen !important;
+}
+
+#reminders-calendar #calendar-detail {
+	margin-top: 14px;
+}
+
+#reminders-calendar .remindersList {
+	margin-top: 10px;
+}
+
+#reminders-calendar .remindersList .infoLabel {
+	padding: 1px;
+	background-color: rgba(255, 255, 255, 0.5);
+	text-align: center;
+}
+
+#reminders-calendar .remindersList li { /*max-height: 50px;*/
+	
+}
+
+#reminders-calendar .remindersList li a {
+	background-color: rgba(255, 255, 255, 0.9);
+	padding-left: 30px;
+	height: auto;
+	min-height: 25px;
+	border-radius: 0;
+}
+
+#reminders-calendar .remindersList [data-role="list-divider"] {
+	
+}
+
+#reminders-calendar .checkIntake {
+	position: absolute;
+	top: 15px;
+	right: 40px;
+}
+
+#reminders-calendar span {
+	color: #333;
+}
+
+#reminders-calendar .intakeText {
+	font-size: 12px;
+	font-weight: normal;
+}
+</style>
+	<script src="scripts/reminders-calendar2.js"></script>
+	<script src="scripts/DateFormat.js"></script>
+
+	<div data-id="main-header" data-role="header" data-position="fixed"
+		data-tap-toggle="false" class="ui-alt-icon ui-nodisc-icon">
+		<a href="index.html" class="backButton" data-direction="reverse">&nbsp;</a>
+		<h1 onselectstart="return false;">Recordatorios</h1>
+	</div>
+
+	<div class="ui-content">
+
+		<div data-role="navbar"
+			style="margin-left: -15px; margin-right: -17px; margin-top: -17px; max-width: none;">
+			<ul>
+				<li>
+					<a href="reminders.html" data-action="show-list" id="showl"
+						data-theme="a">Listado</a>
+				</li>
+				<li>
+					<a href="reminders-calendar.html" data-action="show-calendar"
+						id="showc" class="ui-btn-active ui-state-persist" data-theme="a">Calendario</a>
+				</li>
+			</ul>
+		</div>
+
+		<div id="datepicker" style="margin-top: 15px;"></div>
+
+		<div class="remindersList">
+
+			<div class="infoLabel" data-bind="text: currentDate"></div>
+
+			<div class="infoLabel" style="text-align: center;"
+				data-bind="visible: dayReminders().length == 0">No tienes
+				recordatorios este día</div>
+
+			<ul id="calendar-detail" data-role="listview" data-inset="true"
+				data-divider-theme="a" data-bind="foreach: dayReminders">
+
+				<li data-role="list-divider" style="margin-top: 10px;"
+					data-bind="text: reminderName"></li>
+				<!-- ko foreach: intakes -->
+				<li data-icon="false" data-mini="true">
+					<a href="#" data-bind="click: $root.changeIntake">
+						<span data-bind="text: intakeTimeText"></span>
+						<span class="intakeText"
+							data-bind="html: '<br>Pospuesto para ' + intakePostponedText(), visible: intakePostponed() == '1' && !intake()"></span>
+						<span class="intakeText"
+							data-bind="html: '<br>Tomado el ' + intakeTimeTakenText(), visible: intake() && intakePostponed() == '0'"></span>
+					</a>
+					<img class="checkIntake" width="16px" height="16px"
+						src="themes/default/images2/icon-32-check.png"
+						data-bind="visible: intake" />
+				</li>
+				<!-- /ko -->
+			</ul>
+		</div>
+	</div>
+</div>

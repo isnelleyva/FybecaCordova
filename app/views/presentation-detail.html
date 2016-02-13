@@ -1,0 +1,406 @@
+﻿
+<div data-role="page" id="presentation-detail">
+
+	<style>
+#presentation-detail #shopping-options label.ui-btn {
+	font-weight: normal;
+}
+
+#presentation-detail #shopping-options .note {
+	color: #999;
+	font-size: 11px;
+}
+
+#presentation-detail .price-value {
+	font-weight: bold;
+	color: #30496F;
+}
+
+#presentation-detail .price-label {
+	font-size: 14px;
+}
+
+#presentation-detail #notes-box {
+	margin: 10px 0;
+	text-align: center;
+	font-size: 11px;
+}
+
+#presentation-detail .itemContent {
+	background-color: rgba(255, 255, 255, 1);
+	border-radius: 10px;
+}
+
+.quantityButton {
+	background-color: rgba(158, 172, 192, 1) !important;
+}
+
+#presentation-detail #collVad {
+	margin: 0 !important;
+}
+
+#presentation-detail #collVad li {
+	
+}
+
+#presentation-detail #collVad li a {
+	text-transform: lowercase;
+	background-color: rgba(0, 0, 0, 0);
+	font-size: 13px;
+	color: #30496F;
+	border: none;
+}
+
+#presentation-detail #collVad li a:FIRST-LETTER {
+	text-transform: uppercase;
+}
+
+#presentation-detail #collVad .vademecumTabActive {
+	background-color: #00ADFF !important;
+	color: #FFF !important;
+}
+
+#presentation-detail .ui-radio.ui-mini {
+	width: 50%;
+}
+
+#presentation-detail .ui-radio.ui-mini label {
+	text-align: center;
+}
+
+#presentation-detail .ui-controlgroup-horizontal .ui-controlgroup-controls
+	{
+	width: 95%;
+}
+
+#presentation-detail #popupContactUs label,#presentation-detail [data-role="popup"] textarea
+	{
+	color: #333;
+}
+</style>
+
+	<script src="../viewmodels/presentation-detail.js"></script>
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+		class="ui-alt-icon ui-nodisc-icon">
+		<a href="#" class="backButton" data-direction="reverse" data-bind="click: backh">&nbsp;</a>
+		<h1 onselectstart="return false;" style="white-space: normal; max-width: 90%; margin-left: 10% !important;"
+			data-bind="text:item().name.toLowerCase()"></h1>
+	</div>
+
+	<div class="ui-content" data-bind="css:{'presentation-offer': item().offerPrice>0}">
+
+		<div class="itemContent">
+
+			<div style="padding-top: 15px;"
+				data-bind="css: {'ui-grid-a': item().psicotropic != 'R' && item().available=='S', 'ui-grid-solo': item().available == 'N' || item().available == '' || item().psicotropic == 'R'}">
+
+				<div class="ui-block-a" style="text-align: center;">
+					<img style="max-width: 80%; max-height: 100px;"
+						data-bind="attr:{
+							src: (item().psicotropic == 'R' || item().restricted == 'N') ? '../../themes/default/images2/image-restriction.png' : item().imageUrl}, doubletap: openZoom">
+				</div>
+
+				<div class="ui-block-b" data-bind="visible: item().psicotropic != 'R' && item().available=='S'">
+
+					<div class="price ui-grid-a" style="width: 100%; margin-top: 10px; text-align: center;">
+						<div class="ui-block-a" style="border-right-width: 2px; border-right-style: solid; border-color: #EE3C43;">
+							<div class="price-value" data-bind="text:'$'+item().publicPrice.toFixed(2)"></div>
+							<div class="price-label">NORMAL</div>
+						</div>
+						<div class="ui-block-b">
+							<div class="price-value" data-bind="text:'$'+item().fybecaPrice.toFixed(2)"></div>
+							<img style="width: 30px;" alt="" src="../../themes/default/images2/img-vcPrice.png" />
+						</div>
+					</div>
+
+					<div class="ui-grid-b">
+						<div class="ui-block-a">
+							<a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-minus ui-btn-icon-notext quantityButton"
+								data-bind="click: reduceQuantity"></a>
+						</div>
+						<div class="ui-block-b" style="margin-left: -3px; margin-right: 3px;">
+							<input type="tel" onkeypress="return checkQuantityLimit(event)" name="quantity" id="quantity" value="1"
+								style="text-align: center;" min="1" max="99" data-bind="value: item().quantity, valueUpdate: 'afterkeydown'" />
+						</div>
+						<div class="ui-block-c">
+							<a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext quantityButton"
+								data-bind="click: addQuantity"></a>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+			<fieldset data-role="controlgroup" class="horizontalDG" data-type="horizontal" data-mini="true"
+				style="text-align: center;"
+				data-bind="visible: item().saleUnit > 1 && item().psicotropic != 'R' && item().available=='S'">
+
+				<input type="radio" name="selectedUnit" id="slUnits" value="1" data-mini="true" checked="checked"
+					data-bind="visible:item().saleUnit > 1, checked:item().selectedPresentation"> <label for="slUnits"
+					style="border-color: rgba(0, 0, 0, 0);"
+					data-bind="html: 'Unidad $' + (item().fybecaPrice / item().saleUnit).toFixed(2),  visible: item().saleUnit > 1"></label>
+				<input type="radio" name="selectedUnit" id="slBox" value="2" data-mini="true"
+					data-bind="checked: item().selectedPresentation"> <label for="slBox" style="border-color: rgba(0, 0, 0, 0);"
+					data-bind="html: 'Caja $' + item().fybecaPrice.toFixed(2)"></label>
+
+			</fieldset>
+
+			<div style="text-align: center; font-size: 14px; white-space: normal;"
+				data-bind="visible:item().saleUnit > 1 && item().psicotropic != 'R', text: '1 caja contiene ' + item().saleUnit + ' unidades'"></div>
+
+			<div class="ui-grid-solo" style="padding: 0px 5px 0px 1px;"
+				data-bind="visible: item().available == 'N' || item().available == '' || item().psicotropic == 'R'">
+				<div class="ui-block-a">
+					<a href="#" data-role="button" data-theme="b" data-mini="true" data-bind="click:$root.openContactUsPopup"
+						style="margin-right: 0;">Solicitar</a>
+				</div>
+			</div>
+
+			<div class="ui-grid-a" style="padding: 5px;">
+				<div class="ui-block-a" data-bind="visible:item().psicotropic != 'R' && item().available=='S'">
+					<a href="#" data-role="button" data-mini="true" data-theme="c" data-bind="click:$root.cart.save" style="margin-left: 0;">Guardar</a>
+				</div>
+				<div class="ui-block-b">
+					<a href="#" class="superButton" data-role="button" data-theme="b" data-mini="true"
+						data-bind="click: $root.cart.add, visible: item().available=='S' && item().psicotropic != 'R'" style="margin-right: 0;">Agregar
+						a carrito</a>
+				</div>
+
+				<!-- <button data-mini="true" data-theme="b" data-bind="click: $root.goToMap">Consultar stock en farmacias</button> -->
+			</div>
+
+			<div id="notes-box">
+				<div data-bind="visible: item().notes != '', text: item().notes"></div>
+
+				<div data-bind="visible: item().available == '' || item().available == 'N'">Producto no disponible para la venta
+					online, pulsa en "Solicitar" para mas información</div>
+
+				<div style="color: #F00;" data-bind="visible: item().psicotropic == 'R'">Producto con retención de receta. Llame al
+					1800 Fybeca o acuda a la farmacia.</div>
+
+				<div data-bind="visible: item().psicotropic == 'P'">Producto de uso controlado. Indique la receta en la entrega de
+					su pedido.</div>
+			</div>
+
+			<div data-bind="visible: !vademecumLoaded() && item().psicotropic != 'R' && item().restricted != 'S'"
+				style="text-align: center;">
+				<img src="../../themes/default/images2/ajax-loader-little.gif" style="margin-right: 10px" />Cargando información
+			</div>
+
+			<div class="ui-grid-a" style="position: relative; min-height: 100px;"
+				data-bind="visible: vademecumLoaded() && showVademecumSection() && item().psicotropic != 'R' && item().restricted != 'S'">
+				<div class="ui-block-a">
+
+					<ul id="collVad" data-theme="c" data-role="listview" data-bind="visible: item().restricted != 'S', foreach: vademecum">
+						<li><a href="#"
+							class="ui-alt-icon ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-carat-r ui-btn-icon-right vademecumTab"
+							style="border-radius: 10px 0px 0px 10px;" data-bind="text:label, click: $root.showVademecumInfo"></a></li>
+					</ul>
+
+				</div>
+				<div class="ui-block-b"
+					style="background-color: rgba(61, 193, 255, 0.5); border-radius: 0 10px 10px 0; position: absolute; bottom: 0; right: 0; top: 0; overflow: auto;">
+					<p style="padding-left: 10px; font-size: 13px;" data-bind="text: vademecumToShow"></p>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div data-id="catalog-menu" data-role="footer" data-position="fixed" data-tap-toggle="false">
+		<div data-role="navbar" data-iconpos="top" class="ui-nodisc-icon">
+			<ul>
+				<li><a href="#" data-icon="search" class="ui-btn-active ui-state-persist">Productos</a></li>
+				<li><a href="../../explore-products.html" data-icon="grid">Categorías</a></li>
+				<li><a href="my-cart.html" data-icon="cart">Carrito (<span data-bind="text: cartCount()"></span>)
+				</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- POPUP ADDRESSES AS USER -->
+
+	<div data-role="popup" id="popupAddresses" data-theme="d" data-dismissible="false" style="width: 250px; background: #FFF;">
+		<div style="padding-right: 15px; padding-left: 15px; margin-bottom: 15px;">
+			<p>Selecciona tu dirección de entrega</p>
+			<fieldset data-role="controlgroup" data-mini="true">
+
+				<!-- ko foreach:addresses() -->
+				<input type="radio" name="deliverAddress"
+					data-bind="attr:{id:addressId}, 
+							value: addressId, checked: $root.selectedAddress" class="required"> <label
+					data-bind="attr:{for:addressId}"><span style="font-size: 14px;"
+					data-bind="text:neighborhoodName + ', ' + cityName"></span> <br> <span
+					style="font-size: 12px; font-weight: normal;" data-bind="text:main + ' ' + number + ' y ' + intersection"></span></label>
+				<!-- /ko -->
+
+			</fieldset>
+
+		</div>
+	</div>
+
+	<!-- POPUP ADDRESSES AS GUEST -->
+
+	<!-- <div data-role="popup" id="popupAddressesGuest" data-overlay-theme="b" data-dismissible="false" data-theme="d">
+		<div style="padding-right: 15px; padding-left: 15px; margin-bottom: 15px;">
+			<p>Indícanos una dirección de entrega</p>
+
+			<ul data-role="listview" data-inset="true">
+				<li data-role="fieldcontain" class="ui-hide-label"><select name="city"
+					data-bind="options:data.cities, 
+						optionsValue:'value', 
+						optionsText:'label', 
+						optionsCaption: 'Ciudad',
+						value: data.state.selectedCity"
+					class="required" data-mini="true">
+				</select></li>
+				<li data-role="fieldcontain" class="ui-hide-label"><select name="neigborhood"
+					data-bind="options:$root.data.neighborhoods(), 
+						optionsValue:'value', 
+						optionsText:'label', 
+						optionsCaption: 'Barrio'"
+					class="required" data-mini="true">
+				</select></li>
+			</ul>
+
+			<div style="text-align: center;">
+				<a href="#" data-action="closePopupAddressesGuest">Aceptar</a>
+			</div>
+
+		</div>
+	</div> -->
+
+	<!-- POPUP CONTACT US -->
+
+	<div data-role="popup" id="popupContactUs" data-overlay-theme="b" data-dismissible="false" data-theme="d"
+		style="background: #E9E9E9;">
+
+		<div style="background: #333" data-role="header" class="popup_header">
+			<h1 style="color: #FFF;">Contacto</h1>
+			<a style="display: none;"></a> <a class="closeButton" href="#" data-bind="click: closePopupBtn">X</a>
+		</div>
+
+		<form data-ajax="false" data-bind="submit: sendContactUs">
+
+			<ul data-role="listview" data-inset="true">
+				<li data-role="fieldcontain"><label for="txtid" style="font-size: 13px;">Identificación:</label> <input type="text"
+					name="txtid" id="txtid" value="" data-mini="true" style="font-size: 12px;" class="required"
+					data-bind="value:customer.id()"></li>
+				<li data-role="fieldcontain"><label for="txtName" style="font-size: 13px;">Nombres:</label> <input type="text"
+					name="txtName" id="txtName" value="" data-mini="true" style="font-size: 12px;" class="required"
+					data-bind="value:customer.name()"></li>
+				<li data-role="fieldcontain" data-mini="true"><label for="txtMail" style="font-size: 13px;">Correo:</label> <input
+					type="email" name="txtMail" id="txtMail" value="" style="font-size: 12px;" class="required"
+					data-bind="value:customer.email()"></li>
+				<li data-role="fieldcontain" data-mini="true"><label for="txtPhone" style="font-size: 13px;">Teléfono:</label> <input
+					type="tel" name="txtPhone" id="txtPhone" value="" data-mini="true" style="font-size: 12px;" class="required"></li>
+				<li data-role="fieldcontain" data-mini="true"><textarea name="txtInfo" id="txtInfo"
+						style="font-size: 12px; background-color: #FFF !important; color: #333 !important;"
+						data-bind="value:'Contactar por el item ' + item().itemId" data-clear-btn="true" data-mini="true"></textarea></li>
+				<li data-role="fieldcontain" data-mini="true">
+
+					<div class="ui-grid-a">
+						<div class="ui-block-a">
+							<button data-theme="c" data-mini="true" data-bind="click:$root.closeContactUsPopup">Cancelar</button>
+						</div>
+						<div class="ui-block-b">
+							<button type="submit" data-theme="b" data-mini="true">Solicitar</button>
+						</div>
+					</div>
+
+				</li>
+			</ul>
+		</form>
+	</div>
+
+	<!-- POPUP LOGIN -->
+
+	<div data-role="popup" id="popupLogin" data-overlay-theme="b" data-dismissible="false" data-theme="d" class="ui-corner-all"
+		style="background: #FFF;">
+
+		<div data-role="header" class="popup_header">
+			<h1 style="color: #FFF;">Iniciar sesión</h1>
+			<a style="display: none;"></a> <a class="closeButton" href="#" data-bind="click: closePopupBtn">X</a>
+		</div>
+
+		<form data-bind="submit:login">
+			<div style="padding: 10px 20px;">
+
+				<div style="text-align: justify; font-size: 13px;">Inicia sesión o continua como invitado para agregar productos</div>
+
+				<fieldset class="justified" data-role="controlgroup" data-type="horizontal" style="text-align: center; margin-bottom: 0;"
+					data-mini="true">
+					<input type="radio" name="rdIdType" id="rdCedula" value="C" checked="checked" data-mini="true"
+						data-bind="checked: loginIdType" /> <label for="rdCedula">Cédula</label> <input type="radio" name="rdIdType"
+						id="rdPasaporte" value="P" data-mini="true" data-bind="checked: loginIdType" /> <label for="rdPasaporte">Pasaporte</label>
+				</fieldset>
+
+				<input type="text" name="username" id="un" value="" data-mini="true"
+					data-bind="attr:{type: (loginIdType()=='C'?'tel':'text'), 'placeholder':(loginIdType()=='C')?'Cédula':'Pasaporte', maxlength: (loginIdType() == 'C' ? 10 : 50)}, 
+						css: {'identification-ec' : loginIdType()=='C'}"><input
+					type="password" name="password" id="pw" value="" placeholder="Contraseña" data-mini="true"
+					data-bind="attr: {type: (showPassword() ? 'text' : 'password')}"> <input type="checkbox" id="showPassw"
+					name="showPassw" style="display: none;" class="custom" data-mini="true" data-bind="checked: showPassword" /> <label
+					for="showPassw" style="border: none; background: none; color: #333;">Mostrar contraseña</label>
+
+				<button type="submit" data-icon="false" data-theme="b" data-mini="true">Iniciar sesión</button>
+				<button data-icon="false" data-mini="true" data-theme="c" data-bind="click: openGuestPopup">Continuar como
+					invitado</button>
+				<div style="text-align: center;">
+					<a href="../../user-register-step1.html">o Regístrate</a>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<!-- POPUP ADDRESS GUEST -->
+
+	<div data-role="popup" id="popupAddressGuest" data-overlay-theme="b" data-dismissible="false" data-theme="d"
+		class="ui-corner-all" style="background: #FFF;">
+
+		<div style="background: #333" data-role="header" class="popup_header">
+			<h1 style="color: #FFF;">Tu ubicación</h1>
+			<a style="display: none;"></a> <a class="closeButton" href="#" data-bind="click: closePopupBtn">X</a>
+		</div>
+
+		<form data-bind="submit: loginAsGuest">
+			<div style="padding: 10px 20px;">
+
+				<ul data-role="listview" data-inset="true">
+					<li data-role="fieldcontain" class="ui-hide-label"><select name="city"
+						data-bind="options:data.cities, 
+						optionsValue:'value', 
+						optionsText:'label', 
+						optionsCaption: 'Ciudad',
+						value: data.state.selectedCity"
+						class="required">
+					</select></li>
+					<li data-role="fieldcontain" class="ui-hide-label"><select name="neighborhood"
+						data-bind="options:data.neighborhoods, 
+						optionsValue:'value', 
+						optionsText:'label', 
+						optionsCaption: 'Barrio'"
+						class="required">
+					</select></li>
+				</ul>
+
+				<div class="ui-grid-a">
+					<div class="ui-block-a">
+						<button data-icon="false" data-theme="c" data-mini="true" data-bind="click: closeAddresGuestPopup">Cancelar</button>
+					</div>
+					<div class="ui-block-b">
+						<button type="submit" data-icon="false" data-theme="b" data-mini="true">Continuar</button>
+					</div>
+				</div>
+
+			</div>
+		</form>
+	</div>
+
+</div>
+
+
+
+

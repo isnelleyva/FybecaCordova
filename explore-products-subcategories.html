@@ -1,0 +1,37 @@
+
+<div data-role="page" id="explore-products-subcategories">
+	<script src="scripts/explore-products-subcategories.js"></script>
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false" class="">
+		<a href="explore-products-categories.html" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1 style="text-transform: capitalize;" data-bind="text: subCatalogName"></h1>
+		<a href="index.html" class="homeButton">&nbsp;</a>
+	</div>
+
+	<div class="ui-content">
+
+		<div style="background-color: rgba(255, 255, 255, 0.75); padding: 10px; border-radius: 10px; text-align: center;"
+			data-bind="visible: subSubCatalogs().length == 0">No existen subcategorias para este producto</div>
+
+		<ul id="subcategories-list" data-role="listview" data-divider-theme="b" class="listDefault"
+			data-bind="foreach: subSubCatalogs(), visible: subSubCatalogs().length > 0">
+
+			<li data-theme="c" class="capitalized" data-icon="false"><a style="font-weight: normal; text-transform: capitalize;"
+				data-bind="click:$root.goToProduct,
+					text:subSubCatalogName"> </a></li>
+		</ul>
+
+	</div>
+
+	<div data-id="catalog-menu" data-role="footer" data-position="fixed" data-tap-toggle="false">
+		<div data-role="navbar" data-iconpos="top" class="ui-nodisc-icon">
+			<ul>
+				<li><a href="app/views/search-products.html" data-icon="search" data-direction="reverse">Productos</a></li>
+				<li><a href="explore-products.html" data-icon="grid" class="ui-btn-active ui-state-persist">Categorías</a></li>
+				<li><a href="app/views/my-cart.html" data-icon="cart">Carrito (<span data-bind="text: cartCount()"></span>)
+				</a></li>
+			</ul>
+		</div>
+	</div>
+
+</div>

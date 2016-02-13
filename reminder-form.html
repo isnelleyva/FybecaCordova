@@ -1,0 +1,128 @@
+<form data-role="page" id="reminder-form" data-action="post-reminder" data-ajax="false">
+	<input type="hidden" name="id" />
+	<link rel="stylesheet" href="styles/mobiscroll-2.3.1.custom.min.css" />
+	<style>
+#reminder-form .btn-save:not       (.ui-block-a       ).ui-btn {
+	display: block;
+	margin: 0;
+}
+
+#reminder-form #reminder-list {
+	background-color: rgba(255, 255, 255, 0.9);
+}
+
+#reminder-form [data-role="fieldcontain"] {
+	background-color: rgba(255, 255, 255, 0.9);
+}
+
+#reminder-form a,#reminder-form  h3,#reminder-form  p {
+	background-color: rgba(255, 255, 255, 0.9);
+	color: #000;
+}
+
+#reminder-form a:HOVER,#reminder-form  h3:HOVER,#reminder-form  p:HOVER
+	{
+	background-color: #EE3B43;
+	color: #fff;
+}
+</style>
+	<script src="scripts/cordova/LocalNotification.js"></script>
+	<script src="scripts/cordova/android/datePickerPlugin.js"></script>
+	<script src="scripts/mobiscroll-2.3.1.custom.min.js"></script>
+	<script src="scripts/DateFormat.js"></script>
+	<script src="scripts/reminder-form.js"></script>
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+		class="ui-alt-icon ui-nodisc-icon">
+		<a href="reminders.html" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1>Recordatorio</h1>
+	</div>
+
+	<div class="ui-content">
+		<ul id="reminder-list" data-role="listview" data-inset="true" class="ui-alt-icon ui-nodisc-icon">
+			<li data-role="fieldcontain" class="ui-hide-label"><label for="name">Nombre del recordatorio</label> <input
+				type="text" id="name" name="name" class="required" placeholder="Nombre del recordatorio" /></li>
+			<!--li data-role="fieldcontain" class="ui-hide-label">
+				<label for="medicine">Medicamento</label>
+				<div style="position:relative;">
+					<input type="text" id="medicine" name="medicine" placeholder="Medicamento"/>
+					<a href="#" data-action="select-product" style="position:absolute; right:5px; top:2px; width:32px; height:32px; background:url(styles/images/icon-32-search.png) center center no-repeat; background-size:20px 20px;"></a>
+				</div>
+			</li-->
+			<li data-role="fieldcontain" class="ui-hide-label">
+				<div class="input-group">
+					<input type="text" id="medicine" name="medicine" placeholder="Medicamento" />
+					<button style="background-color: rgba(255, 255, 255, 0.9);"
+						class="ui-btn ui-btn-icon-notext ui-nodisc-icon ui-alt-icon ui-icon-search" data-action="select-product">Buscar</button>
+				</div>
+			</li>
+			<li data-role="fieldcontain" class="ui-hide-label"><a href="#" data-action="select-begin">
+					<h3>Inicia</h3>
+					<p class="label"></p> <input type="hidden" name="begin" class="datetime required" />
+			</a></li>
+			<li id="show-repeat" data-role="fieldcontain" class="ui-hide-label"><a data-action="show-repeat">
+			
+			<div></div>
+					<h3>Repetición</h3>
+					<p id="repeat-label" style="white-space: normal;">Ninguna</p> <input type="hidden" name="repeat_type" value="none" /> <input
+					type="hidden" name="interval" /> <input type="hidden" name="hours" /> <input type="hidden" name="days" />
+			</a></li>
+			<li data-role="fieldcontain" class="ui-hide-label"><a href="#" data-action="select-end">
+					<h3>Finaliza</h3>
+					<p class="label"></p> <input type="hidden" name="end" class="date end" />
+			</a></li>
+			<li data-role="fieldcontain" class="ui-hide-label"><a id="doctor-link" data-action="show-doctor">
+					<h3>Médico</h3>
+					<p id="doctor-label" style="white-space: normal;"></p> <input type="hidden" name="doctor_name" /> <input type="hidden"
+					name="doctor_phone" />
+			</a><a id="doctor-call" href="#" data-icon="call">Llamar</a></li>
+			<li data-role="fieldcontain" class="ui-hide-label"><a data-action="show-buy-reminder">
+					<h3>Recordatorio de compra</h3>
+					<p id="buy-reminder-label" style="white-space: normal;"></p> <input type="hidden" name="buy_available" /> <input
+					type="hidden" name="buy_reminder_days" />
+			</a></li>
+		</ul>
+	</div>
+
+	<div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false">
+		<div class="ui-grid-a footer-actions">
+			<div class="ui-block-a btn-save">
+				<input type="submit" value="Guardar" data-theme="b" />
+			</div>
+			<div class="ui-block-b btn-delete">
+				<a href="#" data-action="delete-reminder" data-role="button">Eliminar</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- POPUP REPEAT -->
+
+	<div data-role="popup" id="popupRepeat" class="ui-corner-all" style="background: #FFF; min-width: 95%">
+
+		<div style="background: #333" data-role="header">
+			<h1 style="color: #FFF;">Repetición</h1>
+		</div>
+
+		<div style="padding: 10px 20px;">
+
+			<p>Seleccina un tipo de repetición para tu recordatorio.</p>
+
+			<fieldset data-role="controlgroup">
+				<input type="radio" name="radioRepeat" id="rdNone" value="none" checked="checked"> <label for="rdNone">Ninguna</label>
+				<input type="radio" name="radioRepeat" id="rdHours" value="hour"> <label for="rdHours">Intervalo, Ejemplo: Cada 8 horas </label> 
+				<input type="radio" name="radioRepeat" id="rdSpecific" value="specific"> <label for="rdSpecific">Horas específicas, Ejemplo: A las 8:00am, 12:00pm, 6:00pm</label>
+			</fieldset>
+
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+					<input type="submit" data-mini="true" data-theme="b" value="Aceptar" />
+				</div>
+				<div class="ui-block-b">
+					<a href="reminder-form.html" data-role="button" data-mini="true" data-theme="c">Cancelar</a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</form>

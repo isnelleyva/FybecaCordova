@@ -1,0 +1,125 @@
+
+<form data-role="page" id="order-detail">
+
+	<script src="../viewmodels/order-detail.js"></script>
+
+	<style>
+#order-detail ul {
+	background-color: rgba(255, 255, 255, 0.75);
+}
+
+#order-detail div {
+	color: #000;
+}
+
+#order-detail .field-label {
+	font-weight: bold;
+}
+
+#order-detail .fieldContent {
+	text-transform: capitalize;
+}
+</style>
+
+	<div data-role="header" data-position="fixed" data-tap-toggle="false" class="ui-alt-icon ui-nodisc-icon"
+		style="overflow: hidden;">
+		<a href="#" data-direction="reverse" class="backButton" data-bind="click: goToPreviousPage">&nbsp;</a>
+		<h1 data-bind="text:'Orden # ' + orderNumber()"></h1>
+	</div>
+
+	<div class="ui-content">
+
+		<div data-bind="visible: showInfo()">
+
+			<ul id="itemsList" data-role="listview" data-inset="true">
+
+				<!-- ko foreach:orderInfo().items -->
+				<li>
+					<div class="ui-grid-c">
+						<div class="ui-block-a" style="width: 20%;">
+							<img data-bind="attr: {src: showPhoto() ? imageUrl : '../../themes/default/images2/image-restriction.png'}"
+								style="max-width: 100%;">
+							<div data-bind="text: itemId" style="font-weight: normal; font-size: 11px; text-align: center;"></div>
+						</div>
+						<div class="ui-block-b" style="width: 10%">
+							<div data-bind="html: '<br>' + quantity" style="font-weight: normal; font-size: 12px; text-align: center;"></div>
+						</div>
+						<div class="ui-block-c" style="width: 52%">
+							<div data-bind="text: name" style="font-weight: normal; white-space: initial;"></div>
+							<div data-bind="text: 'p. unit. $' + (unitPrice/saleUnit).toFixed(2)" style="font-weight: normal; font-size: 11px;"></div>
+						</div>
+						<div class="ui-block-d" style="width: 15%">
+							<div data-bind="text: '$'+(quantity*unitPrice/saleUnit).toFixed(2)" style="font-weight: normal;"></div>
+						</div>
+					</div>
+				</li>
+				<!-- /ko -->
+
+				<li>
+					<div class="ui-grid-a">
+						<div class="ui-block-a" style="text-align: right; padding-right: 10px;">
+							<div style="font-weight: bold;">Subtotal:</div>
+						</div>
+						<div class="ui-block-b">
+							<div data-bind="text: '$'+(orderInfo().total-orderInfo().shipmentCost - orderInfo().tax).format(2)"></div>
+						</div>
+					</div>
+
+					<div class="ui-grid-a">
+						<div class="ui-block-a" style="text-align: right; padding-right: 10px;">
+							<div style="font-weight: bold;">Impuestos:</div>
+						</div>
+						<div class="ui-block-b">
+							<div data-bind="text: '$' + orderInfo().tax.format(2)"></div>
+						</div>
+					</div>
+
+					<div class="ui-grid-a">
+						<div class="ui-block-a" style="text-align: right; padding-right: 10px;">
+							<div style="font-weight: bold;">Envio:</div>
+						</div>
+						<div class="ui-block-b">
+							<div data-bind="text: '$' + orderInfo().shipmentCost.format(2)"></div>
+						</div>
+					</div>
+
+					<div class="ui-grid-a">
+						<div class="ui-block-a" style="text-align: right; padding-right: 10px;">
+							<div style="font-weight: bold;">Total:</div>
+						</div>
+						<div class="ui-block-b">
+							<div data-bind="text: '$'+orderInfo().total.format(2)"></div>
+						</div>
+					</div>
+				</li>
+
+			</ul>
+
+			<ul class="form form-readonly" data-role="listview" data-inset="true">
+				<li>
+					<div class="field-label">Identificación</div>
+					<div data-bind="text: orderInfo().customerId"></div>
+				</li>
+				<li>
+					<div class="field-label">Nombre</div>
+					<div class="fieldContent" data-bind="text: orderInfo().customerName"></div>
+				</li>
+				<li>
+					<div class="field-label">Dirección de entrega</div>
+					<div class="fieldContent" style="white-space: normal;" data-bind="text: orderInfo().address"></div>
+				</li>
+				<li>
+					<div class="field-label">Tarjeta de descuento</div>
+					<div class="fieldContent" data-bind="text: (orderInfo().discountCard=='0')?'Sin descuento' : orderInfo().discountCard"></div>
+				</li>
+				<li>
+					<div class="field-label">Forma de pago</div>
+					<div class="fieldContent" data-bind="text: orderInfo().paymentMethod"></div>
+				</li>
+			</ul>
+
+		</div>
+
+	</div>
+
+</form>

@@ -1,0 +1,144 @@
+<div data-role="page" id="presentation-near">
+	<script src="scripts/presentation-near.js"></script>
+
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+		class="ui-alt-icon ui-nodisc-icon">
+		<a href="#" data-action="back" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1>Stock</h1>
+	</div>
+
+	<div class="ui-content" style="padding: 0;">
+
+		<div id="presentation-near-header">
+			<div class="ui-grid-b">
+				<div class="ui-block-a" style="width: 60%">
+					<div class="capitalized"
+						style="font-size: 12px; font-weight: bold; overflow: hidden; text-overflow: ellipsis; padding: 5px; padding-left: 10px; padding-right: 10px; color: white; text-shadow: 0 1px 0 black;">
+						<div id="presentation_name"></div>
+					</div>
+				</div>
+				<div class="ui-block-b" style="width: 15%; padding-top: 8px;">
+					<span id="presentation_price" style="color: white; text-shadow: 0 1px 0 black; font-size: 12px; font-weight: bold;"></span>
+				</div>
+				<div class="ui-block-c" style="width: 20%">
+					<a data-role="button" data-inline="true" data-mini="true" data-action="show-quantity" style="font-size: 11px;">Cantidad</a>
+				</div>
+			</div>
+		</div>
+
+		<div style="width: 60%; color: #fff; font-size: 12px; padding-left: 10px; margin-bottom: 4px; margin-top: 5px;"
+			data-bind="text: '1 presentación es ' + unitsPerBox() + ' unidades', visible: showConversion"></div>
+
+		<div id="presentation-near-map" style="display: none; width: 100%;"></div>
+		<div id="presentation-near-list" style="position: relative;">
+			<ul data-role="listview" style="margin: 0;" class="listDefault"></ul>
+		</div>
+
+		<div data-role="popup" id="edit-range"
+			style="width: 270px; padding-left: 20px; padding-right: 10px; padding-top: 5px; padding-bottom: 5px;">
+			<input type="range" style="color: #333 !important;" name="range-distance" value="3" min="1" max="10" />
+		</div>
+		<div class="tipbox" data-action="hide-move-marker-tipbox">
+			<div class="tipbox-content">
+				<img src="themes/default/images2/tip-marker-drag.png" class="tipbox-thumb" />
+				<div style="margin-bottom: 10px;">Para mover su posición actual arrastre la marca a otra posición en el mapa o haga
+					clic directamente sobre una nueva posición.</div>
+				<label data-action="remove-move-marker-tipbox"><input type="checkbox" data-role="none" /> No volver a mostrar</label>
+			</div>
+		</div>
+	</div>
+	<!-- <div data-theme="a" data-role="footer" data-position="fixed" data-tap-toggle="false">
+		<div data-role="navbar" data-iconpos="top">
+			<ul>
+				<li><a href="#" id="presentation-near-tab-list" data-action="set-tab" data-tab-name="list" data-icon="list"
+					class="ui-btn-active ui-state-persist"> Lista </a></li>
+				<li><a href="#" id="presentation-near-tab-map" data-action="set-tab" data-tab-name="map" data-icon="map"> Mapa </a></li>
+			</ul>
+		</div>
+	</div> -->
+
+	<div data-role="footer" data-position="fixed" data-tap-toggle="false" class="ui-nodisc-icon">
+		<div data-role="navbar" data-iconpos="top" class="ui-nodisc-icon">
+			<ul>
+				<li><a href="#" id="presentation-near-tab-list" data-action="set-tab" data-icon="bars" data-tab-name="list"
+					data-icon="list" class="ui-btn-active ui-state-persist"> Lista </a></li>
+				<li><a href="#" id="presentation-near-tab-map" data-action="set-tab" data-tab-name="map" data-icon="location">
+						Mapa </a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div data-role="popup" id="popupPharmacyDetail" data-theme="a" style="min-width: 85%;">
+
+		<style>
+#popupPharmacyDetail p {
+	color: #000;
+}
+</style>
+		<div style="background: #333" data-role="header" class="popup_header">
+			<h1 style="color: #FFF;" data-bind="text: pharmacyData.name()"></h1>
+		</div>
+		<div class="ui-content" style="min-width: 210px; max-height: 400px; overflow: auto;">
+
+			<!-- <h2 style="margin-bottom: 0;" data-bind="text: pharmacyData.name()"></h2>  -->
+			<span class="field_distance " style="font-weight: normal; font-size: 11px; color: #99999;"></span>
+			<img style="width: 100%;" data-bind="attr: {src: pharmacyData.imgSrc()}" />
+			<p class="capitalized" data-bind="text: pharmacyData.address()"></p>
+			<p id="ver-mapa" style="text-align: center;">
+				<a href="#" data-action="show-map" data-bind="click: showPharmacyOnMap">Ver en mapa</a>
+			</p>
+			<h3>Teléfonos</h3>
+			<p data-bind="text: pharmacyData.phones()"></p>
+			<h3>Horarios de atención</h3>
+			<p data-bind="html: pharmacyData.schedule()"></p>
+			<h3>Servicios</h3>
+			<p data-bind="text: pharmacyData.services()"></p>
+		</div>
+
+	</div>
+
+	<div data-role="popup" id="popupQuantity" data-theme="a" style="min-width: 85%;">
+
+		<style>
+#popupQuantity p {
+	color: #000;
+}
+
+#popupQuantity .ui-controlgroup-controls {
+	width: 100%;
+}
+
+#popupQuantity .ui-controlgroup-controls  .ui-radio.ui-mini {
+	width: 50%;
+}
+</style>
+
+		<div style="background: #333" data-role="header" class="popup_header">
+			<h1 style="color: #FFF;">Cantidad</h1>
+		</div>
+		<div class="ui-content" style="min-width: 210px; max-height: 400px; overflow: auto;">
+			<form data-bind="submit: recalculate">
+				<p>Indicanos la cantidad que deseas consultar</p>
+				<fieldset data-role="controlgroup" class="horizontalDG" data-type="horizontal" data-mini="true"
+					style="text-align: center;" data-bind="visible: showPresentation">
+
+					<input type="radio" name="selectedUnitN" id="slUnitsN" value="U" data-mini="true" checked="checked"
+						data-bind="checked: selectedPresentationN"> <label for="slUnitsN" style="border-color: rgba(0, 0, 0, 0);"
+						data-bind="html: 'Unidad'"></label> <input type="radio" name="selectedUnitN" id="slBoxN" value="C" data-mini="true"
+						data-bind="checked: selectedPresentationN"> <label for="slBoxN" style="border-color: rgba(0, 0, 0, 0);"
+						data-bind="html: 'Caja'"></label>
+
+				</fieldset>
+
+				<div style="margin: 10px 0;">
+					<input type="tel" name="presentationQuantity" placeholder="Ingresa una cantidad" data-mini="true" min="1" max="99"
+						class="required digits" />
+				</div>
+				<input type="submit" data-mini="true" data-role="button" data-theme="b" data-icon="search" value="Buscar farmacias" />
+			</form>
+		</div>
+
+	</div>
+
+</div>

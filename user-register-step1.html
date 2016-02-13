@@ -1,0 +1,37 @@
+<div data-role="page" id="user-register-step1">
+	<script src="scripts/user-register-step1.js"></script>
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false" class="">
+		<a href="user-login.html" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1>Registrarse</h1>
+	</div>
+
+	<form class="ui-content" data-bind="submit: getUserType">
+		<p>Para registrarse como usuario ingrese su identificación:</p>
+		<ul id="reminder-list" data-role="listview" data-inset="true" style="background-color: rgba(255, 255, 255, 1)">
+
+			<li data-role="fieldcontain">
+				<fieldset class="justified" data-role="controlgroup" data-type="horizontal" data-mini="true">
+					<input type="radio" name="rdIdType" id="rdCedula" value="C" checked="checked" data-bind="checked: idType" /> <label
+						for="rdCedula">Cédula</label> <input type="radio" name="rdIdType" id="rdPasaporte" value="P"
+						data-bind="checked: idType" /> <label for="rdPasaporte">Pasaporte</label>
+				</fieldset>
+			</li>
+
+			<li data-role="fieldcontain" class="ui-hide-label"><label for="txt-id">Cédula:</label> <input name="txtId" value=""
+				class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset required"
+				data-bind="attr:{type: (idType()=='C'?'tel':'text'), 
+						placeholder: (idType()=='C'?'Cédula':'Pasaporte'),
+						maxlength: (idType() == 'C' ? 10 : 50)}, 
+					css: {'identification-ec' : idType()=='C'},
+					event: {change: checkInputId}" /></li>
+
+			<li data-role="fieldcontain">
+				<button type="submit" data-role="button" data-theme="b" data-bind="enable: !isProcessing()">Siguiente »</button>
+			</li>
+
+		</ul>
+
+	</form>
+
+</div>

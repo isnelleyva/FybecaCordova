@@ -1,0 +1,30 @@
+<div data-role="page" id="orders-history">
+	<script src="../viewmodels/orders-history.js"></script>
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+		class="ui-alt-icon ui-nodisc-icon">
+		<a href="index.html#menu-mifybeca" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1>Historial</h1>
+	</div>
+
+	<div class="ui-content">
+
+		<p class="no-li-items"
+			style="color: #333; padding: 15px; background-color: rgba(255, 255, 255, 0.75); border-radius: 10px; text-align: center;"
+			data-bind="visible: wasOrdersLoaded() && orders().length==0">No has realizado ninguna compra</p>
+
+		<ul name="ordersList" data-role="listview" class="listDefault" data-bind="foreach:orders()">
+			<li data-icon="false"><a href="#" data-bind="click:$root.goToOrderDetail">
+					<div class="ui-grid-a" style="font-weight: normal;">
+						<div class="ui-block-a" style="width: 80%">
+							<div data-bind="text: 'Orden # ' + number" style="font-size: 17px; font-weight: bold;"></div>
+							<div style="white-space: normal;" data-bind="text:date"></div>
+						</div>
+						<div class="ui-block-b" style="width: 20%; text-align: right;">
+							<div data-bind="text:'$' + total.toFixed(2)"></div>
+						</div>
+					</div>
+			</a></li>
+		</ul>
+	</div>
+</div>

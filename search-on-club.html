@@ -1,0 +1,43 @@
+<div data-role="page" id="search-on-club">
+	<script src="scripts/search-on-club.js"></script>
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+		class="ui-alt-icon ui-nodisc-icon">
+		<a href="#" data-action="backh" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1>Clubes</h1>
+	</div>
+
+	<div class="ui-content">
+		<section id="logot"></section>
+		<div data-role="navbar"
+			style="margin-bottom: 15px; position: relative; max-width: none; margin-left: -15px; margin-right: -15px;">
+			<ul data-theme="b">
+				<li><a href="search-on-club.html" data-action="change-tab" data-view="search-benefits" data-theme="a"
+					class="ui-btn-active ui-state-persist" style="border: none;">Beneficios Productos</a></li>
+				<li><a href="explore-another-benefits.html" data-action="change-tab" data-view="another-benefits" data-theme="a"
+					style="border: none;">Más Beneficios</a></li>
+			</ul>
+		</div>
+		<!-- <ul id="search-list-club" data-role="listview" data-divider-theme="b" data-filter="true"
+			data-filter-placeholder="Ingrese el nombre de un producto" class="listDefault"></ul>  -->
+
+		<form class="ui-filterable">
+			<input id="productsFilter" data-type="search">
+		</form>
+
+		<ul id="search-list-club" data-role="listview" data-divider-theme="b" data-filter="true" data-input="#productsFilter"
+			data-filter-placeholder="Ingrese el nombre de un producto" class="listDefault">
+
+		</ul>
+
+	</div>
+	<a data-role="button" data-action="show-more" id="btnCargar" style="display: none;">Cargar más Productos</a>
+
+	<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+		<div data-id="mainTab" data-role="navbar">
+			<ul id="footer_tabs">
+				<li></li>
+			</ul>
+		</div>
+	</div>
+</div>

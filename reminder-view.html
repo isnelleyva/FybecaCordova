@@ -1,0 +1,49 @@
+<div data-role="page" id="reminder-view" data-add-back-btn="false">
+	<script src="scripts/DateFormat.js"></script>
+	<script src="scripts/repositories/repository.js"></script>
+	<script src="scripts/reminder-view.js"></script>
+	<script src="scripts/cordova/LocalNotification.js"></script>
+
+	<style>
+#reminder-view #reminder-view-reminders {
+	background-color: rgba(255, 255, 255, 0.9);
+	border-radius: 10px;
+}
+
+#reminder-view h2,#reminder-view p {
+	color: #333;
+}
+</style>
+
+	<div data-id="reminders-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+		class="ui-alt-icon ui-nodisc-icon">
+		<a href="index.html" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1>Recordatorio</h1>
+	</div>
+
+	<div class="ui-content">
+		<div id="reminder-view-reminders">
+			<ul data-role="listview" data-inset="true">
+				<li>
+					<h2 data-bind="text: reminderName"></h2>
+					<p data-bind="text: reminderMedicine"></p>
+					<p data-bind="text: reminderDate"></p>
+				</li>
+				<li data-role="fieldcontain" data-theme="d" style="border: none;">
+					<div class="ui-grid-a">
+						<div class="ui-block-a">
+							<a href="#" data-mini="true" data-theme="b" data-role="button" data-bind="click: markTake">Marcar toma</a>
+						</div>
+						<div class="ui-block-b">
+							<a href="#" data-mini="true" data-role="button" data-theme="c" data-bind="click: openCalendar">Ver</a>
+						</div>
+					</div>
+					<button data-mini="true" data-theme="c" data-bind="click: postpone10Mins">Posponer 10 mins.</button>
+				</li>
+				<li data-bind="visible: availableTakes() != ''" data-theme="e" style="font-size: 12px;">Recuerde que está pronto a
+					terminarse su medicamento, usted tiene <span data-bind="text: availableTakes"></span> toma(s) disponibles.
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,54 @@
+﻿
+<form data-ajax="false" data-role="page" id="checkout-confirm">
+
+	<script src="../viewmodels/checkout-confirm.js"></script>
+	<style>
+.presentation-offer {
+	background: url(../../themes/default/images2/offer_corner_text.png)
+		no-repeat right top;
+}
+
+#checkout-confirm .infoContent {
+	background-color: rgba(255, 255, 255, 0.9);
+	border-radius: 10px;
+	padding: 10px;
+}
+</style>
+
+
+	<div data-role="header" data-position="fixed" data-tap-toggle="false"
+		class="ui-alt-icon ui-nodisc-icon">
+		<h1>Confirmación</h1>
+	</div>
+
+	<div class="ui-content">
+		<div class="infoContent">
+
+			<div style="text-align: center;">
+				<img style="width: 30%;"
+					src="../../themes/default/images2/icon_check.png" />
+			</div>
+
+			<p
+				style="font-size: 22px; color: #008000; text-align: center; background-color: #D9E3F0; margin: 0px -10px; padding: 15px;"
+				font-size: 22px; color: #123C63;" data-bind="html: 'Se generó la orden #<br>' + orderNumber()"></p>
+
+			<p style="font-size: 18px; text-align: justify; color: #123C63;"
+				data-bind="html: messageToCustomer"></p>
+
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+					<a href="../../index.html" data-role="button" data-mini="true"
+						data-theme="c" style="color: #333;">Ir al inicio</a>
+				</div>
+				<div class="ui-block-b">
+					<a href="#" data-role="button"
+						data-bind="click:$root.toOrderDetail" data-mini="true">Ver tu
+						compra</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</form>
+

@@ -1,0 +1,13 @@
+INSERT OR REPLACE INTO product_types (id, description, product_types_order) VALUES(    355    ,'BEBÉS Y FUTURA MAMÁ',    2    );
+INSERT OR REPLACE INTO product_types (id, description, product_types_order) VALUES(    889    ,'CUIDADO DEL HOGAR',    8    );
+INSERT OR REPLACE INTO product_types (id, description, product_types_order) VALUES(    918    ,'FITNESS',    10    );
+INSERT OR REPLACE INTO product_types (id, description, product_types_order) VALUES(    567    ,'CUIDADO PERSONAL',    4    );
+INSERT OR REPLACE INTO product_types (id, description, product_types_order) VALUES(    926    ,'ENTRETENIMIENTO',    11    );
+INSERT OR REPLACE INTO product_types (id, description, product_types_order) VALUES(    445    ,'BELLEZA',    3    );
+INSERT OR REPLACE INTO product_types (id, description, product_types_order) VALUES(    653    ,'ALIMENTOS Y BEBIDAS',    5    );
+INSERT OR REPLACE INTO product_types (id, description, product_types_order) VALUES(    694    ,'REGALOS Y DECORACIÓN',    6    );
+INSERT OR REPLACE INTO product_types (id, description, product_types_order) VALUES(    12    ,'MEDICINAS',    0    );
+INSERT OR REPLACE INTO product_types (id, description, product_types_order) VALUES(    237    ,'SALUD',    1    );
+INSERT OR REPLACE INTO product_types (id, description, product_types_order) VALUES(    846    ,'JUEGOS Y JUGUETES',    7    );
+INSERT OR REPLACE INTO product_types (id, description, product_types_order) VALUES(    909    ,'MASCOTAS',    9    );
+INSERT OR REPLACE INTO product_types (id, description, product_types_order) VALUES(    961    ,'ESCOLARES',    13    );

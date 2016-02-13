@@ -1,0 +1,355 @@
+﻿
+<form data-ajax="false" data-bind="submit: toCheckoutSummary" data-role="page" id="checkout-payment">
+
+	<script src="../viewmodels/checkout-payment.js"></script>
+	<style>
+#checkout-payment .checkout-summary {
+	padding: 8px;
+	text-align: center;
+	margin: -1em;
+	margin-bottom: 1em;
+	font-weight: bold;
+	background: transparent;
+	color: #FFF;
+}
+
+.presentation-offer {
+	background: url(../../themes/default/images2/offer_corner_text.png)
+		no-repeat right top;
+}
+
+#checkout-payment .ui-radio label.ui-btn,#checkout-payment .ui-checkbox label.ui-btn
+	{
+	background-color: rgba(255, 255, 255, 0.9);
+	color: #333;
+	text-shadow: none;
+}
+
+#slCreditType-listbox,#slCreditTypeE-listbox {
+	/*background-color: rgba(255, 255, 255, 0.9) !important;*/
+	border: none;
+	border-radius: 10px;
+}
+
+#slCreditType-listbox a,#cardMonthId-dialog a,#slCreditTypeE-listbox a {
+	font-size: 12px;
+	white-space: normal;
+	background-color: #373737;
+	border-radius: 0;
+	border-color: #000;
+}
+
+#checkout-payment [data-role="controlgroup"] {
+	border-radius: 10px;
+}
+
+#slCreditType-listbox li:last-child a,#cardMonthId-dialog  li:last-child a,#slCreditTypeE-listbox  li:last-child a
+	{
+	border-radius: 0px 0px 10px 10px;
+}
+
+}
+#slCreditType-listbox a:active,#slCreditTypeE-listbox a:active,#cardMonthId-dialog a:active
+	{
+	color: #fff;
+}
+
+#slCreditType-listbox a:hover,#slCreditTypeE-listbox a:hover,#cardMonthId-dialog a:hover
+	{
+	color: #fff;
+}
+
+#slCreditType-listbox .ui-header,#slCreditTypeE-listbox .ui-header {
+	background-color: #333;
+	color: #FFF;
+}
+
+#slCreditType-listbox .ui-header .ui-title,#cardMonthId-dialog [data-role="header"],#slCreditTypeE-listbox .ui-header .ui-title
+	{
+	font-size: 12px;
+}
+
+#slCreditType-listbox-popup,#popupMonths-popup,#slCreditTypeE-listbox-popup
+	{
+	top: 150px !important;
+}
+
+#cardMonthId-dialog [data-role="header"] {
+	background-color: #333 !important;
+	color: #FFF;
+}
+
+#checkout-payment .ui-select.ui-mini {
+	display: none
+}
+
+#checkout-payment .selectButton {
+	font-size: 12px;
+	background-color: #FFF !important;
+	/*color: #A9A9A9 !important;*/
+	text-align: left;
+	font-weight: normal;
+	margin-left: 0;
+	margin-right: 0;
+}
+
+#checkout-payment .ui-popup-container { /*width: 92%;*/
+	/*max-width: 100% !important;*/
+	/*margin-left: 15px;*/
+	/*left: 0px !important;*/
+	
+}
+</style>
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+		class="ui-alt-icon ui-nodisc-icon">
+		<a href="checkout-user-data.html" class="headerButton" data-direction="reverse"
+			style="background-image: url('../../themes/default/images2/icon-back.png');">&nbsp;</a>
+		<h1 onselectstart="return false;">Paso 2/3</h1>
+		<button type="submit" class="headerButton" style="background-image: url('../../themes/default/images2/icon-next.png');"
+			data-bind="disable: checkoutCart.disableFields">&nbsp;</button>
+	</div>
+
+	<div class="ui-content">
+		<div class="checkout-summary">
+			<span data-bind="text: checkoutCart.cart.items().length"></span> items, total: <span
+				data-bind="text:'$' + checkoutCart.cart.summary.total().format(2)"></span>
+		</div>
+
+		<div data-bind="visible: discountCards().length > 1">
+
+			<h3>Tarjeta de descuento</h3>
+
+			<fieldset data-role="controlgroup" data-mini="true" id="rdsDiscountCards">
+				<!-- ko foreach: discountCards-->
+				<input type="radio" name="discountCard" checked="checked"
+					data-bind="value: tarjeta, checked: $root.discountCard, attr: {id: 'rdDiscount-' + tarjeta}" class="required"> <label
+					data-bind="attr:{for: 'rdDiscount-' + tarjeta}, text: descripcion"></label>
+				<!-- /ko -->
+			</fieldset>
+
+		</div>
+
+		<div data-bind="visible: paymentTypes().length > 0">
+
+			<h3>Formas de pago</h3>
+
+			<fieldset data-role="controlgroup" data-mini="true" id="rdsPaymentMethods">
+				<!-- ko foreach: customer.paymentTypes() -->
+				<input type="radio" name="paymentMethod" checked="checked"
+					data-bind="disable: $root.checkoutCart.disableFields, checked: $root.checkoutCart.paymentType, value: tarjeta, attr: {id:'rdPayment-' + tarjeta}"
+					class="required" /> <label data-bind="attr:{for:'rdPayment-' + tarjeta}, text: descripcion"></label>
+				<!-- /ko -->
+			</fieldset>
+
+			<!-- Tarjeta de crédito -->
+
+			<div class="fieldsArea" data-bind="visible: checkoutCart.paymentType() == '0000000'">
+				<div class="fieldContainer">
+					<input type="tel" name="cardNumber" data-mini="true" placeholder="Número de tarjeta" class="required" maxlength="18"
+						data-bind="value: creditCardNumber,
+									valueUpdate: 'afterkeydown', 
+									event: {blur: getCreditTypesByCardNumber}">
+				</div>
+				<div class="fieldContainer">
+					<div class="ui-grid-a">
+						<div class="ui-block-a" style="width: 70%">
+							<input type="text" name="cardOwner" data-mini="true" placeholder="Tarjeta Habiente" class="required"
+								data-bind="value:checkoutCart.creditCardOwner,
+									valueUpdate: 'afterkeydown'">
+
+						</div>
+						<div class="ui-block-b" style="width: 30%">
+							<input type="password" name="cardSecurity" data-mini="true" placeholder="CVV" class="required" maxlength="4"
+								data-bind="value:checkoutCart.creditCardCcv,
+									valueUpdate: 'afterkeydown'">
+						</div>
+					</div>
+				</div>
+				<!-- <div class="fieldContainer">  -->
+				<div class="ui-grid-a">
+					<div class="ui-block-a" style="width: 70%">
+						<a href="#popupMonths" data-rel="popup" data-position-to="window" class="ui-btn selectButton" data-mini="true"
+							style="color: #A9A9A9;" data-bind="text: buttonTextMonth"></a>
+
+					</div>
+					<div class="ui-block-b" style="width: 30%">
+						<input type="tel" name="cardYear" data-mini="true" placeholder="Año"
+							data-bind="value: checkoutCart.creditCardYear,
+									valueUpdate: 'afterkeydown'" class="required">
+					</div>
+				</div>
+				<!-- </div> -->
+				<!-- <div class="fieldContainer">  -->
+				<p style="white-space: initial; text-align: center; color: #333;" data-bind="visible: creditCardNumber() == ''">Ingresa
+					tu tarjeta de crédito para cargar los tipos de crédito</p>
+
+				<div data-bind="visible: creditCardNumber() != ''">
+
+					<a href="#" class="ui-btn selectButton" onclick="openSelect(this)" data-mini="true" style="color: #4E4E4E;"
+						data-bind="text: buttonTextCreditType"></a> <select name="creditType" id="slCreditType" data-mini="true"
+						class="required" data-native-menu="false"
+						data-bind="options: customer.creditTypes, 
+							optionsValue: 'codigo', 
+							optionsText: 'descripcion', 
+							optionsCaption: 'Tipo de crédito',
+							value: checkoutCart.creditTypeId, 
+							event: {change: selectOnChangeCreditType}">
+					</select>
+				</div>
+				<!-- </div> -->
+				<!-- <div class="fieldContainer"></div>  -->
+			</div>
+
+
+			<!-- Tarjeta Empresarial -->
+			<div style="padding: 5px; background-color: #FFF; border-radius: 10px;"
+				data-bind="visible: checkoutCart.paymentType() != '0000000' && checkoutCart.paymentType() != '' && checkoutCart.paymentType() != '-1' && customer.creditTypes().length > 0">
+				<a href="#" class="ui-btn selectButton" onclick="openSelect(this)" data-mini="true" style="color: #A9A9A9;"
+					data-bind="text: buttonTextCreditType"></a> <select name="creditTypeE" id="slCreditTypeE" data-mini="true"
+					data-native-menu="false"
+					data-bind="options: customer.creditTypes,
+							optionsValue: 'codigo', 
+							optionsText:'descripcion', 
+							optionsCaption: 'Tipo de crédito',
+							value: checkoutCart.creditTypeId, 
+							event: {change: selectOnChangeCreditType}"
+					class="required">
+				</select>
+			</div>
+		</div>
+	</div>
+
+	<div data-role="footer" data-position="fixed" data-tap-toggle="false"
+		style="background-color: rgba(0, 41, 74, 0.8) !important;">
+		<div class="footer-actions">
+			<button type="submit" id="logout" data-role="button" data-theme="b" class="footerAloneButton"
+				data-bind="disable: checkoutCart.disableFields">Siguiente</button>
+		</div>
+	</div>
+
+	<div data-role="popup" id="popupMonths" data-theme="b">
+		<ul data-role="listview" data-inset="true" style="min-width: 210px;">
+			<li data-role="list-divider" style="text-align: center;">Selecciona un mes</li>
+			<!-- ko foreach: months -->
+			<li data-icon="false"><a href="#" style="font-size: 12px;" data-bind="text: label, click: $root.selectMonth"></a></li>
+			<!-- /ko -->
+		</ul>
+	</div>
+
+	<div data-role="popup" id="popupManyShipments" data-theme="none"
+		style="width: 95%; background: #E9E9E9; padding-bottom: 5px;">
+		<style>
+li:FIRST-LETTER {
+	text-transform: uppercase;
+}
+</style>
+
+		<div style="background: #333" data-role="header" class="popup_header">
+			<h1 style="color: #FFF;">Envío</h1>
+		</div>
+		<div style="padding-right: 15px; padding-left: 15px; margin-bottom: 15px;">
+
+			<div>
+				<fieldset data-role="controlgroup" data-inset="false" data-mini="true">
+
+					<input type="radio" name="sendType" id="send1" value="1" class="required" data-bind="checked: shipments">
+					<!-- <label
+						for="send1" style="font-weight: normal;"><span style="font-weight: bolder;">Un envio</span> todos los items en
+						120 minutos</label> -->
+					<label for="send1" style="font-weight: normal;"><div>
+							<div style="font-weight: bold;">1 envio</div>
+							<div>Todos los productos se entregan en 120 minutos</div>
+						</div></label>
+					<!--  -->
+					<input type="radio" name="sendType" id="send2" value="2" class="required" data-bind="checked: shipments">
+					<!-- <label
+						for="send2" style="font-weight: normal;"><span style="font-weight: bolder;">Dos envios,</span> el primero en 60
+						minutos y el segundo en 120 minutos</label> -->
+					<label for="send2" style="font-weight: normal;"><div>
+							<div style="font-weight: bold;">2 envios</div>
+							<div>El primer envio te llega en 60 minutos, y el segundo en 120 minutos</div>
+						</div></label>
+
+				</fieldset>
+			</div>
+
+			<div data-bind="visible: checkoutCart.shipments() == '2'">
+				<p>Items a despachar en 60 minutos:</p>
+
+				<ul style="background: #E2E2E2; text-transform: lowercase;" data-role="listview"
+					data-bind="foreach:  checkoutCart.cart.items()">
+					<!-- ko if: state.localStock() > 0 -->
+					<li style="font-size: 13px; padding: 5px" data-bind="text: state.localStock() + ' ' + name()"></li>
+					<!-- /ko -->
+				</ul>
+
+				<p>Items a despachar en 120 minutos:</p>
+
+				<ul style="background: #E2E2E2; text-transform: lowercase;" data-role="listview"
+					data-bind="foreach: checkoutCart.cart.items()">
+					<!-- ko if: state.cityStock() > 0 && state.is2Shipments()-->
+					<li style="font-size: 13px; padding: 5px" data-bind="text: state.cityStock() + ' ' + name()"></li>
+					<!-- /ko -->
+				</ul>
+
+			</div>
+
+			<button class="ui-btn ui-btn-b ui-mini ui-corner-all ui-shadow" data-bind="click: closeShipmentsPopup">Aceptar</button>
+
+		</div>
+	</div>
+
+	<div data-role="popup" id="popupDeleteItems" data-theme="none" style="width: 95%; background: #E9E9E9; padding-bottom: 5px;"
+		data-overlay-theme="b" data-dismissible="false">
+		<style>
+li:FIRST-LETTER {
+	text-transform: uppercase;
+}
+</style>
+
+		<div style="background: #333" data-role="header" class="popup_header">
+			<h1 style="color: #FFF;">Envío</h1>
+		</div>
+		<div style="padding-right: 15px; padding-left: 15px; margin-bottom: 15px;">
+
+			<div>
+				<p>No disponemos de stock para despachar algunos productos, por favor guardalos para mas tarde o eliminalos de tu
+					carrito:</p>
+
+				<ul style="background: #E2E2E2; text-transform: lowercase;" data-role="listview"
+					data-bind="foreach:  checkoutCart.itemsWithNoStock()">
+					<li style="font-size: 13px; padding: 5px">
+						<p style="font-size: 15px; white-space: normal;" data-bind="text: name"></p>
+
+						<div class="ui-grid-a">
+							<div class="ui-block-a" style="width: 25%; padding: 10px;">
+								<img style="max-width: 100%;" data-bind="attr: {src: imageUrl}" />
+							</div>
+							<div class="ui-block-b detail" style="width: 70%">
+
+								<div class="ui-grid-a" style="margin-bottom: -5px;">
+									<div class="ui-block-a">
+										<button data-role="button" data-mini="true" data-theme="c" style="margin-left: 0; padding: 5px;"
+											data-bind="click:$root.deleteItem">Eliminar</button>
+									</div>
+									<div class="ui-block-b">
+										<button data-role="button" data-mini="true" data-theme="c" style="margin-right: 0; padding: 5px;"
+											data-bind="click:$root.saveItem">Para luego</button>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</li>
+				</ul>
+
+			</div>
+
+			<button class="ui-btn ui-btn-b ui-mini ui-corner-all ui-shadow" data-theme="d" data-bind="click: closeDeleteItemsPopup">Cancelar</button>
+			<button type="submit" class="ui-btn ui-btn-b ui-mini ui-corner-all ui-shadow">Continuar</button>
+
+		</div>
+	</div>
+
+</form>

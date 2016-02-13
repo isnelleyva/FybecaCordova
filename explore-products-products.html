@@ -1,0 +1,65 @@
+
+<div data-role="page" id="explore-products-products">
+	<script src="scripts/explore-products-products.js"></script>
+
+	<div data-id="main-header" data-role="header" data-position="fixed"
+		data-tap-toggle="false" class="">
+		<a href="#" data-direction="reverse" class="backButton"
+			data-bind="click: backh">&nbsp;</a>
+		<h1 style="text-transform: capitalize;"
+			data-bind="text: subsubCatalogName"></h1>
+		<a href="index.html" class="homeButton">&nbsp;</a>
+	</div>
+
+	<div class="ui-content">
+
+		<p
+			style="background-color: rgba(255, 255, 255, 0.9); padding: 10px; color: #333; border-radius: 10px;"
+			data-bind="visible: products().length==0 && itemsWasLoaded()">No
+			existen presentaciones para este producto</p>
+
+		<ul id="productsList" data-role="listview" data-divider-theme="b"
+			data-filter="true" data-filter-placeholder="Buscar productos"
+			class="results ui-nodisc-icon ui-alt-icon listDefault"
+			data-bind="visible: products().length > 0 && itemsWasLoaded()">
+
+			<!-- ko foreach: products () -->
+			<li data-icon="false">
+				<a href="#" style="font-weight: normal; text-transform: capitalize;"
+					data-bind="click: $root.goToProduct, text: productName"></a>
+			</li>
+			<!-- /ko -->
+
+			<li>
+				<a data-theme="c" data-role="button" style="text-align: center;"
+					data-bind="click: showMore, visible: showLoadMoreButton()">+
+					Cargar más Productos</a>
+			</li>
+
+		</ul>
+	</div>
+
+	<div data-id="catalog-menu" data-role="footer" data-position="fixed"
+		data-tap-toggle="false">
+		<div data-role="navbar" data-iconpos="top" class="ui-nodisc-icon">
+			<ul>
+				<li>
+					<a href="app/views/search-products.html" data-icon="search"
+						data-direction="reverse">Productos</a>
+				</li>
+				<li>
+					<a href="explore-products.html" data-icon="grid"
+						class="ui-btn-active ui-state-persist">Categorías</a>
+				</li>
+				<li>
+					<a href="app/views/my-cart.html" data-icon="cart">
+						Carrito (
+						<span data-bind="text: cartCount()"></span>
+						)
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+</div>

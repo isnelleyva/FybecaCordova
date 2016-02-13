@@ -1,0 +1,85 @@
+<div data-role="page" id="user-register-step2">
+	<link rel="stylesheet" href="themes/libs/mobiscroll-2.3.1.custom.min.css" />
+	<script src="scripts/user-register-step2.js"></script>
+	<script src="scripts/mobiscroll-2.3.1.custom.min.js"></script>
+	<script src="scripts/cordova/android/datePickerPlugin.js"></script>
+
+	<style>
+#user-register-step2 div.ui-input-text {
+	border: none;
+	box-shadow: none;
+}
+
+#user-register-step2 div.ui-input-text input {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #DDD;
+}
+</style>
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false" class="">
+		<a href="user-register-step1.html" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1>Registrarse</h1>
+	</div>
+
+	<form id="userRegisterStep2" data-action="post-reminder" data-ajax="false" data-bind="submit: registerUser">
+
+		<div class="ui-content">
+
+			<button class="facebookButton" data-role="none"
+				style="width: 100%; background-color: #3C5A98; color: #FFF; font-weight: bold; height: 35px;"
+				data-bind="click: getFacebookData">Obtener datos desde Facebook</button>
+
+			<ul data-role="listview" data-inset="true" style="background-color: rgba(255, 255, 255, 0.9)">
+				<li data-role="fieldcontain" class="ui-hide-label"><label for="txt-id">Cédula:</label> <input type="text"
+					disabled="disabled" name="id" id="txt-id" value="" placeholder="Identificación"
+					class="required ui-input-text ui-body-c ui-corner-all ui-shadow-inset"></li>
+				<li data-role="fieldcontain" class="ui-hide-label"><label for="txt-nombres">Nombres:</label> <input type="text"
+					name="name" placeholder="Nombres" class="required ui-input-text ui-body-c ui-corner-all ui-shadow-inset nameInput"
+					data-bind="value: user.name"></li>
+				<li data-role="fieldcontain" class="ui-hide-label"><input type="text" name="lastName" placeholder="Apellidos"
+					class="required ui-input-text ui-body-c ui-corner-all ui-shadow-inset" data-bind="value: user.lastname"></li>
+				<li data-role="fieldcontain" class="ui-hide-label"><label for="txt-email1">Email:</label> <input type="email"
+					name="email" placeholder="Email" class="required ui-input-text ui-body-c ui-corner-all ui-shadow-inset"
+					data-bind="value: user.email"></li>
+
+				<li data-role="fieldcontain" class="ui-hide-label"><label for="txt-email2">Repita su email:</label> <input
+					type="email" name="reEmail" value="" placeholder="Repita su email"
+					class="required ui-input-text ui-body-c ui-corner-all ui-shadow-inset"></li>
+
+				<!-- <li data-role="fieldcontain" class="ui-hide-label"><select name="question" class="required"
+					data-bind="options: questions, 
+						optionsValue: 'value', 
+						optionsText: 'label', 
+						optionsCaption: 'Selecciona una pregunta'"
+					class="required"></select></li>
+				<li data-role="fieldcontain" class="ui-hide-label"><input type="text" name="answer" value="" placeholder="Respuesta"
+					class="required ui-input-text ui-body-c ui-corner-all ui-shadow-inset"></li> -->
+
+				<li data-role="fieldcontain" class="ui-hide-label"><label for="txt-password1">Contraseña:</label> <input
+					type="password" name="password" value="" placeholder="Contraseña" class="required" autocapitalize="off"
+					autocorrect="off" data-bind="attr: {type: (showPassword() ? 'text' : 'password')}"> <input type="checkbox"
+					id="showPass" name="showPass" style="display: none;" class="custom" data-mini="true" data-bind="checked: showPassword" />
+					<label class="checkPassword" for="showPass" style="border: none; background: none; color: #000">Mostrar
+						contraseña</label></li>
+
+				<li data-role="fieldcontain" class="ui-hide-label"><label for="txt-password2">Repita su contraseña:</label> <input
+					type="password" name="rePassword" value="" placeholder="Repita su contraseña" class="required" autocapitalize="off"
+					autocorrect="off" data-bind="attr: {type: (showPassword() ? 'text' : 'password')}"></li>
+
+				<li data-role="fieldcontain" data-theme="h" style="border: none; margin-top: -15px;">Todos los campos son
+					mandatorios</li>
+
+			</ul>
+
+		</div>
+
+		<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+			<div class="footer-actions">
+				<button type="submit" data-theme="b" class="footerAloneButton">Finalizar</button>
+			</div>
+		</div>
+
+	</form>
+
+</div>

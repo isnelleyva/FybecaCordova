@@ -1,0 +1,56 @@
+
+<div data-role="page" id="explore-products-categories">
+	<script src="scripts/explore-products-categories.js"></script>
+
+	<div data-id="main-header" data-role="header" data-position="fixed"
+		data-tap-toggle="false" class="">
+		<a href="explore-products.html" data-direction="reverse"
+			class="backButton">&nbsp;</a>
+		<h1 style="text-transform: capitalize;" data-bind="text: catalogName"></h1>
+		<a href="index.html" class="homeButton">&nbsp;</a>
+	</div>
+
+	<div class="ui-content">
+		<ul id="categories-list" data-role="listview" data-divider-theme="b"
+			class="listDefault" data-bind="foreach: subCatalogs()"
+			data-split-icon="search">
+
+			<li data-theme="c" class="capitalized" data-icon="false">
+				<a
+					style="font-weight: normal; text-transform: capitalize; border-top-right-radius: 0; border-bottom-right-radius: 0;"
+					data-bind="click: $root.goToSubSubCatalog,
+					text:subCatalogName">
+				</a>
+				<a href="#"
+					style="border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-top-left-radius: 0; border-bottom-left-radius: 0;"
+					data-rel="popup" data-position-to="window" data-transition="pop"
+					data-bind="click:$root.goToProduct"></a>
+		</ul>
+	</div>
+
+	<div data-id="catalog-menu" data-role="footer" data-position="fixed"
+		data-tap-toggle="false">
+		<div data-role="navbar" data-iconpos="top" class="ui-nodisc-icon">
+			<ul>
+				<li>
+					<a href="app/views/search-products.html" data-icon="search"
+						data-direction="reverse">Productos</a>
+				</li>
+				<li>
+					<a href="#" data-icon="grid" class="ui-btn-active ui-state-persist">Categorías</a>
+				</li>
+				<li>
+					<a href="app/views/my-cart.html" data-icon="cart">
+						Carrito (
+						<span data-bind="text: cartCount()"></span>
+						)
+					</a>
+				</li>
+				<!-- <li><a href="app/views/my-cart.html" data-icon="cart" class="li-cart-icon" data-split-icon="custom"
+					data-icon="false">Carrito (3)</a></li> -->
+			</ul>
+		</div>
+	</div>
+
+</div>
+

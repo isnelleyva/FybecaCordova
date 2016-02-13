@@ -1,0 +1,40 @@
+
+<div data-role="page" id="pharmacy-detail">
+
+	<script src="../viewmodels/pharmacy-detail.js"></script>
+
+	<style>
+#pharmacy-detail h2,#pharmacy-detail span,#pharmacy-detail h3,#pharmacy-detail p
+	{
+	color: #333;
+}
+</style>
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+		class="ui-alt-icon ui-nodisc-icon">
+		<a href="#" data-direction="reverse" class="backButton" data-bind="click: backh">&nbsp;</a>
+		<h1>Información</h1>
+	</div>
+
+	<div class="ui-content">
+
+		<div style="background-color: #FFF; border-radius: 10px; padding: 10px;">
+
+			<h2 style="margin-bottom: 0; font-size: 17px; text-align: center; margin-bottom: 10px;"
+				data-bind="text: pharmacyData.name()"></h2>
+			<span class="field_distance " style="font-weight: normal; font-size: 11px;"></span>
+			<img style="width: 100%;" data-bind="attr: {src: pharmacyData.imgSrc()}" />
+			<p class="capitalized" data-bind="text: pharmacyData.address()"></p>
+			<!-- <p id="ver-mapa" style="text-align: center;">
+			<a href="#" data-action="show-map" data-bind="click: showPharmacyOnMap">Ver en mapa</a>
+		</p> -->
+			<h3>Teléfonos</h3>
+			<p data-bind="text: pharmacyData.phones()"></p>
+			<h3>Horarios de atención</h3>
+			<p data-bind="html: pharmacyData.schedule()"></p>
+			<h3>Servicios</h3>
+			<p data-bind="text: pharmacyData.services()"></p>
+		</div>
+	</div>
+
+</div>

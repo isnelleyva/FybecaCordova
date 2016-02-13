@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Fybeca</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="libraries/jquery/jquery-ui.min.css" />
+<link rel="stylesheet" href="libraries/jquery/jquery.mobile-1.4.4.min.css" />
+<link rel="stylesheet" href="themes/default/base2.css" />
+<link rel="stylesheet" href="themes/default/baseProt.css" />
+
+<!--
+<script src="cordova.js"></script>
+<script src="GAPlugin.js"></script>
+<script src="cdv-plugin-fb-connect.js"></script>
+<script src="facebook-js-sdk.js"></script>
+
+<script src="childbrowser.js"></script>
+<script src="scripts/cordova/PushNotification.js"></script>
+<script src="scripts/cordova/iphone/PhoneCall.js"></script>
+-->
+<script src="scripts/cordova.include.js"></script>
+<script src="libraries/jquery/jquery-2.1.0.js"></script>
+<script src="libraries/jquery/jquery-ui.min.js"></script>
+<script src="libraries/jquery.validation/jquery.validate.min.js"></script>
+<script src="libraries/jquery.validation/messages_es.js"></script>
+<script src="libraries/jquery.validation/validation.extras.js"></script>
+<script src="scripts/jquery/jquery.mobile.validate.js"></script>
+
+<script src="libraries/other/GAPlugin.js"></script>
+
+<script src="libraries/knockout/knockout-3.0.0.js"></script>
+<script src="libraries/knockout/knockout.mapping-latest.js"></script>
+<script src="libraries/knockout/hammer.min.js"></script>
+<script src="libraries/knockout/knockouch.min.js"></script>
+<script src="libraries/allmarkedup/purl.js"></script>
+<script src="libraries/factor/extend.js"></script>
+
+<script src="libraries/security/sha1.js"></script>
+<script src="libraries/security/oauth.js"></script>
+<script src="libraries/zoom/jquery.panzoom.min.js"></script>
+<script src="scripts/libs/md5.js"></script>
+
+<script src="libraries/fastclick/fastclick.js"></script>
+<script src="scripts/common.js"></script>
+<script src="app/viewmodels/customer.js"></script>
+<script src="app/viewmodels/data.js"></script>
+<script src="app/models/cart.js"></script>
+<script src="app/viewmodels/cart-checkout.js"></script>
+<script src="app/models/config.js"></script>
+<script src="app/models/products.js"></script>
+
+<script src="scripts/repositories/repository.js"></script>
+<script src="app/models/dataRequests.js"></script>
+<script src="app/models/GARequests.js"></script>
+<script src="app/models/customerRequests.js"></script>
+<script src="libraries/bayteq/invoke-ajax.js"></script>
+<script src="libraries/json2xml/json2xml.js"></script>
+<script src="libraries/json2xml/jquery_xml2json.js"></script>
+
+</head>
+<body>
+
+	<div data-role="page" data-add-back-btn="false" id="index" style="padding-top: 73px;">
+
+		<script src="scripts/index.js"></script>
+
+		<div data-role="header" data-position="fixed" data-tap-toggle="false"
+			style="background-color: rgba(42, 84, 123, 0.9) !important;">
+			<img id="logo" src="themes/default/images2/logo_home.png" />
+		</div>
+
+		<div class="ui-content indexContent">
+			<div class="ui-content indexContentImage"></div>
+			<div class="ui-grid-b menuGrid">
+				<div class="ui-block-a">
+					<a href="#" class="menuButton" id="goto-mifybeca"
+						style="background-image: url('themes/default/images2/menu-fybeca.png')" data-bind="click: gotoMyAccount"></a>
+					<div class="menuName">Mi Fybeca</div>
+					<div id="nombreUsuario" style="font-weight: normal; display: inline;" class="menuName"></div>
+				</div>
+				<div class="ui-block-b">
+					<a href="search-places.html" class="menuButton" style="background-image: url('themes/default/images2/menu-map.png')"></a>
+					<div class="menuName">Farmacias</div>
+				</div>
+				<div class="ui-block-c">
+					<a href="#menu-offers" class="menuButton" style="background-image: url('themes/default/images2/menu-star.png')"></a>
+					<div class="menuName">Promociones</div>
+				</div>
+			</div>
+
+			<div class="ui-grid-b menuGrid">
+
+				<div class="featureBubble" data-bind="">
+					<p>Ahora realiza tus compras aquí</p>
+					<a href="#">cerrar</a>
+				</div>
+
+				<div class="ui-block-a">
+					<a href="reminders.html" class="menuButton" style="background-image: url('themes/default/images2/menu-reminder.png')"></a>
+					<div class="menuName">Recordatorios</div>
+				</div>
+				<div class="ui-block-b" style="position: relative; z-index: 1003">
+					<a href="app/views/search-products.html" class="menuButton" id="menuCart"
+						style="background-image: url('themes/default/images2/menu-cart.png');"></a>
+					<div class="menuName">Compras</div>
+				</div>
+				<div class="ui-block-c">
+					<a href="send-prescription.html" class="menuButton"
+						style="background-image: url('themes/default/images2/menu-recipe.png')"></a>
+					<div class="menuName">Recetas</div>
+				</div>
+			</div>
+
+			<div class="ui-grid-b menuGrid">
+				<div class="ui-block-a">
+					<a href="events-calendar.html" class="menuButton" style="background-image: url('themes/default/images2/menu-event.png')"></a>
+					<div class="menuName">Eventos</div>
+				</div>
+				<div class="ui-block-b">
+					<a href="social-networks.html" class="menuButton"
+						style="background-image: url('themes/default/images2/menu-social.png')"></a>
+					<div class="menuName">Redes sociales</div>
+				</div>
+			</div>
+
+			<div class="pMainImage"></div>
+
+		</div>
+
+		<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+			<p>Somos parte de tu vida</p>
+		</div>
+
+		<div class="homeOverlay" data-bind="click: closeFeature, swipe: closeFeature">
+			<p>Ahora puedes hacer compras desde tu celular</p>
+		</div>
+
+		<!-- <div>
+			<img style="position: absolute; top: 0;" width="100%" height="100%"
+				data-bind="click: gotoCart, attr: {src: '/themes/default/images2/ws' + imgTestShowed() + '.png'}" />
+		</div> -->
+
+		<iframe id="encryptPage" src="encrypt.html" style="display: none;"></iframe>
+
+	</div>
+
+	<div data-role="page" id="menu-mifybeca">
+		<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+			class="ui-alt-icon ui-nodisc-icon">
+			<a href="index.html" data-direction="reverse" class="backButton">&nbsp;</a>
+			<h1>Mi Fybeca</h1>
+			<a href="app/views/info.html" class="infoButton">&nbsp;</a>
+		</div>
+		<div class="ui-content">
+			<p>
+				Bienvenido, <span id="nombreUsuarioH"></span>
+			</p>
+
+			<div class="ui-grid-b menuGrid">
+				<div class="ui-block-a">
+					<a href="#menu-vitalcard" class="menuButton" id="goto-mifybeca"
+						style="background-image: url('themes/default/images2/menu-vitalcard.png')"></a>
+					<div class="menuName">Vitalcard</div>
+				</div>
+				<div class="ui-block-b">
+					<a href="user-update.html" class="menuButton" style="background-image: url('themes/default/images2/menu-star.png')"></a>
+					<div class="menuName">Actualizar datos</div>
+				</div>
+				<div class="ui-block-c">
+					<a href="user-change-password.html" class="menuButton"
+						style="background-image: url('themes/default/images2/menu-changePassword.png')"></a>
+					<div class="menuName">Cambiar contraseña</div>
+				</div>
+			</div>
+
+			<div class="ui-grid-b menuGrid">
+				<div class="ui-block-a">
+					<a href="app/views/user-addresses-list.html" class="menuButton"
+						style="background-image: url('themes/default/images2/menu-addresses.png')"></a>
+					<div class="menuName">Mis direcciones</div>
+				</div>
+				<div class="ui-block-b">
+					<a href="app/views/orders-history.html" class="menuButton"
+						style="background-image: url('themes/default/images2/menu-ordersHistory.png')"></a>
+					<div class="menuName">Historial de órdenes</div>
+				</div>
+			</div>
+
+		</div>
+		<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+			<div class="footer-actions">
+				<a id="logout" data-role="button" data-theme="b" class="footerAloneButton">Cerrar sesión</a>
+			</div>
+		</div>
+	</div>
+
+	<div data-role="page" id="menu-offers">
+
+		<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+			class="ui-alt-icon ui-nodisc-icon">
+			<a href="index.html" data-direction="reverse" class="backButton">&nbsp;</a>
+			<h1>Beneficios</h1>
+		</div>
+
+		<div class="ui-grid-b menuGrid">
+			<div class="ui-block-a">
+				<a href="#" class="menuButton" id="explore-promotions-1" class="menuButton"
+					style="background-image: url('themes/default/images2/menu-star.png')"></a>
+				<div class="menuName">Promociones</div>
+			</div>
+			<div class="ui-block-b">
+				<a href="#" id="btnClubes" class="menuButton" style="background-image: url('themes/default/images2/menu-clubs.png')"></a>
+				<div class="menuName">Clubes</div>
+			</div>
+			<div class="ui-block-c">
+				<a href="buying-guide.html" class="menuButton"
+					style="background-image: url('themes/default/images2/menu-buyingGuide.png')"></a>
+				<div class="menuName">Guía de compras</div>
+			</div>
+		</div>
+
+		<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+			<p>&nbsp;</p>
+		</div>
+
+	</div>
+
+	<div data-role="page" id="menu-vitalcard">
+
+		<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+			class="ui-alt-icon ui-nodisc-icon">
+			<a href="index.html#menu-mifybeca" data-direction="reverse" class="backButton">&nbsp;</a>
+			<h1>Vitalcard</h1>
+		</div>
+		<div class="ui-content">
+			<ul id="menu" data-role="listview" class="ui-alt-icon ui-nodisc-icon listDefault">
+				<li data-icon="false"><a href="vitalpuntos.html" class="icon-vitalcard"> Consulta de VitalPuntos </a></li>
+				<li data-icon="false"><a href="#" id="btnClubes" class="icon-groups"> Clubes </a></li>
+				<li data-icon="false"><a href="vitalcard.html" class="icon-red-vitalcard"> Red Vitalcard </a></li>
+			</ul>
+		</div>
+	</div>
+
+	<script src="libraries/jquery/jquery.mobile-1.4.4.min.js"></script>
+
+</body>
+</html>

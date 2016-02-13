@@ -1,0 +1,506 @@
+﻿<div id="my-cart" data-role="page">
+	<style>
+#my-cart .hide {
+	display: none;
+}
+
+#my-cart .item,#my-cart .item a {
+	padding: 0;
+	clear: both;
+	border-radius: 10px;
+	margin-bottom: 5px;
+}
+
+#my-cart .item img {
+	max-width: 120%;
+}
+
+#my-cart .item .thumbnail img {
+	max-width: 80%;
+}
+
+#my-cart .item .detail {
+	margin-top: 10px;
+	margin-right: 10px;
+	overflow: hidden;
+	padding-left: 10px;
+}
+
+#my-cart .item .detail p {
+	color: #333;
+}
+
+#my-cart .item .totalPrice {
+	color: #FF682F !important;
+}
+
+#my-cart .item .detail .name {
+	font-size: 14px;
+	white-space: initial;
+}
+
+#my-cart .item .detail .price {
+	font-weight: bold;
+	font-size: 15px;
+}
+
+#my-cart .item .detail .quantity-editor {
+	display: inline-block;
+	width: 50px;
+}
+
+#my-cart .summary {
+	clear: both;
+	padding: 15px;
+	border-radius: 10px;
+	margin-top: 10px;
+	margin-bottom: 3px;
+}
+
+#my-cart .pay-block .ui-btn {
+	margin-top: 0;
+	margin-right: 0;
+	margin-left: 20px;
+}
+
+#my-cart #saved .item {
+	border-bottom-left-radius: .6em;
+	border-bottom-right-radius: .6em;
+	margin-bottom: 10px;
+}
+
+#my-cart #saved .item .thumbnail {
+	border-bottom-left-radius: .6em;
+}
+
+#my-cart .ui-li-desc {
+	margin: 0;
+}
+
+#my-cart .no-data {
+	padding: 50px;
+	text-align: center;
+	font-size: 16px;
+	border-radius: 10px;
+	white-space: normal;
+}
+
+#my-cart .ui-collapsible-inset.ui-collapsible-themed-content .ui-collapsible-content
+	{
+	border: none;
+	background-color: rgba(0, 0, 0, 0);
+	padding: 0;
+}
+
+#my-cart .ui-collapsible-inset .ui-collapsible-heading .ui-btn {
+	border: none;
+	margin-bottom: 10px;
+	border-radius: 10px;
+}
+
+#my-cart .loadingMessage {
+	background-color: rgba(255, 255, 255, 0.7);
+	text-align: center;
+	margin-top: -15px;
+	border-radius: 10px;
+}
+
+#my-cart .loadingMessage p {
+	padding: 10px;
+}
+
+#my-cart .quantityButton {
+	margin-top: 0;
+	background-color: rgba(158, 172, 192, 1) !important;
+}
+
+#my-cart .quantityButton:active {
+	background-color: #00ADFF !important;
+}
+
+#my-cart .ui-collapsible-content.ui-body-inherit {
+	border-radius: 10px;
+}
+
+#my-cart .cartItem,#my-cart .cartItem:hover {
+	/*background-color: rgba(255, 255, 255, 0.9) !important;*/
+	background-image:
+		url('../../themes/default/images2/icon_arrow_down.png');
+	background-repeat: no-repeat;
+	background-position-y: 91%;
+	background-position-x: 95%;
+	background-size: 20px;
+}
+
+#my-cart div.ui-grid-a .ui-block-a {
+	padding-right: 3px;
+}
+
+#my-cart div.ui-grid-a .ui-block-b {
+	padding-left: 3px;
+}
+</style>
+	<script src="../viewmodels/my-cart.js"></script>
+
+	<div data-id="main-header" data-role="header" data-position="fixed"
+		data-tap-toggle="false" class="ui-alt-icon ui-nodisc-icon">
+		<a href="#" class="headerButton"
+			style="background-image: url('../../themes/default/images2/icon-back.png');"
+			data-direction="reverse" data-bind="click: backButton">&nbsp;</a>
+		<h1 onselectstart="return false;">Mi carrito</h1>
+		<!-- <a href="#" class="headerButton" style="background-image: url('../../themes/default/images2/icon-edit.png');"
+			data-bind="click:toggleEdit, visible:!$root.viewState.editing() && (cart.items().length > 0 || saved.items())">&nbsp;</a>
+		<a href="#" class="headerButton"
+			style="background-image: url('../../themes/default/images2/icon-ok.png'); position: absolute; top: 0; right: 0; padding-right: 30px;"
+			data-bind="click: toggleEdit, visible:$root.viewState.editing()  && cart.items().length > 0">&nbsp;</a> -->
+	</div>
+
+	<div class="ui-content">
+
+		<div class="loadingMessage" data-bind="visible: isLoading">
+			<p>Actualizando...</p>
+		</div>
+
+		<div data-role="collapsible" data-inset="true" data-collapsed="false"
+			style="margin-top: 0; background-color: #rgba(0, 0, 0, 0 );">
+			<h4>Carrito</h4>
+			<ul data-role="listview" class="listDefault">
+				<!-- ko foreach:cart.items -->
+
+				<li class="item" data-bind="visible: !isEditing()" data-icon="false">
+					<a href="#" data-bind="click: $root.editItem" class="cartItem">
+						<div class="ui-grid-b">
+							<div class="ui-block-a" style="width: 25%; padding: 10px;">
+								<img style="display: none;"
+									data-bind="attr: {src: showPhoto() ? imageUrl() : '../../themes/default/images2/image-restriction.png'}, 
+										event: {load: $root.onLoadImage}" />
+								<img src="../../themes/default/images2/loading-image.gif" />
+							</div>
+							<div class="ui-block-b" style="width: 55%">
+								<div class="detail">
+									<p class="name" data-bind="text:name"></p>
+									<div>
+										<p
+											data-bind="text: '{0} {1}'.format(state.quantity(), state.container())"></p>
+										<p class="price"
+											data-bind="text: 'P. unit. $'+(price.presentation()/price.unit()).format(2)"></p>
+									</div>
+								</div>
+							</div>
+							<div class="ui-block-c" style="width: 20%; margin-top: 8px;">
+								<p class="price totalPrice"
+									data-bind="text: '$'+((price.presentation()/price.unit())*state.quantity()).format(2)"
+									style="margin-top: 10px; font-size: 15px; font-weight: bold;"></p>
+							</div>
+						</div>
+					</a>
+				</li>
+
+				<li class="item"
+					style="background-color: #fff !important; margin-bottom: 10px; border-radius: 10px;"
+					data-bind="visible: isEditing">
+					<div class="ui-grid-a">
+						<div class="ui-block-a" style="width: 25%; padding: 10px;">
+							<img style="display: none;"
+								data-bind="attr: {src: showPhoto() ? imageUrl() : '../../themes/default/images2/image-restriction.png'}, 
+								event: {load: $root.onLoadImage}" />
+							<img src="../../themes/default/images2/loading-image.gif" />
+						</div>
+						<div class="ui-block-b detail" style="width: 70%">
+							<p class="name" style="color: #333" data-bind="text:name"></p>
+							<div class="ui-grid-a" style="margin-bottom: 10px;">
+
+								<div class="ui-block-a" style="width: 70%;">
+
+									<div class="ui-grid-b">
+
+										<div class="ui-block-a">
+											<a href="#"
+												class="ui-btn ui-shadow ui-corner-all ui-icon-minus ui-btn-icon-notext quantityButton"
+												data-bind="click: $root.reduceQuantity"></a>
+										</div>
+										<div class="ui-block-b">
+											<input
+												style="width: 60%; border-radius: 5px; border-style: solid; border-width: 1px; border-color: #C0C0C0;"
+												type="tel" min="1" max="99" data-mini="true"
+												data-bind="value: state.quantity, valueUpdate: 'afterkeydown', event: {keydown: $root.checkQuantity}" />
+										</div>
+										<div class="ui-block-c">
+											<a href="#"
+												class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext quantityButton"
+												data-bind="click: $root.addQuantity"></a>
+										</div>
+
+									</div>
+									<div class="ui-grid-solo" style="color: #333;"
+										data-bind="text: state.container()"></div>
+
+								</div>
+
+								<div class="ui-block-b" style="width: 30%;">
+									<p class="price totalPrice"
+										style="overflow: visible; font-size: 14px;"
+										data-bind="text:'$'+((price.presentation()/price.unit())*state.quantity()).format(2)"></p>
+								</div>
+							</div>
+							<div class="ui-grid-a" style="margin-bottom: -5px;">
+								<div class="ui-block-a">
+									<button data-role="button" data-mini="true" data-theme="c"
+										style="margin-left: 0; padding: 5px;"
+										data-bind="click:$root.showPopupDeleteCart">Eliminar</button>
+								</div>
+								<div class="ui-block-b">
+									<button data-role="button" data-mini="true" data-theme="c"
+										style="margin-right: 0; padding: 5px;"
+										data-bind="click:$root.toSaved">Para luego</button>
+								</div>
+							</div>
+							<button data-role="button" data-theme="b" data-mini="true"
+								style="margin-right: 0; padding: 5px;"
+								data-bind="visible: !wasEditing(), click: $root.cancelEditItem">Cancelar</button>
+							<button data-role="button" data-theme="b" data-mini="true"
+								style="margin-right: 0; padding: 5px;"
+								data-bind="visible: wasEditing, click: $root.editItem">Actualizar</button>
+						</div>
+					</div>
+				</li>
+
+				<!-- /ko -->
+				<li class="no-data"
+					style="background-color: rgba(255, 255, 255, 0.9) !important; color: #333 !important;"
+					data-bind="visible:cart.items().length==0">No tienes productos
+					en tu carrito</li>
+				<li data-bind="visible: cart.hasPfizerItems()">
+					<h3>Tarjeta Pfizer</h3>
+					<input type="tel" name="pfizerCard">
+				</li>
+				<li class="summary" style="background-color: #fff !important;"
+					data-bind="visible:cart.items().length>0 && viewState.editing()==false">
+					<div class="ui-grid-a">
+						<div class="ui-block-a">
+							<div style="margin-top: 12px; font-weight: bold; color: #333;">
+								Total:
+								<span data-bind="text:'$'+cart.summary.total().format(2)"></span>
+							</div>
+						</div>
+						<div class="ui-block-b pay-block">
+							<a data-role="button" class="superButton" data-theme="b" href="#"
+								data-bind="click: gotoMyCart">Pagar</a>
+						</div>
+						<div
+							style="white-space: initial; clear: both; font-size: 11px; margin-top: 10px;">
+							<div style="color: #333;">El costo y la disponibilidad de
+								los productos pueden variar dependiendo de la forma de pago y la
+								dirección de entrega.</div>
+							<div style="color: #333;">Todos los precios incluyen IVA.</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<div data-role="collapsible" data-inset="true" data-collapsed="false"
+			style="margin-top: 0; background-color: #rgba(0, 0, 0, 0 );">
+			<h4>Productos guardados</h4>
+			<ul id="saved" data-role="listview" class="listDefault">
+				<!-- ko foreach:saved.items -->
+
+				<li class="item" data-bind="visible: !isEditing()" data-icon="false">
+					<a href="#" data-bind="click: $root.editItemSaved" class="cartItem">
+						<div class="ui-grid-b">
+							<div class="ui-block-a" style="width: 25%; padding: 10px;">
+								<img style="display: none;"
+									data-bind="attr: {src: showPhoto() ? imageUrl() : '../../themes/default/images2/image-restriction.png'}, 
+										event: {load: $root.onLoadImage}" />
+								<img src="../../themes/default/images2/loading-image.gif" />
+							</div>
+							<div class="ui-block-b" style="width: 55%">
+								<div class="detail">
+									<p class="name" data-bind="text:name"></p>
+									<p
+										data-bind="text:'{0} {1}'.format(state.quantity(), state.container())"></p>
+								</div>
+							</div>
+							<div class="ui-block-c" style="width: 20%">
+								<p class="price totalPrice"
+									style="margin-top: 10px; font-size: 15px; font-weight: bold;"
+									data-bind="text:'$'+(price.presentation() * state.quantity() / price.unit()).format(2)"></p>
+							</div>
+						</div>
+					</a>
+				</li>
+
+
+				<li class="item" data-bind="visible: isEditing" data-icon="false">
+					<div class="ui-grid-a">
+						<div class="ui-block-a" style="width: 25%; padding: 10px;">
+							<img style="display: none;"
+								data-bind="attr: {src: showPhoto() ? imageUrl() : '../../themes/default/images2/image-restriction.png'}, 
+									event: {load: $root.onLoadImage}" />
+							<img src="../../themes/default/images2/loading-image.gif" />
+						</div>
+						<div class="ui-block-b" style="width: 70%">
+							<div class="detail">
+								<p class="name" style="color: #333;" data-bind="text:name"></p>
+								<p class="price" style="color: #333;"
+									data-bind="text:'$'+((price.presentation())*state.quantity()).format(2)"></p>
+								<div class="ui-grid-a" style="margin-bottom: -5px;">
+									<div class="ui-block-a">
+										<!-- <a class="whiteButton" href="#" data-role="button" data-mini="true" data-theme="c"
+											style="margin-left: 0; padding: 5px;" data-bind="click:$root.showPopupDeleteSaved">Eliminar</a> -->
+										<button data-role="button" data-mini="true" data-theme="c"
+											style="margin-left: 0; padding: 5px;"
+											data-bind="click: $root.showPopupDeleteSaved">Eliminar</button>
+									</div>
+									<div class="ui-block-b">
+										<!-- <a class="whiteButton" href="#" data-role="button" data-mini="true" data-theme="c"
+											style="margin-right: 0; padding: 5px;" data-bind="click: $root.toCart">Al carrito</a> -->
+										<button data-role="button" data-mini="true" data-theme="c"
+											style="margin-left: 0; padding: 5px; color: #fff; text-shadow: none; background-color: rgb(255, 104, 47) !important;"
+											data-bind="click: $root.toCart">Al carrito</button>
+									</div>
+								</div>
+								<button data-role="button" data-theme="b" data-mini="true"
+									style="margin-right: 0; padding: 5px;"
+									data-bind="click: $root.editItemSaved">Cerrar</button>
+							</div>
+						</div>
+					</div>
+				</li>
+
+				<!-- /ko -->
+				<li class="no-data"
+					style="background-color: rgba(255, 255, 255, 0.9) !important; color: #333 !important;"
+					data-bind="visible:saved.items().length==0">No tienes
+					productos guardados</li>
+			</ul>
+		</div>
+
+		<!--  <div>
+			<a data-role="button" data-theme="a" data-bind="click: updateItems">Actualizar items con web</a>
+		</div> -->
+
+	</div>
+
+	<div data-id="catalog-menu" data-role="footer" data-position="fixed"
+		data-tap-toggle="false">
+		<div data-role="navbar" data-iconpos="top" class="ui-nodisc-icon">
+			<ul>
+				<li>
+					<a href="search-products.html" data-icon="search"
+						data-direction="reverse">Productos</a>
+				</li>
+				<li>
+					<a href="../../explore-products.html" data-icon="grid"
+						data-direction="reverse">Categorías</a>
+				</li>
+				<li>
+					<a href="my-cart.html" class="ui-btn-active ui-state-persist"
+						data-icon="cart">
+						Carrito (
+						<span data-bind="text: cart.items().length"></span>
+						)
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div data-role="popup" id="popupDelete" data-dismissible="false"
+		data-theme="d" style="background: #FFF;">
+
+		<div style="background: #333" data-role="header" class="popup_header">
+			<h1 style="color: #FFF;">Eliminar</h1>
+			<a style="display: none;"></a>
+			<a class="closeButton" href="#" data-bind="click: closePopupBtn">X</a>
+		</div>
+
+		<div
+			style="padding-right: 15px; padding-left: 15px; margin-bottom: 15px;">
+			<p data-bind="text: '¿Deseas eliminar el siguiente item? '"></p>
+			<p style="text-align: center;"
+				data-bind="text: (itemToManage()!=undefined)?itemToManage().name():''"></p>
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+					<button data-theme="c" data-mini="true"
+						data-bind="click:$root.closePopupDelete">Cancelar</button>
+				</div>
+				<div class="ui-block-b">
+					<button data-theme="b" data-mini="true"
+						data-bind="click:$root.deleteFromCart, 
+						visible:!itemToManageFlag()">Eliminar</button>
+				</div>
+				<div class="ui-block-b">
+					<button data-theme="b" data-mini="true"
+						data-bind="click:$root.deleteFromSaved,
+						visible:itemToManageFlag()">Eliminar</button>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<!-- POPUP CONTACT US -->
+
+	<div data-role="popup" id="popupContactUs" data-overlay-theme="b"
+		data-dismissible="false" data-theme="d" style="background: #E9E9E9;">
+
+		<div style="background: #333" data-role="header" class="popup_header">
+			<h1 style="color: #FFF;">Contacto</h1>
+			<a style="display: none;"></a>
+			<a class="closeButton" href="#" data-bind="click: closePopupBtn">X</a>
+		</div>
+
+		<form data-ajax="false" data-bind="submit: sendContactUs">
+
+			<ul data-role="listview" data-inset="true">
+				<li data-role="fieldcontain">
+					<label for="txtid" style="font-size: 13px;">Identificación:</label>
+					<input type="text" name="txtid" id="txtid" value=""
+						data-mini="true" style="font-size: 12px;"
+						placeholder="Identificación" class="required"
+						data-bind="value:customer.id()">
+				</li>
+				<li data-role="fieldcontain">
+					<label for="txtName" style="font-size: 13px;">Nombres:</label>
+					<input type="text" name="txtName" id="txtName" value=""
+						data-mini="true" style="font-size: 12px;" placeholder="Nombres"
+						class="required" data-bind="value:customer.name()">
+				</li>
+				<li data-role="fieldcontain" data-mini="true">
+					<label for="txtMail" style="font-size: 13px;">Correo:</label>
+					<input type="email" name="txtMail" id="txtMail" value=""
+						style="font-size: 12px;" placeholder="Correo" class="required"
+						data-bind="value: customer.email()">
+				</li>
+				<li data-role="fieldcontain" data-mini="true">
+					<label for="txtPhone" style="font-size: 13px;">Teléfono:</label>
+					<input type="tel" name="txtPhone" id="txtPhone" value=""
+						data-mini="true" style="font-size: 12px;" placeholder="Teléfono"
+						class="required">
+				</li>
+				<li data-role="fieldcontain" data-mini="true">
+					<textarea name="txtInfo" id="txtInfo"
+						style="font-size: 12px; background-color: #FFF !important; color: #333 !important;"
+						data-bind="value:'Contactar por item ' + itemToContact().itemId()"
+						data-clear-btn="true" data-mini="true"></textarea>
+				</li>
+				<li data-role="fieldcontain" data-mini="true">
+
+					<div class="ui-grid-a">
+						<div class="ui-block-a">
+							<button data-theme="c" data-mini="true"
+								data-bind="click:$root.closeContactUsPopup">Cancelar</button>
+						</div>
+						<div class="ui-block-b">
+							<button type="submit" data-theme="b" data-mini="true">Solicitar</button>
+						</div>
+					</div>
+
+				</li>
+			</ul>
+		</form>
+	</div>
+
+</div>

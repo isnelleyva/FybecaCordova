@@ -1,0 +1,352 @@
+﻿<div data-role="page" id="checkout-summary">
+
+	<script src="../viewmodels/checkout-summary.js"></script>
+
+	<style>
+#listCart,#dataList,#shipmentList {
+	background: rgba(255, 255, 255, 0.9);
+	border-radius: 10px;
+}
+
+#listCart div,#dataList div {
+	text-transform: capitalize;
+	color: #333;
+}
+
+#listCart div,#dataList div.field-label {
+	text-transform: capitalize;
+	color: #333;
+}
+
+#dataList .field-label {
+	font-weight: bold;
+}
+
+#checkout-summary .sendLabel {
+	font-weight: normal;
+	background-color: #DCDCDC;
+	border-width: 1px;
+	border-color: #CDCDCD;
+}
+
+#checkout-summary .mainAddressLabel span {
+	font-weight: bold;
+	text-transform: capitalize;
+}
+</style>
+
+	<form data-ajax="false" data-bind="submit: toOrderConfirm">
+
+		<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+			class="ui-alt-icon ui-nodisc-icon">
+			<a href="checkout-payment.html" class="headerButton" data-direction="reverse"
+				style="background-image: url('../../themes/default/images2/icon-back.png');">&nbsp;</a>
+			<h1 onselectstart="return false;">Paso 3/3</h1>
+			<!-- <button type="submit" class="headerButton" style="background-image: url('../../themes/default/images2/icon-ok.png');">&nbsp;</button> -->
+		</div>
+
+		<div class="ui-content">
+
+			<div
+				style="margin-bottom: 10px; margin-top: 10px; font-size: 13px; background-color: rgba(255, 255, 255, 0.9); border-radius: 10px; padding: 10px; color: #333;">
+				<p style="">Por favor revisa tu orden, si toda la información es correcta, presiona "Finalizar"</p>
+				<p class="mainAddressLabel"
+					data-bind="html: 'Tu pedido será entregado en: <span>' + checkoutCart.shippingAddress().addressText() + '</span>'"></p>
+
+			</div>
+
+
+			<ul id="listCart" data-role="listview" data-inset="true" data-divider-theme="a">
+
+				<!-- ko if: isShipmentsElegible() -->
+				<!-- ko if: !hasOneShipmentElement() -->
+				<li data-role="list-divider">En 120 minutos</li>
+				<!-- /ko -->
+				<!-- /ko -->
+
+				<!-- ko if: shipments() == '1' -->
+				<!-- ko foreach: checkoutCart.cart.items -->
+				<li>
+					<div class="ui-grid-c">
+						<div class="ui-block-a" style="width: 20%">
+							<!-- <img style="max-width: 50px; display: none"
+								data-bind="attr: {src: showPhoto() ? imageUrl() : '../../themes/default/images2/image-restriction.png'}, 
+									event: {load: $root.onLoadImage}"> -->
+							<img style="max-width: 50px; display: none"
+								data-bind="attr: {src: imageUrl()}, 
+									event: {load: $root.onLoadImage}">
+							<img style="margin-top: 20%;" src="../../themes/default/images2/loading-image.gif" />
+							<div data-bind="text:itemId" style="font-weight: normal; font-size: 11px; text-align: center;"></div>
+						</div>
+						<div class="ui-block-b" style="width: 10%">
+							<div data-bind="html: '<br>' + state.quantity()" style="font-weight: normal; font-size: 12px; text-align: center;"></div>
+						</div>
+						<div class="ui-block-c" style="width: 52%">
+
+							<div class="capitalized" data-bind="text: name" style="font-weight: normal; white-space: initial;"></div>
+							<div data-bind="text: 'p. unit. $'+(price.presentation()/price.unit()).toFixed(2)"
+								style="font-weight: normal; font-size: 11px;"></div>
+						</div>
+						<div class="ui-block-d" style="width: 15%">
+							<div data-bind="text:'$'+(state.quantity()*price.presentation()/price.unit()).toFixed(2)" style="font-weight: normal;"></div>
+						</div>
+					</div>
+				</li>
+				<!-- /ko -->
+				<!-- /ko -->
+
+				<!-- ko if: shipments() == '2' -->
+				<li data-role="list-divider">En 60 minutos</li>
+				<!-- ko foreach: checkoutCart.cart.items -->
+				<!-- ko if: state.localStock() > 0 -->
+				<li>
+					<div class="ui-grid-c">
+						<div class="ui-block-a" style="width: 20%">
+							<!-- <img style="max-width: 50px; display: none;"
+								data-bind="attr: {src: showPhoto() ? imageUrl() : '../../themes/default/images2/image-restriction.png'}, 
+								event: {load: $root.onLoadImage}"> -->
+							<img style="max-width: 50px; display: none;"
+								data-bind="attr: {src: imageUrl()}, 
+								event: {load: $root.onLoadImage}">
+							<img style="margin-top: 20%;" src="../../themes/default/images2/loading-image.gif" />
+							<div data-bind="text:itemId" style="font-weight: normal; font-size: 11px; text-align: center;"></div>
+						</div>
+						<div class="ui-block-b" style="width: 10%">
+							<div data-bind="text:state.quantity()" style="font-weight: normal;"></div>
+						</div>
+						<div class="ui-block-c" style="width: 55%">
+							<div class="capitalized" data-bind="text:name" style="font-weight: normal; white-space: initial;"></div>
+							<div data-bind="text:'p. unit. $'+(price.presentation()/price.unit()).toFixed(2)"
+								style="font-weight: normal; font-size: 11px;"></div>
+						</div>
+						<div class="ui-block-d" style="width: 15%">
+							<div data-bind="text:'$'+(state.quantity()*price.presentation()/price.unit()).toFixed(2)" style="font-weight: normal;"></div>
+						</div>
+					</div>
+				</li>
+				<!-- /ko -->
+				<!-- /ko -->
+
+				<li data-role="list-divider">En 120 minutos</li>
+
+				<!-- ko foreach: checkoutCart.cart.items -->
+				<!-- ko if: state.cityStock() > 0 && state.is2Shipments()-->
+				<li>
+					<div class="ui-grid-c">
+						<div class="ui-block-a" style="width: 20%">
+							<!-- <img style="display: none; width: 95%;"
+								data-bind="attr: {src: showPhoto() ? imageUrl() : '../../themes/default/images2/image-restriction.png'},
+								event: {load: $root.onLoadImage}"> -->
+							<img style="display: none; width: 95%;" data-bind="attr: {src: imageUrl()},
+								event: {load: $root.onLoadImage}">
+							<img style="margin-top: 20%;" src="../../themes/default/images2/loading-image.gif" />
+							<div data-bind="text:itemId" style="font-weight: normal; font-size: 11px; text-align: center;"></div>
+						</div>
+						<div class="ui-block-b" style="width: 10%">
+							<div data-bind="text:state.quantity()" style="font-weight: normal;"></div>
+						</div>
+						<div class="ui-block-c" style="width: 55%">
+							<div class="capitalized" data-bind="text:name" style="font-weight: normal; white-space: initial;"></div>
+							<div data-bind="text:'p. unit. $'+(price.presentation()/price.unit()).toFixed(2)"
+								style="font-weight: normal; font-size: 11px;"></div>
+						</div>
+						<div class="ui-block-d" style="width: 15%">
+							<div data-bind="text:'$'+(state.quantity()*price.presentation()/price.unit()).toFixed(2)" style="font-weight: normal;"></div>
+						</div>
+					</div>
+				</li>
+				<!-- /ko -->
+				<!-- /ko -->
+				<!-- /ko -->
+
+				<li>
+					<div class="ui-grid-a">
+						<div class="ui-block-a" style="text-align: right; padding-right: 10px;">
+							<div style="font-weight: bold;">Subtotal:</div>
+						</div>
+						<div class="ui-block-b">
+							<div
+								data-bind="text:'$' + (checkoutCart.cart.summary.total() - checkoutCart.cart.summary.shipping() - checkoutCart.cart.summary.tax()).format(2)"></div>
+						</div>
+					</div>
+
+					<div class="ui-grid-a">
+						<div class="ui-block-a" style="text-align: right; padding-right: 10px;">
+							<div style="font-weight: bold;">Impuestos:</div>
+						</div>
+						<div class="ui-block-b">
+							<div data-bind="text:'$' + checkoutCart.cart.summary.tax().format(2)"></div>
+						</div>
+					</div>
+
+					<div class="ui-grid-a">
+						<div class="ui-block-a" style="text-align: right; padding-right: 10px;">
+							<div style="font-weight: bold;">Envio:</div>
+						</div>
+						<div class="ui-block-b">
+							<div
+								data-bind="text: (checkoutCart.cart.summary.shipping() == 0) ? 'Gratis' : '$' + checkoutCart.cart.summary.shipping().format(2)"></div>
+						</div>
+					</div>
+
+					<div class="ui-grid-a">
+						<div class="ui-block-a" style="text-align: right; padding-right: 10px;">
+							<div style="font-weight: bold;">Total:</div>
+						</div>
+						<div class="ui-block-b">
+							<div data-bind="text:'$' + checkoutCart.cart.summary.total().format(2)"></div>
+						</div>
+					</div>
+				</li>
+			</ul>
+
+			<!-- ko if: isShipmentsElegible() && hasOneShipmentElement()-->
+
+			<ul id="dataList" class="form form-readonly" data-role="listview" data-inset="true">
+				<li>
+					<div class="field-label">Envios</div>
+
+					<fieldset data-role="controlgroup" data-inset="false" data-mini="true">
+						<input type="radio" name="sendType" id="1send" value="1" class="required" data-bind="checked: shipments"> <label
+							for="1send" class="sendLabel"><div>
+								<div style="font-weight: bold;">1 envio</div>
+								<div>Todos los productos se entregan en 120 minutos</div>
+							</div></label> <input type="radio" name="sendType" id="2send" value="2" class="required" data-bind="checked: shipments"> <label
+							for="2send" class="sendLabel"><div>
+								<div style="font-weight: bold;">2 envios</div>
+								<div>El primer envio te llega en 60 minutos, y el segundo en 120 minutos</div>
+							</div></label>
+					</fieldset>
+				</li>
+			</ul>
+
+			<!-- /ko -->
+
+			<ul id="dataList" class="form form-readonly" data-role="listview" data-inset="true">
+				<li>
+					<div class="field-label">Identificación</div>
+					<div data-bind="text:checkoutCart.customerId()"></div>
+				</li>
+				<li>
+					<div class="field-label">Nombre</div>
+					<div class="capitalized" data-bind="text:checkoutCart.customerName()"></div>
+				</li>
+				<li>
+					<div class="field-label">Dirección de entrega</div>
+					<div class="capitalized" style="white-space: normal;" data-bind="text:checkoutCart.shippingAddress().addressText"></div>
+				</li>
+				<li>
+					<div class="field-label">Dirección de facturación</div>
+					<div class="capitalized" style="white-space: normal;" data-bind="text:checkoutCart.billingAddress().addressText"></div>
+				</li>
+				<!-- ko ifnot: isShipmentsElegible() -->
+				<li>
+					<div class="field-label">Envios</div>
+					<div>1 envío</div>
+				</li>
+				<!-- /ko -->
+				<li>
+					<div class="field-label">Tarjeta de descuento</div>
+					<div class="capitalized" style="white-space: normal;" data-bind="text: checkoutCart.discountCardText"></div>
+				</li>
+				<li style="border-radius: 0px 0px 10px 10px;">
+					<div class="field-label">Forma de pago</div>
+					<div class="capitalized" style="white-space: normal;" data-bind="text: checkoutCart.paymentTypeText"></div>
+				</li>
+
+				<li data-bind="visible: checkoutCart.paymentType() == '0000000'">
+					<div class="field-label">Tarjeta habiente</div>
+					<div class="capitalized" data-bind="text:checkoutCart.creditCardOwner"></div>
+				</li>
+				<li data-bind="visible: checkoutCart.paymentType() == '0000000'">
+					<div class="field-label">Número</div>
+					<div data-bind="text:'XXXXXXXXXX ' + checkoutCart.creditCardNumber.substring(checkoutCart.creditCardNumber.length-4)"></div>
+				</li>
+				<li data-bind="visible: checkoutCart.paymentType() == '0000000'">
+					<div class="field-label">Expiración</div>
+					<div data-bind="text: checkoutCart.creditCardMonthText + ', ' + checkoutCart.creditCardYear"></div>
+				</li>
+
+				<!-- <li data-bind="visible: checkoutCart.paymentType() != 'E'">
+					<div class="field-label">Número</div>
+					<div data-bind="text:'XXXXXXXXXX ' + checkoutCart.creditCardNumber.substring(checkoutCart.creditCardNumber.length-4)"></div>
+				</li>  -->
+
+			</ul>
+
+		</div>
+
+		<div data-role="footer" data-position="fixed" data-tap-toggle="false"
+			style="background-color: rgba(0, 41, 74, 0.8) !important;">
+			<div class="footer-actions">
+				<button type="submit" id="logout" data-role="button" data-theme="b" class="footerAloneButton"
+					data-bind="disable: checkoutCart.disableFields">Finalizar</button>
+			</div>
+		</div>
+
+	</form>
+
+	<form data-role="popup" id="popupConfirmMissingData" data-theme="none" data-dismissible="false"
+		style="width: 95%; background: #E9E9E9;" data-bind="submit: showMissingDataForm">
+		<div data-role="header" data-theme="b">
+			<h1>Datos</h1>
+		</div>
+		<div role="main" class="ui-content">
+			<p style="color: #333;">Mientras procesamos tu orden ¿Podrías ayudarnos con unos datos personales adicionales?</p>
+			<button type="submit" style="width: 50%" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">Si</button>
+			<button style="width: 50%" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-rel="back"
+				data-transition="flow">No</button>
+		</div>
+	</form>
+
+	<form data-role="popup" id="popupMissingData" data-theme="none" style="width: 95%; background: #E9E9E9;"
+		data-bind="submit: saveMissingDataForm">
+		<div style="background: #333" data-role="header" class="popup_header">
+			<h1 style="color: #FFF;">Opciones de envío</h1>
+		</div>
+		<div style="padding-right: 15px; padding-left: 15px; margin-bottom: 15px;">
+
+			<ul data-role="listview" data-inset="true">
+
+				<li data-role="fieldcontain" class="ui-hide-label"><select name="missingMaritalStatus"
+					class="input-block-level required">
+						<option value="">-- Selecciona tu estado civil --</option>
+						<option value="S">Soltero/a</option>
+						<option value="C">Casado/a</option>
+						<option value="V">Viudo/a</option>
+						<option value="D">Divorciado/a</option>
+						<option value="U">Union Libre</option>
+						<option value="I">Indeterminado</option>
+				</select></li>
+
+				<li data-role="fieldcontain" class="ui-hide-label"><select name="missingGender" class="input-block-level required">
+						<option value="">-- Selecciona tu genero --</option>
+						<option value="M">Masculino</option>
+						<option value="F">Femenino</option>
+				</select></li>
+
+				<li data-role="fieldcontain" class="ui-hide-label"><input type="text" name="missingBirthday"
+					placeholder="dd/mm/aaaa" class="input-block-level required" data-role="date" /></li>
+
+			</ul>
+
+			<ul data-role="listview" data-inset="true">
+				<li data-role="fieldcontain" class="ui-hide-label"><select name="question" class="required"
+					data-bind="options: questions, 
+						optionsValue: 'value', 
+						optionsText: 'label', 
+						optionsCaption: '--Selecciona una pregunta'"
+					class="required"></select></li>
+				<li data-role="fieldcontain" class="ui-hide-label"><input type="text" name="answer" value="" placeholder="Respuesta"
+					class="required ui-input-text ui-body-c ui-corner-all ui-shadow-inset"></li>
+			</ul>
+
+
+			<div></div>
+
+			<button type="submit" class="ui-btn ui-btn-b ui-mini ui-corner-all ui-shadow">Aceptar</button>
+
+		</div>
+	</form>
+
+</div>

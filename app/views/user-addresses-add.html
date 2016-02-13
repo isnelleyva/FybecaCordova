@@ -1,0 +1,90 @@
+<div data-role="page" id="user-addresses-add">
+
+	<script src="../viewmodels/user-addresses-add.js"></script>
+
+	<div data-role="header" data-position="fixed" data-tap-toggle="false" class="ui-alt-icon ui-nodisc-icon"
+		style="overflow: hidden;">
+		<a href="user-addresses-list.html" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1 data-bind="text: (customer.wantEditAddress() ? 'Actualiza tu dirección' : 'Nueva dirección')"></h1>
+	</div>
+
+	<div data-role="content">
+
+		<form data-ajax="false" data-bind="submit:saveAddress">
+			<ul data-role="listview" data-inset="true" style="background-color: rgba(255, 255, 255, 0.9); border-radius: 10px;">
+
+				<li data-role="fieldcontain" data-theme="h" style="white-space: initial; text-align: justify; border: none;"
+					data-bind="visible: showNoAddressesMessage()">Indícanos la dirección de entrega de tu pedido para informarte sobre
+					la disponibilidad de nuestros productos.</li>
+
+				<li data-role="fieldcontain" class="ui-hide-label" data-bind="visible: !customer.wantEditAddress()"><select
+					name="addressType"
+					data-bind="options: data.addressTypes, 
+						optionsValue: 'value', 
+						optionsText: 'label', 
+						optionsCaption: 'Tipo de dirección',
+						value: data.state.selectedAddresType"
+					class="required"></select></li>
+
+				<li data-role="fieldcontain" class="ui-hide-label"><input type="text" name="mainStreet"
+					placeholder="Calle principal" class="no-special-chars required ui-input-text ui-body-c ui-corner-all ui-shadow-inset"
+					maxlength="80" data-bind="value: (customer.wantEditAddress())?customer.addressToEdit.main:''"></li>
+				<li data-role="fieldcontain" class="ui-hide-label"><input type="text" name="number" placeholder="Número"
+					class="no-special-chars required ui-input-text ui-body-c ui-corner-all ui-shadow-inset" maxlength="15"
+					data-bind="value: (customer.wantEditAddress())?customer.addressToEdit.number:''"></li>
+				<li data-role="fieldcontain" class="ui-hide-label"><input type="text" name="intersection" placeholder="Intersección"
+					class="no-special-chars required ui-input-text ui-body-c ui-corner-all ui-shadow-inset" maxlength="30"
+					data-bind="value: (customer.wantEditAddress())?customer.addressToEdit.intersection:''"></li>
+				<li data-role="fieldcontain" class="ui-hide-label"><input type="text" name="reference" placeholder="Referencia"
+					class="no-special-chars required ui-input-text ui-body-c ui-corner-all ui-shadow-inset" maxlength="250"
+					data-bind="value:(customer.wantEditAddress())?customer.addressToEdit.reference:''"></li>
+				<li data-role="fieldcontain" class="ui-hide-label"><select name="city"
+					data-bind="options:data.cities, 
+						optionsValue:'value', 
+						optionsText:'label', 
+						optionsCaption: 'Ciudad',
+						value: data.state.selectedCity"
+					class="required">
+				</select></li>
+				<li data-role="fieldcontain" class="ui-hide-label" style="text-align: center; padding: 0px 15px;"><select
+					name="neighborhood"
+					data-bind="options:$root.data.neighborhoods(), 
+						optionsValue:'value', 
+						optionsText:'label', 
+						optionsCaption: 'Barrio'"
+					class="required">
+				</select><a href="#" class="pharmacyMapButton" data-bind="click: openMapPopup, visible: data.state.selectedCity() != undefined">¿No
+						conoces tu barrio? Selecciona tu farmacia más cercana aqui.</a></li>
+				<li data-role="fieldcontain" class="ui-hide-label" data-bind="visible: !customer.wantEditAddress()"><input
+					type="tel" name="phone" placeholder="Teléfono"
+					class="phone required ui-input-text ui-body-c ui-corner-all ui-shadow-inset" data-bind=""></li>
+			</ul>
+
+			<div style="text-align: center;">
+				<button type="submit">Guardar</button>
+			</div>
+		</form>
+	</div>
+
+	<!-- POPUP ZOOM -->
+
+	<div data-role="popup" id="popupMap" data-theme="d" class="ui-corner-all" style="background: #FFF;" data-overlay-theme="b">
+
+		<style>
+#popupMap {
+	
+}
+</style>
+
+		<div style="background: #333; z-index: 1;" data-role="header" class="popup_header">
+			<h1 style="color: #FFF;" data-bind="">Mapa</h1>
+		</div>
+		<div>Selecciona la farmacia que mas cerca este de tu domicilio</div>
+
+		<div id="pharmacies_map" class="map" style="height: 400px;">
+			<div id="map_canvas" style="height: 330px;"></div>
+		</div>
+
+	</div>
+
+</div>

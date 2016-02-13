@@ -1,0 +1,34 @@
+
+<div data-role="page" id="product-quantity">
+	<script type="text/javascript" src="scripts/product-quantity.js"></script>
+	
+	<!-- <div data-theme="b" data-role="header" data-position="fixed" data-tap-toggle="false">
+		<a href="presentation-near.html" data-icon="arrow-l" data-role="button">Atrás</a>
+		<h1>Cantidad</h1>
+	</div> -->
+	
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+		class="ui-alt-icon ui-nodisc-icon">
+		<a href="presentation-near.html" class="headerButton" data-direction="reverse"
+			style="background-image: url('../../themes/default/images2/icon-back.png');">&nbsp;</a>
+		<h1 onselectstart="return false;">Cantidad</h1>
+	</div>
+	
+	<div class="ui-content">
+		<h2 id="presentation-name" class="capitalized"></h2>
+		<form data-ajax="false">
+			<fieldset data-role="controlgroup" data-mini="true">
+				<input type="radio" name="presentation-unit" id="unit-1" value="C" checked="checked" /> <label for="unit-1">Por
+					presentación <span id="presentation-units"></span>
+				</label> <input type="radio" name="presentation-unit" id="unit-2" value="U" /> <label for="unit-2">Por unidad</label>
+			</fieldset>
+
+			<div style="margin: 10px 0;">
+				<input type="tel" name="presentation-quantity" placeholder="Ingrese una cantidad" data-mini="true" min="1" max="300"
+					class="required digits" />
+			</div>
+			<input type="submit" data-mini="true" data-role="button" data-theme="b" data-icon="search" value="Buscar farmacias" />
+		</form>
+	</div>
+</div>
+

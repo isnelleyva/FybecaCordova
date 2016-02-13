@@ -1,0 +1,41 @@
+
+<div data-role="page" id="info">
+	<style>
+.li-icon {
+	background-repeat: no-repeat !important;
+	background-size: 24px !important;
+	background-position: 8px !important;
+	padding-left: 20px;
+}
+
+.li-privacy {
+	background-image:
+		url("../../themes/default/images2/icon-26-privacy.png");
+}
+
+.li-about {
+	background-image: url("../../themes/default/images2/icon-26-about.png");
+}
+</style>
+
+	<script src="../viewmodels/info.js"></script>
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+		class="ui-alt-icon ui-nodisc-icon">
+		<a data-action="backh" href="#" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1>Más opciones</h1>
+	</div>
+
+	<div class="ui-content">
+
+		<ul data-role="listview" data-inset="true" class="listDefault">
+			<li class="li-icon li-about" data-split-icon="custom" data-icon="false" data-iconpos="left"><a href="privacy.html">Políticas
+					de privacidad</a></li>
+			<li class="li-icon li-privacy" data-split-icon="custom" data-icon="false"><a href="fybeca.html">Quiénes somos</a></li>
+			<li class="li-icon li-privacy" data-split-icon="custom" data-icon="false"><a href="../../about-screen.html">Acerca
+					de</a></li>
+		</ul>
+
+	</div>
+
+</div>

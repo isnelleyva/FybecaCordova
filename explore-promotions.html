@@ -1,0 +1,64 @@
+<div data-role="page" id="explore-promotions">
+
+	<style>
+#explore-promotions .detail {
+	background-color: rgba(52, 60, 75, 0.6) !important;
+}
+</style>
+
+	<script src="scripts/explore-promotions.js"></script>
+
+	<div data-id="main-header" data-role="header" data-position="fixed"
+		data-tap-toggle="false" class="ui-alt-icon ui-nodisc-icon">
+		<a href="index.html#menu-offers" data-direction="reverse"
+			class="backButton">&nbsp;</a>
+		<h1>Promociones</h1>
+	</div>
+
+	<div class="ui-content">
+
+		<div data-bind="visible: !hasItems()" class="no-li-items"
+			style="margin: 10px;">
+			<p>No existen promociones vigentes</p>
+		</div>
+
+		<ul data-role="listview" id="promotionsList"
+			class="ui-alt-icon ui-nodisc-icon listDefault"
+			style="margin-bottom: 0px;" data-bind="visible: hasItems()"></ul>
+
+		<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+			<div data-role="navbar" data-iconpos="top">
+				<ul>
+					<li>
+						<a href="explore-my-promotions.html"
+							data-action="show-my-promotions" data-icon="search"> Mis
+							Promociones </a>
+					</li>
+					<li>
+						<a href="explore-promotions.html" data-action="show-promotions"
+							data-icon="grid" class="ui-btn-active ui-state-persist">
+							Otras Promociones </a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+	</div>
+
+	<div id="shareMenu" data-role="popup" data-transition="pop"
+		style="background-color: rgba(255, 255, 255, 0.9) !important;">
+		<ul data-role="listview" data-inset="true"
+			style="min-width: 210px; box-shadow: none;" class="listDefault">
+			<li>
+				<a href="#" id="btnFacebook"> Facebook </a>
+			</li>
+			<li>
+				<a href="#" id="btnTwitter"> Twitter </a>
+			</li>
+			<li style="margin-bottom: 10px;">
+				<a href="#" id="btnGoogle"> Google + </a>
+			</li>
+		</ul>
+	</div>
+</div>
+

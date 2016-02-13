@@ -1,0 +1,98 @@
+<div data-role="page" id="vitalcard-map">
+	<script src="scripts/vitalcard-map.js"></script>
+
+	<style>
+#vitalcard-map .liInfo {
+	margin-top: 15px;
+	background-color: rgba(255, 255, 255, 0.9) !important;
+	color: #333 !important;
+}
+
+#vitalcard-map #vitalcardCategoriesList  a {
+	background-color: rgba(255, 255, 255, 0.9);
+	color: #333;
+}
+</style>
+
+	<div data-id="main-header" data-role="header" data-position="fixed"
+		data-tap-toggle="false" class="ui-alt-icon ui-nodisc-icon">
+		<a href="vitalcard.html" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1>Red Vitalcard</h1>
+	</div>
+
+	<div class="ui-content" style="padding: 0; position: relative;">
+		<div id="search-places-mapB" style="display: none;"
+			style="width: 100%;"></div>
+		<div id="search-places-list"
+			style="margin-top: 42px; position: relative;">
+			<ul data-role="listview" style="margin: 0;"></ul>
+		</div>
+		<div data-role="popup" id="edit-range"
+			style="width: 270px; padding-left: 20px; padding-right: 10px; padding-top: 5px; padding-bottom: 5px;">
+			<input type="range" name="range-distance" value="3" min="1" max="10"
+				style="color: #333 !important;" />
+		</div>
+		<div
+			style="top: 0; width: 100%; position: absolute; margin-top: -10px;">
+			<div id="vitalcard-map-header"
+				style="margin-top: 10px; height: 42px;">
+				<a href="#popupVitalcardCategories"
+					style="float: right; margin-top: 2px;" data-role="button"
+					data-inline="true" data-mini="true" data-rel="popup">Cambiar</a>
+				<div style="width: 72%; margin: 10px;">
+					<span
+						style="color: white; text-shadow: 0 1px 0 black; font-size: 12px; font-weight: bold;"
+						data-bind="text: selectedCategoryName"></span>
+				</div>
+			</div>
+		</div>
+		<div class="tipbox" data-action="hide-move-marker-tipbox">
+			<div class="tipbox-content">
+				<img src="themes/default/images2/tip-marker-drag.png"
+					class="tipbox-thumb" />
+				<div style="margin-bottom: 10px;">Para mover su posición
+					actual arrastre la marca a otra posición en el mapa o haga clic
+					directamente sobre una nueva posición.</div>
+				<label data-action="remove-move-marker-tipbox"><input
+						type="checkbox" data-role="none" /> No volver a mostrar</label>
+			</div>
+		</div>
+	</div>
+	<div data-role="footer" data-position="fixed" data-tap-toggle="false"
+		class="ui-nodisc-icon">
+		<div data-role="navbar" data-iconpos="top">
+			<ul>
+				<li>
+					<a href="#" id="search-places-tab-list" data-action="set-tab"
+						data-tab-name="list" data-icon="bars"
+						class="ui-btn-active ui-state-persist">Listado</a>
+				</li>
+				<li>
+					<a href="#" id="search-places-tab-map" data-action="set-tab"
+						data-tab-name="map" data-icon="location">Mapa</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div data-role="popup" id="popupVitalcardCategories" data-theme="a"
+		style="min-width: 85%; top: 75px;">
+		<ul data-role="listview" data-inset="true"
+			style="min-width: 210px; max-height: 400px; overflow: auto;"
+			id="vitalcardCategoriesList">
+			<li data-role="list-divider">Selecciona una categoria:</li>
+
+			<!-- ko foreach: vitalcardCategories() -->
+			<li data-icon="false" style="height: 45px;">
+				<a href="#" data-bind="click: $root.chooseCategory">
+					<img style="width: 15%; padding-left: 5px;"
+						data-bind="attr: {src: 'themes/default/images2/categories/' + code + '.png'}" />
+					<span style="margin-left: -35px;" data-bind="text: name"></span>
+				</a>
+			</li>
+			<!-- /ko -->
+
+		</ul>
+	</div>
+
+</div>

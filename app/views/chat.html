@@ -1,0 +1,55 @@
+
+<div data-role="page" id="chat">
+
+	<script src="../viewmodels/chat.js"></script>
+
+	<style>
+#chat {
+	
+}
+
+#chat #lhc_status_container_page {
+	background-color: rgba(255, 255, 255, 0.9) !important;
+	padding: 10px;
+	border-radius: 10px;
+}
+</style>
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+		class="ui-alt-icon ui-nodisc-icon">
+		<a href="../../index.html" data-direction="reverse" class="backButton" data-bind="click: backToIndex">&nbsp;</a>
+		<h1>Chat en línea</h1>
+	</div>
+
+	<div class="ui-content">
+
+		<div style="color: #FFF; text-align: justify; font-size: 15px; margin-bottom: 10px;">Recuerda que el nuestros
+			operarios atienden desde las 08h00 hasta las 19h00</div>
+
+		<div id="lhc_status_container_page"></div>
+
+		<script type="text/javascript">
+var LHCChatOptionsPage = {};
+LHCChatOptionsPage.opt = {};
+(function() {
+	$.mobile.loading('show', {
+		text : 'Cargando',
+		textVisible : true,
+		theme : 'b'
+	});
+	var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+	po.src = 'https://www.corporaciongpf.com/lhchat/lhc_web/index.php/esp/chat/getstatusembed';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+
+	po.onload=function(){
+		setTimeout(function() {
+			$.mobile.loading('hide');
+		}, 5000);
+	};
+	
+})();
+</script>
+
+	</div>
+
+</div>

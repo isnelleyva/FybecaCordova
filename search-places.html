@@ -1,0 +1,139 @@
+<div data-role="page" id="search-places">
+	<script type="text/javascript" src="scripts/search-places.js"></script>
+
+	<style>
+#search-places #popupPharmacyDetail-popup {
+	position: fixed;
+}
+</style>
+
+	<div data-id="main-header" data-role="header" data-position="fixed"
+		data-tap-toggle="false" class="">
+		<a href="#" data-action="backh" data-direction="reverse"
+			class="backButton">&nbsp;</a>
+		<h1>Farmacias cercanas</h1>
+	</div>
+
+	<div class="ui-content" style="padding: 0; position: relative;">
+
+		<div data-bind="visible: wasLoaded() && pharmacies().length == 0"
+			class="no-li-items" style="margin: 10px;">
+			<p>No existen farmacias cercanas a tu ubicación</p>
+		</div>
+
+		<div data-bind="visible: wasLoaded() && pharmacies().length > 0">
+			<div id="search-places-map" style="width: 100%; display: none;"></div>
+			<div id="search-places-list">
+				<ul id="pharmaciesList" data-role="listview"
+					style="margin: 0; margin-botton: 15px !important;"
+					class="ui-alt-icon ui-nodisc-icon listDefault"
+					data-bind="foreach: pharmacies(), visible: $root.pharmacies().length > 0">
+
+					<li>
+						<a style="color: #333; text-decoration: none;"
+							data-bind="click: $root.loadPharmacyDetail">
+							<div style="white-space: normal;">
+								<span style="font-weight: bold;" data-bind="text: name"></span>
+								<span
+									style="font-weight: normal; font-size: 11px; color: #99999;"
+									data-bind="text: '-' + distance + 'km'"></span>
+							</div>
+
+							<div style="font-weight: bold; font-size: 12px; display: none"
+								data-bind="visible: status == 'A'">
+								<span style="color: #3cd628; font-weight: bold;">Abierto</span>
+								<span style="font-weight: bold;"
+									data-bind="text: ' hasta las ' + closeTime"></span>
+							</div>
+							<div style="font-weight: bold; font-size: 12px; display: none"
+								data-bind="visible: status != 'A'">
+								<span style="color: #d01818;">Cerrado</span>
+								<span style="color: black; font-weight: bold; font-size: 12px;"
+									data-bind="text: openTime"></span>
+							</div>
+
+							<div class="capitalized"
+								style="font-weight: normal; font-size: 11px; white-space: normal;"
+								data-bind="text: address"></div>
+						</a>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+
+		<div data-role="popup" id="edit-range"
+			style="width: 270px; padding-left: 20px; padding-right: 10px; padding-top: 5px; padding-bottom: 5px;">
+			<input type="range" name="range-distance" value="3" min="1" max="10"
+				style="color: #333 !important;" />
+		</div>
+		<div class="tipbox" data-action="hide-move-marker-tipbox">
+			<div class="tipbox-content">
+				<img src="themes/default/images2/tip-marker-drag.png"
+					class="tipbox-thumb" />
+				<div style="margin-bottom: 10px;">Para mover tu posición
+					actual arrastra la marca a otra posición en el mapa o pulsa
+					directamente sobre una nueva posición.</div>
+				<label data-action="remove-move-marker-tipbox"><input
+						type="checkbox" data-role="none" /> No volver a mostrar</label>
+			</div>
+		</div>
+	</div>
+
+	<div data-role="footer" data-position="fixed" data-tap-toggle="false"
+		class="ui-nodisc-icon"
+		data-bind="visible: wasLoaded() && pharmacies().length > 0">
+		<div data-role="navbar" data-iconpos="top">
+			<ul>
+				<li>
+					<a href="#" id="search-places-tab-list" data-action="set-tab"
+						data-tab-name="list" data-icon="bullets"
+						class="ui-btn-active ui-state-persist"> Lista </a>
+				</li>
+				<li>
+					<a href="#" id="search-places-tab-map" data-action="set-tab"
+						data-tab-name="map" data-icon="location"> Mapa </a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div data-role="popup" id="popupPharmacyDetail" data-theme="a"
+		style="min-width: 85%;">
+
+		<style>
+#popupPharmacyDetail p {
+	color: #000;
+}
+
+#popupPharmacyDetail h2,#popupPharmacyDetail h3 {
+	color: #333;
+	font-size: 14px;
+}
+</style>
+
+		<div class="ui-content"
+			style="min-width: 210px; max-height: 350px; overflow: auto;">
+			<h2
+				style="margin-bottom: 0; font-size: 17px; text-align: center; margin-bottom: 10px;"
+				data-bind="text: pharmacyData.name()"></h2>
+			<span class="field_distance "
+				style="font-weight: normal; font-size: 11px; color: #99999;"></span>
+			<img style="width: 100%;"
+				data-bind="attr: {src: pharmacyData.imgSrc()}" />
+			<p class="capitalized" data-bind="text: pharmacyData.address()"></p>
+			<p id="ver-mapa" style="text-align: center;">
+				<a href="#" data-action="show-map"
+					data-bind="click: showPharmacyOnMap">Ver en mapa</a>
+			</p>
+			<h3>Teléfonos</h3>
+			<p data-bind="text: pharmacyData.phones()"></p>
+			<h3>Horarios de atención</h3>
+			<p data-bind="html: pharmacyData.schedule()"></p>
+			<h3>Servicios</h3>
+			<p data-bind="text: pharmacyData.services()"></p>
+		</div>
+
+	</div>
+
+</div>

@@ -1,0 +1,260 @@
+﻿<form data-ajax="false" data-bind="submit: toCheckoutPayment" data-role="page" id="checkout-user-data">
+	<style>
+#checkout-user-data .checkout-summary {
+	padding: 8px;
+	text-align: center;
+	font-weight: bold;
+	color: #FFF;
+	margin: -1em;
+	margin-bottom: 1em;
+	font-weight: bold;
+	background: rgba(0, 0, 0, 0);
+}
+
+.presentation-offer {
+	background: url(../../themes/default/images2/offer_corner_text.png)
+		no-repeat right top;
+}
+
+#checkout-user-data #shippingAddressList .ui-radio label.ui-btn,#checkout-user-data .ui-checkbox label.ui-btn
+	{
+	background-color: rgba(255, 255, 255, 0.9);
+	color: #333;
+	text-shadow: none;
+}
+
+#checkout-user-data #billingAddressList .ui-radio label.ui-btn {
+	background-color: rgba(255, 255, 255, 0.9);
+	color: #333;
+	text-shadow: none;
+}
+
+#checkout-user-data .ui-controlgroup-controls {
+	border-radius: 10px;
+}
+</style>
+
+	<script src="../models/checkoutCalls.js"></script>
+	<!--  <script src="../models/checkout.js"></script> -->
+	<script src="../viewmodels/checkout-user-data.js"></script>
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+		class="ui-alt-icon ui-nodisc-icon">
+		<a href="my-cart.html" class="headerButton" data-direction="reverse"
+			style="background-image: url('../../themes/default/images2/icon-back.png');">&nbsp;</a>
+		<h1 onselectstart="return false;">Paso 1/3</h1>
+		<!--  <button type="submit" class="headerButton" style="background-image: url('../../themes/default/images2/icon-next.png');"
+			data-bind="disable: checkoutCart.disableFields">&nbsp;</button> -->
+	</div>
+
+	<div class="ui-content">
+		<div class="checkout-summary">
+			<span data-bind="text: checkoutCart.cart.items().length"></span> items, total: <span
+				data-bind="text:'$' + checkoutCart.cart.summary.total().format(2)"></span>
+		</div>
+
+		<h3>Datos personales</h3>
+
+		<div class="fieldsArea">
+
+			<div class="fieldContainer">
+				<fieldset class="justified horizontalDG" data-role="controlgroup" data-type="horizontal" data-mini="true">
+					<input type="radio" name="customerIdType" id="rdCedula" value="C" data-bind="checked: idType" /> <label for="rdCedula">Cédula</label>
+					<input type="radio" name="customerIdType" id="rdPassport" value="P" data-bind="checked: idType" /> <label
+						for="rdPassport">Pasaporte</label>
+				</fieldset>
+			</div>
+
+			<div class="fieldContainer">
+				<input type="tel" name="customerId" data-mini="true" class="required"
+					data-bind="value: customer.id(), 
+				attr: {type: idType() == 'C' ? 'tel' : 'text', 
+					placeholder: idType() == 'C' ? 'Cédula' : 'Pasaporte',
+					maxlength: (idType() == 'C' ? 10 : 50)}, 
+				css: {'identification-ec' : idType()=='C'}">
+			</div>
+
+			<div class="fieldContainer">
+				<input type="text" name="customerName" data-mini="true" placeholder="Nombre y apellido" class="required nameInput"
+					data-bind="value:customer.name()">
+			</div>
+
+		</div>
+
+		<!-- <ul class="form" data-role="listview" data-inset="true" style="background: rgba(255, 255, 255, 0.9);">
+			<li></li>
+			<li data-role="fieldcontain" class=""></li>
+			<li data-role="fieldcontain" class="ui-hide-label"></li>
+		</ul>  -->
+
+		<h3>Dirección de entrega</h3>
+
+		<div
+			style="text-align: center; background-color: rgba(255, 255, 255, 0.901961); padding: 5px; color: #F00; border-radius: 10px;"
+			data-bind="visible: showAddressError">Selecciona una dirección de entrega</div>
+
+		<fieldset data-role="controlgroup" data-inset="false" data-mini="true" id="shippingAddressList">
+			<!-- ko foreach: addresses -->
+			<input type="radio" name="shippingAddress"
+				data-bind="attr: {id: 's' + addressId}, 
+						value: addressId, checked: $root.shippingAddressId" class="required">
+
+			<label data-bind="attr: {for: 's' + addressId}"><span data-bind="text:neighborhoodName + ', ' + cityName"></span>
+				<br> <span style="font-size: 12px; font-weight: normal;" data-bind="text:main + ' ' + number + ' y ' + intersection"></span></label>
+			<!-- /ko -->
+
+			<input type="radio" name="shippingAddress" id="snew" value="new" data-bind="checked: $root.shippingAddressId"
+				class="required"> <label for="snew">Nueva dirección</label>
+		</fieldset>
+
+		<!-- New shippingAddress -->
+
+		<div class="fieldsArea" data-bind="visible: shippingAddressId() == 'new'">
+
+			<div class="fieldContainer">
+				<input type="text" name="mainStreetS" placeholder="Calle principal" class="required no-repeat-chars" data-mini="true"
+					value="" maxlength="80" />
+			</div>
+			<div class="fieldContainer">
+				<input type="text" name="numberS" placeholder="Número" class="required no-repeat-chars" data-mini="true" value=""
+					maxlength="15" />
+			</div>
+			<div class="fieldContainer">
+				<input type="text" name="intersectionS" placeholder="Intersección" class="required no-repeat-chars" data-mini="true"
+					value="" maxlength="30" />
+			</div>
+			<div class="fieldContainer">
+				<input type="text" name="referenceS" placeholder="Referencia" class="required no-repeat-chars" data-mini="true" value=""
+					maxlength="250">
+			</div>
+			<div class="fieldContainer">
+				<select name="cityS"
+					data-bind="options:$root.cities, 
+					optionsValue:'value', 
+					optionsText:'label', 
+					optionsCaption: 'Selecciona tu ciudad',
+					value: data.state.selectedCity"
+					class="required" data-mini="true">
+				</select>
+			</div>
+			<div class="fieldContainer">
+				<select name="neighborhoodS"
+					data-bind="options: neighborhoods, 
+					optionsValue:'value', 
+					optionsText:'label', 
+					optionsCaption: 'Selecciona tu barrio',
+					value: shippingNeighborhood"
+					class="required" data-mini="true">
+				</select>
+			</div>
+			<div class="fieldContainer">
+				<input type="tel" name="phoneB" placeholder="Teléfono" class="required" data-mini="true" value="" />
+			</div>
+
+		</div>
+
+		<!-- <ul class="form" data-role="listview" data-inset="true"
+			style="margin-bottom: 0; background-color: rgba(255, 255, 255, 0.9);" >
+
+			<li data-role="fieldcontain" class="ui-hide-label"></li>
+			<li data-role="fieldcontain" class="ui-hide-label"></li>
+			<li data-role="fieldcontain" class="ui-hide-label"></li>
+			<li data-role="fieldcontain" class="ui-hide-label"></li>
+			<li data-role="fieldcontain" class="ui-hide-label"></li>
+			<li data-role="fieldcontain" class="ui-hide-label"></li>
+			<li data-role="fieldcontain" class="ui-hide-label"></li>
+		</ul>  -->
+
+		<h3>Dirección de facturación</h3>
+		<input type="checkbox" name="checkbox-mini-0" id="checkbox-mini-0" class="custom" data-mini="true"
+			data-bind="checked: isAddressTypeShipping"> <label for="checkbox-mini-0" style="border-radius: 10px;"><span>La
+				misma que la de entrega</span><br> <span style="font-weight: normal"
+			data-bind="text:checkoutCart.shippingAddress().addressText"></span></label>
+
+		<fieldset data-role="controlgroup" data-mini="true" data-bind="visible: isAddressTypeShipping() == false"
+			id="billingAddressList">
+
+			<!-- ko foreach:addresses -->
+			<input type="radio" name="billingAddress"
+				data-bind="attr:{id:addressId}, 
+						value: addressId, checked: checkoutCart.billingAddress().addressId"
+				class="required"> <label data-bind="attr:{for:addressId}"><span
+				data-bind="text:neighborhoodName + ', ' + cityName"></span><br /> <span style="font-size: 12px; font-weight: normal;"
+				data-bind="text:main + ' ' + number + ' y ' + intersection"></span></label>
+			<!-- /ko -->
+
+			<input type="radio" name="billingAddress" id="new" value="new" data-bind="checked:checkoutCart.billingAddress().addressId"
+				class="required"> <label for="new">Nueva dirección</label>
+		</fieldset>
+
+		<div class="fieldsArea" data-bind="visible: checkoutCart.billingAddress().addressId() == 'new'">
+			<!-- <div class="fieldContainer">
+				<select name="addressType"
+					data-bind="options: data.addressTypes, 
+						optionsValue: 'value', 
+						optionsText: 'label', 
+						optionsCaption: 'Tipo de dirección',
+						value: data.state.selectedAddresType"
+					class="required"></select>
+			</div>  -->
+			<div class="fieldContainer">
+				<input type="text" name="mainStreetB" placeholder="Calle principal" class="no-special-chars required" data-mini="true"
+					maxlength="80" />
+			</div>
+			<div class="fieldContainer">
+				<input type="text" name="numberB" placeholder="Número" class="no-special-chars required" data-mini="true" maxlength="15" />
+			</div>
+			<div class="fieldContainer">
+				<input type="text" name="intersectionB" placeholder="Intersección" class="no-special-chars required" data-mini="true"
+					maxlength="30" />
+			</div>
+			<div class="fieldContainer">
+				<input type="text" name="referenceB" placeholder="Referencia" class="no-special-chars required" data-mini="true"
+					maxlength="250" />
+			</div>
+			<div class="fieldContainer">
+				<select name="cityB"
+					data-bind="options: data.cities, 
+						optionsValue:'value', 
+						optionsText:'label', 
+						optionsCaption: 'Selecciona tu ciudad',
+						value: data.state.selectedCity"
+					class="required" data-mini="true">
+				</select>
+			</div>
+			<div class="fieldContainer">
+				<select name="neighborhoodB"
+					data-bind="options: $root.neighborhoods, 
+						optionsValue:'value', 
+						optionsText:'label', 
+						optionsCaption: 'Selecciona tu barrio',
+						value: shippingNeighborhood"
+					class="required" data-mini="true">
+				</select>
+			</div>
+		</div>
+
+		<!-- <ul class="form" data-role="listview" data-inset="true"
+			style="margin-bottom: 0; background-color: rgba(255, 255, 255, 0.9);"
+			data-bind="visible: checkoutCart.billingAddress().addressId() == 'new'">
+			<li data-role="fieldcontain" class="ui-hide-label" data-bind="visible: !customer.wantEditAddress()"></li>
+			<li data-role="fieldcontain" class="ui-hide-label"></li>
+			<li data-role="fieldcontain" class="ui-hide-label"></li>
+			<li data-role="fieldcontain" class="ui-hide-label"></li>
+			<li data-role="fieldcontain" class="ui-hide-label"></li>
+			<li data-role="fieldcontain" class="ui-hide-label"></li>
+			<li data-role="fieldcontain" class="ui-hide-label"></li>
+		</ul> -->
+	</div>
+
+	<div data-role="footer" data-position="fixed" data-tap-toggle="false"
+		style="background-color: rgba(0, 41, 74, 0.8) !important;">
+		<div class="footer-actions">
+			<button type="submit" id="logout" data-role="button" data-theme="b" class="footerAloneButton"
+				data-bind="disable: checkoutCart.disableFields">Siguiente</button>
+		</div>
+	</div>
+
+</form>
+
+

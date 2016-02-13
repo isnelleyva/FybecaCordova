@@ -1,0 +1,446 @@
+<div data-role="page" id="reminder-new">
+
+	<link rel="stylesheet" href="../../themes/libs/mobiscroll-2.3.1.custom.min.css" />
+	<script src="../../libraries/other/mobiscroll-2.3.1.custom.min.js"></script>
+
+	<script src="../../scripts/cordova/LocalNotification.js"></script>
+	<script src="../../scripts/DateFormat.js"></script>
+	<script src="../viewmodels/reminder-new.js"></script>
+
+	<style>
+#reminder-new .ui-btn {
+	background-color: inherit;
+	color: inherit;
+	text-shadow: inherit;
+}
+
+#reminder-new .ui-btn:HOVER { /*color: #fff;*/
+	
+}
+
+#reminder-new .subdetail {
+	margin-top: -0px;
+	white-space: normal;
+}
+
+#reminder-new .ui-btn.popupSubmitButton {
+	color: #fff;
+}
+
+#reminder-new  .ui-select span {
+	color: #000;
+}
+
+#reminder-new  .ui-select span:HOVER {
+	color: #fff;
+}
+
+#reminder-new .hoursList {
+	width: 150px;
+}
+
+#reminder-new .hoursList li a {
+	font-size: 13px;
+}
+
+#reminder-new #popupContact-popup {
+	left: 15px !important;
+	top: 100px !important;
+}
+
+.dwbw:active {
+	background-color: #00ADFF !important;
+}
+
+#reminder-new div.ui-grid-a .ui-block-a {
+	padding-right: 3px;
+}
+
+#reminder-new div.ui-grid-a .ui-block-b {
+	padding-left: 3px;
+}
+
+#reminder-new .loadingProducts {
+	color: #333 !important;
+	border: none;
+	text-align: center;
+	height: 13px;
+	margin-bottom: -20px;
+}
+
+#reminder-new  #remindersFields li {
+	background-color: #FFF !important;
+}
+</style>
+
+	<div data-id="reminders-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+		class="ui-alt-icon ui-nodisc-icon">
+		<a href="../../reminders.html" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1>Nuevo</h1>
+	</div>
+	<form class="ui-content" data-bind="submit: saveReminder">
+
+		<ul id="remindersFields" data-role="listview" data-inset="true" style="box-shadow: none;">
+			<li data-role="fieldcontain" class="ui-hide-label"><input data-mini="true" name="reminderName" id="txtName"
+				placeholder="Nombre del recordatorio" maxlength="25" data-bind="value: reminderName" /></li>
+			<li data-role="fieldcontain" class="ui-hide-label">
+
+				<div class="input-group">
+					<input data-mini="true" class="nameInput" name="reminderMedicine" id="txtName" placeholder="Medicamento"
+						style="height: 35px;" data-bind="value: reminderMedicine, valueUpdate: 'keyup'" />
+					<button data-theme="c" class="ui-btn ui-btn-icon-notext ui-nodisc-icon ui-alt-icon ui-icon-search"
+						data-bind="click: openPopupProducts, enable: reminderMedicine().length > 2"></button>
+				</div>
+
+			</li>
+			<li><a href="#" data-theme="c" data-bind="click: openBeginDp">Inicia
+					<p class="subdetail" data-bind="text: reminderBeginDateText"></p> <input type="hidden" id="dpBegin"
+					class="datetimePicker required" />
+			</a></li>
+			<li><a href="#popupRepeatType" data-rel="popup" data-theme="c">Repetición
+					<p class="subdetail" data-bind="text: repeatTypeText"></p>
+			</a></li>
+			<li><a href="#" data-rel="popup" data-theme="c" data-bind="click: openReminderEndPopup">Finaliza
+					<p class="subdetail" data-bind="text: reminderEndDateText"></p>
+			</a></li>
+			<li><a href="#popupDoctor" data-rel="popup" data-theme="c">Médico
+					<p class="subdetail" data-bind="text: doctor"></p>
+			</a><a href="#" data-theme="c" class="ui-icon-phone"
+				data-bind="attr: {href: (doctorPhone() == '' ? '#' : 'tel:' + doctorPhone())}">a</a></li>
+			<li><a href="#popupBuyReminder" data-rel="popup" data-theme="c">Recordatorio de compra
+					<p class="subdetail"
+						data-bind="visible: leftTakes()!= 0 && leftTakesDaysReminder() != 0, text: leftTakes() + ' tomas disponibles.'"></p>
+			</a></li>
+		</ul>
+
+		<input type="hidden" id="dpEndDate" class="datetimePicker required" />
+
+		<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+			<div class="footer-actions">
+				<button type="submit" id="add-reminder" data-theme="b" data-role="button" class="footerAloneButton"
+					data-bind="visible: reminderCodeOnEdit() == ''">Guardar</button>
+
+				<div class="ui-grid-a" data-bind="visible: reminderCodeOnEdit() != ''">
+					<div class="ui-block-a">
+						<button style="color: #333; width: 100%" data-role="button" data-theme="c" data-bind="click: askForDelete">Eliminar</button>
+					</div>
+					<div class="ui-block-b">
+						<button type="submit" id="add-reminder" data-theme="b" data-role="button" class="footerAloneButton">Guardar</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<ul id="reminderProducts" data-role="listview" class="listDefault reminderProductsList"
+			data-bind="visible: showProductsList">
+			<!-- <li class="loadingProducts" data-icon="false">Cargando...</li>  -->
+			<!-- ko foreach: products -->
+			<li><a href="#" style="font-weight: normal; font-size: 14px; text-transform: capitalize;"
+				data-bind="html: productNameStyled, click: $root.productChoosen"></a></li>
+			<!-- /ko -->
+		</ul>
+
+	</form>
+
+	<!-- POPUP repeat -->
+	<div data-role="popup" id="popupRepeatType" data-theme="d" class="ui-corner-all" style="background: #FFF; min-width: 95%">
+		<div style="background: #333" data-role="header">
+			<h1 style="color: #FFF;">Repetición</h1>
+		</div>
+		<form data-bind="submit: chooseRepeatType">
+			<div style="padding: 10px 20px;">
+
+				<fieldset data-role="controlgroup" data-theme="a" data-mini="true">
+					<legend>Selecciona el tipo de repetición:</legend>
+					<input type="radio" name="rdRepeat" id="rdRepeatNone" value="none" checked="checked"><label for="rdRepeatNone">Ninguna</label>
+					<input type="radio" name="rdRepeat" id="rdRepeatInterval" value="interval"><label for="rdRepeatInterval">Intervalo<br>Ej.
+						Cada 8 horas
+
+					</label> <input type="radio" name="rdRepeat" id="rdRepeatHours" value="hours"> <label for="rdRepeatHours">Horas
+						específicas<br>Ej. A las 8:00am, 12:00pm, 6:00pm
+					</label>
+				</fieldset>
+				<div class="ui-grid-a">
+					<div class="ui-block-a">
+						<button data-icon="false" data-mini="true" data-theme="c" data-bind="click: closePopupRepeatType">Cancelar</button>
+					</div>
+					<div class="ui-block-b">
+						<button type="submit" data-icon="false" data-theme="b" data-mini="true" class="popupSubmitButton">Aceptar</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<!-- POPUP repeat interval-->
+	<div data-role="popup" id="popupRepeatInterval" data-theme="d" class="ui-corner-all"
+		style="background: #FFF; min-width: 95%">
+		<div style="background: #333" data-role="header">
+			<h1 style="color: #FFF;">Repetición</h1>
+		</div>
+		<form data-bind="submit: chooseRepeatInterval">
+			<div style="padding: 10px 20px;">
+
+				<p>Ingresa el intervalo cada cuanto tomará su medicamento</p>
+
+				<ul data-role="listview" data-inset="true" style="background-color: rgba(255, 255, 255, 0.9)">
+					<li data-role="fieldcontain" class="ui-hide-label"><select name="slRepeatInterval" id="slRepeatInterval"
+						style="color: #000;">
+							<option value="1">Cada 1 hora</option>
+							<option value="2">Cada 2 horas</option>
+							<option value="3">Cada 3 horas</option>
+							<option value="4">Cada 4 horas</option>
+							<option value="5">Cada 5 horas</option>
+							<option value="6">Cada 6 horas</option>
+							<option value="7">Cada 7 horas</option>
+							<option value="8">Cada 8 horas</option>
+							<option value="9">Cada 9 horas</option>
+							<option value="10">Cada 10 horas</option>
+							<option value="11">Cada 11 horas</option>
+							<option value="12">Cada 12 horas</option>
+							<option value="13">Cada 13 horas</option>
+							<option value="14">Cada 14 horas</option>
+							<option value="15">Cada 15 horas</option>
+							<option value="16">Cada 16 horas</option>
+							<option value="17">Cada 17 horas</option>
+							<option value="18">Cada 18 horas</option>
+							<option value="19">Cada 19 horas</option>
+							<option value="20">Cada 20 horas</option>
+							<option value="21">Cada 21 horas</option>
+							<option value="22">Cada 22 horas</option>
+							<option value="23">Cada 23 horas</option>
+							<option value="24">Cada 24 horas</option>
+					</select></li>
+				</ul>
+
+				<div class="ui-grid-a">
+					<div class="ui-block-a">
+						<button data-icon="false" data-mini="true" data-theme="c" data-bind="click: closePopupRepeatInterval">Cancelar</button>
+					</div>
+					<div class="ui-block-b">
+						<button type="submit" data-icon="false" data-theme="b" data-mini="true" class="popupSubmitButton">Aceptar</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<!-- POPUP repeat hours -->
+	<div data-role="popup" id="popupRepeatHours" data-theme="d" class="ui-corner-all" style="background: #FFF; min-width: 95%">
+		<div style="background: #333" data-role="header">
+			<h1 style="color: #FFF;">Repetición</h1>
+		</div>
+		<form data-bind="submit: chooseRepeatHours">
+			<div style="padding: 10px 20px;">
+
+				<div data-role="navbar">
+					<ul>
+						<li><a href="#" data-theme="a" class="ui-btn-active"
+							data-bind="click: function(data, event) { toogleShowHours(true) }">Horas</a></li>
+						<li><a href="#" data-view="days" data-theme="a"
+							data-bind="click: function(data, event) { toogleShowHours(false) }">Días</a></li>
+					</ul>
+				</div>
+
+				<div id="hours-container" data-bind="visible: showHours()">
+					<p>Ingrese las horas en las que tomará su medicamento.</p>
+
+					<a data-role="button" data-bind="click: showHourPicker" data-mini="true">Añadir hora</a>
+
+					<ul id="hoursList" data-role="listview" data-inset="true" data-bind="foreach: reminderHours">
+						<li data-icon="delete"><a href="#" data-mini="true"
+							data-bind="click: $root.removeReminderHour, text: hour + ':' + minute"></a></li>
+					</ul>
+
+					<input type="hidden" id="dpRepeatHour" class="timePicker required" />
+
+				</div>
+
+				<div id="days" data-bind="visible: !showHours()">
+					<p>Seleccione los días específicos para este recordatorio</p>
+
+					<fieldset data-role="controlgroup" data-mini="true">
+						<input type="checkbox" name="chDay1" id="chDay1" data-bind="checked: reminderDays.mon"> <label for="chDay1">Lunes</label>
+						<input type="checkbox" name="chDay2" id="chDay2" data-bind="checked: reminderDays.tue"> <label for="chDay2">Martes</label>
+						<input type="checkbox" name="chDay3" id="chDay3" data-bind="checked: reminderDays.wed"> <label for="chDay3">Miercoles</label>
+						<input type="checkbox" name="chDay4" id="chDay4" data-bind="checked: reminderDays.thu"> <label for="chDay4">Jueves</label>
+						<input type="checkbox" name="chDay5" id="chDay5" data-bind="checked: reminderDays.fri"> <label for="chDay5">Viernes</label>
+						<input type="checkbox" name="chDay6" id="chDay6" data-bind="checked: reminderDays.sat"> <label for="chDay6">Sábado</label>
+						<input type="checkbox" name="chDay7" id="chDay7" data-bind="checked: reminderDays.sun"> <label for="chDay7">Domingo</label>
+					</fieldset>
+
+				</div>
+
+				<div class="ui-grid-a">
+					<div class="ui-block-a">
+						<button data-icon="false" data-mini="true" data-theme="c" data-bind="click: closePopupRepeatHours">Cancelar</button>
+					</div>
+					<div class="ui-block-b">
+						<button type="submit" data-icon="false" data-theme="b" data-mini="true" class="popupSubmitButton">Aceptar</button>
+					</div>
+				</div>
+
+			</div>
+		</form>
+	</div>
+
+	<!-- POPUP end reminder -->
+	<div data-role="popup" id="popupEndReminder" data-theme="d" class="ui-corner-all" style="background: #FFF; min-width: 95%">
+		<div style="background: #333" data-role="header">
+			<h1 style="color: #FFF;">Finaliza</h1>
+		</div>
+		<form data-bind="submit: chooseReminderEnd">
+			<div style="padding: 10px 20px;">
+
+				<fieldset data-role="controlgroup" data-theme="a" data-mini="true">
+					<input type="radio" name="rdEnd" id="rdEndByCalculate" value="calculate"><label for="rdEndByCalculate"
+						style="font-size: 15px;">Calcular la fecha
+						<p style="font-weight: normal; font-size: 12px; margin-top: 0px;">Ingresa el número de tomas de su tratamiento para
+							calcular la fecha de finalización</p>
+					</label> <input type="radio" name="rdEnd" id="rdEndByDate" value="endDate"><label for="rdEndByDate"
+						style="font-size: 15px;">Ingreso manual
+						<p style="font-weight: normal; font-size: 12px; margin-top: 0px;">Ingresa la fecha en que finaliza tu tratamiento</p>
+					</label>
+				</fieldset>
+				<div class="ui-grid-a">
+					<div class="ui-block-a">
+						<button data-icon="false" data-mini="true" data-theme="c" data-bind="click: closePopUpReminderEnd">Cancelar</button>
+					</div>
+					<div class="ui-block-b">
+						<button type="submit" data-icon="false" data-theme="b" data-mini="true" class="popupSubmitButton">Aceptar</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<!-- POPUP totalTakes -->
+	<div data-role="popup" id="popupTotalTakes" data-theme="d" class="ui-corner-all" style="background: #FFF; min-width: 95%">
+		<div style="background: #333" data-role="header">
+			<h1 style="color: #FFF;">Calcular</h1>
+		</div>
+		<form data-bind="submit: chooseReminderTotalTakes">
+			<div style="padding: 10px 20px;">
+
+				<ul data-role="listview" data-inset="true" style="background-color: rgba(255, 255, 255, 0.9)">
+					<li data-role="fieldcontain" class="ui-hide-label"><input type="tel" data-mini="true" name="totalTakes"
+						id="txtTotalTakes" placeholder="# total de tomas" /></li>
+				</ul>
+				<div class="ui-grid-a">
+					<div class="ui-block-a">
+						<button data-icon="false" data-mini="true" data-theme="c" data-bind="click: closePopupTotalTakes">Cancelar</button>
+					</div>
+					<div class="ui-block-b">
+						<button type="submit" data-icon="false" data-theme="b" data-mini="true" class="popupSubmitButton">Aceptar</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<!-- POPUP doctor -->
+	<div data-role="popup" id="popupDoctor" data-theme="d" class="ui-corner-all" style="background: #FFF; min-width: 95%">
+		<div style="background: #333" data-role="header">
+			<h1 style="color: #FFF;">Médico</h1>
+		</div>
+		<form data-bind="submit: chooseDoctor">
+			<div style="padding: 10px 20px;">
+				<p>Ingresa los datos de contacto del médico que te recetó</p>
+				<ul data-role="listview" data-inset="true" style="background-color: rgba(255, 255, 255, 0.9)">
+					<li data-role="fieldcontain" class="ui-hide-label"><input type="text" data-mini="true" name="doctorName"
+						id="txtDoctorName" placeholder="Nombre" data-bind="value: doctor" /></li>
+					<li data-role="fieldcontain" class="ui-hide-label"><input type="tel" maxlength="14" data-mini="true"
+						name="doctorPhone" id="txtDoctorPhone" placeholder="Teléfono" data-bind="value: doctorPhone" /></li>
+					<li data-role="fieldcontain" class="ui-hide-label"><div class="ui-grid-solo">
+							<div class="ui-block-a">
+								<button data-mini="true" data-bind="click: openPopupContacts" style="color: #333;">Seleccionar de tus
+									contactos</button>
+							</div>
+						</div></li>
+				</ul>
+
+
+				<div class="ui-grid-a">
+					<div class="ui-block-a">
+						<button data-icon="false" data-mini="true" data-theme="c" data-bind="click: closePopupDoctor">Cancelar</button>
+					</div>
+					<div class="ui-block-b">
+						<button type="submit" data-icon="false" data-theme="b" data-mini="true" class="popupSubmitButton">Aceptar</button>
+					</div>
+				</div>
+
+			</div>
+		</form>
+	</div>
+
+	<!-- POPUP buy reminder -->
+	<div data-role="popup" id="popupBuyReminder" data-theme="d" class="ui-corner-all" style="background: #FFF; min-width: 95%">
+		<div style="background: #333" data-role="header">
+			<h1 style="color: #FFF;">Recordatorio</h1>
+		</div>
+		<form data-bind="submit: chooseBuyReminder">
+			<div style="padding: 10px 20px;">
+
+				<ul data-role="listview" data-inset="true" style="background-color: rgba(255, 255, 255, 0.9)">
+					<li data-role="fieldcontain" class="ui-hide-label"><p style="color: #333; white-space: normal;">¿Cuantas tomas
+							tienes disponible de tu medicamento?</p> <input type="tel" data-mini="true" name="availableTakes" id="txtAvailableTakes"
+						placeholder="# de tomas" /></li>
+					<li data-role="fieldcontain" class="ui-hide-label"><p style="color: #333; white-space: normal;">¿Con cuantos
+							días de anticipación deseas que te lo recordemos?</p> <select name="takesDays" id="slTakesDays" style="color: #000;">
+							<option value="1">Selecciona # de días</option>
+							<option value="2">1 día</option>
+							<option value="3">2 día</option>
+							<option value="4">3 día</option>
+							<option value="5">4 día</option>
+							<option value="6">5 día</option>
+					</select></li>
+				</ul>
+
+				<div class="ui-grid-a">
+					<div class="ui-block-a">
+						<button data-icon="false" data-mini="true" data-theme="c" data-bind="click: closePopupBuyReminder">Cancelar</button>
+					</div>
+					<div class="ui-block-b">
+						<button type="submit" data-icon="false" data-theme="b" data-mini="true" class="popupSubmitButton">Aceptar</button>
+					</div>
+				</div>
+
+			</div>
+		</form>
+	</div>
+
+	<!-- POPUP contacts -->
+	<div data-role="popup" id="popupContact" data-theme="d" class="ui-corner-all" style="background: #FFF;">
+		<div style="background: #333" data-role="header">
+			<h1 style="color: #FFF;">Contactos</h1>
+		</div>
+		<div style="padding: 10px 20px;">
+			<input type="text" placeholder="Ingresa el nombre del contacto" data-bind="event: {keyup: getContacts}">
+			<ul id="contactsList" data-role="listview" data-bind="foreach: contacts" data-mini="true">
+				<li data-role="list-divider" data-bind="text: name.formatted"><a href="#" data-bind="text: name.formatted, click: $root.contactChoosen"></a></li>
+				<!-- ko foreach: phoneNumbers-->
+				<li><a href="#" data-bind="text: value, click: $root.contactChoosen"></a></li>
+				<!-- /ko -->
+			</ul>
+			<button data-mini="true" data-bind="click: openPopupDoctor">Cancelar</button>
+		</div>
+	</div>
+
+	<!-- POPUP products -->
+	<div data-role="popup" id="popupProducts" data-theme="d" class="ui-corner-all" style="background: #FFF;">
+		<div style="background: #333" data-role="header">
+			<h1 style="color: #FFF;">Productos</h1>
+		</div>
+		<div style="padding: 10px 20px;">
+			<input type="text" placeholder="Ingresa el nombre del producto" data-bind="event: {keyup: getProducts}">
+			<ul id="productsList" data-role="listview" data-mini="true" class="listDefault" style="padding: 0;"
+				data-bind="foreach: products">
+				<li><a href="#" style="font-weight: normal; font-size: 14px; text-transform: capitalize;"
+					data-bind="html: productNameStyled, click: $root.productChoosen"></a></li>
+			</ul>
+			<button data-mini="true" data-bind="click: closePopupProducts">Cancelar</button>
+		</div>
+	</div>
+
+</div>

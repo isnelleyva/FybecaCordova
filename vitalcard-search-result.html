@@ -1,0 +1,52 @@
+
+<div data-role="page" id="vitalcard-search-result">
+	<script src="scripts/vitalcard-search-result.js"></script>
+
+	<style>
+#establishmentsList li h3 {
+	color: #333;
+}
+
+#establishmentsList li a {
+	background-color: rgba(255, 255, 255, 0.9);
+	color: #333;
+}
+
+#establishmentsList {
+	padding: 10px;
+}
+
+#establishmentsList li {
+	margin-bottom: 10px;
+}
+
+#establishmentsList li [data-action="loadEstablishment"] {
+	border-radius: 10px;
+}
+
+#establishmentsList li [data-action="loadDetail"] {
+	border-radius: 0 10px 10px 0;
+}
+
+#establishmentsList li [data-action="show-more"] {
+	border-radius: 10px;
+}
+</style>
+
+	<div data-id="main-header" data-role="header" data-position="fixed"
+		data-tap-toggle="false" class="ui-alt-icon ui-nodisc-icon">
+		<a href="vitalcard-search.html" data-direction="reverse"
+			class="backButton">&nbsp;</a>
+		<h1>Resultados</h1>
+	</div>
+
+	<div class="ui-content">
+
+		<ul data-role="listview" style="overflow: hidden;"
+			id="establishmentsList" data-split-theme="b" class="">
+
+		</ul>
+
+	</div>
+
+</div>

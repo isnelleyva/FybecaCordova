@@ -1,0 +1,163 @@
+<div data-role="page" id="user-login">
+	<script src="scripts/user-login.js"></script>
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false" class="">
+		<a href="index.html" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1>Iniciar sesión</h1>
+		<a href="app/views/info.html" class="infoButton">&nbsp;</a>
+	</div>
+
+	<div class="ui-content">
+
+		<!-- <form data-bind="submit: facebookLogin">
+
+			<button class="facebookButton" type="submit" data-theme="b">Iniciar con Facebook</button>
+
+		</form> -->
+
+		<form data-bind="submit: login">
+			<ul data-role="listview" data-inset="true" style="background-color: rgba(255, 255, 255, 0.9)">
+
+				<li data-role="fieldcontain">
+
+					<fieldset class="justified horizontalDG" data-role="controlgroup" data-type="horizontal" data-mini="true">
+
+						<input type="radio" name="rdIdType" id="rdIdTypeC" value="C" checked="checked" data-bind="checked: idType" /> <label
+							for="rdIdTypeC">Cédula</label> <input type="radio" name="rdIdType" id="rdIdTypeP" value="P"
+							data-bind="checked: idType" /> <label for="rdIdTypeP">Pasaporte</label>
+
+					</fieldset>
+
+				</li>
+
+				<li data-role="fieldcontain" class="ui-hide-label"><label for="txt-id">Cédula:</label> <input name="identificación"
+					id="txt-id" value=""
+					data-bind="attr: {type: (idType()=='C'?'tel':'text'), 
+						placeholder: (idType() == 'C' ? 'Cédula' : 'Pasaporte'), 
+						maxlength: (idType() == 'C' ? 10 : 50)}, css: {'identification-ec' : idType()=='C'}"
+					class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset required" /></li>
+				<li data-role="fieldcontain" class="ui-hide-label"><label for="txt-password">Contraseña:</label> <input
+					data-bind="attr: {type: (showPassword() ? 'text' : 'password')}" name="password" id="txt-password" value=""
+					placeholder="Contraseña" autocapitalize="off" autocorrect="off" class="required" /> <input type="checkbox"
+					id="showPass" name="showPass" style="display: none;" class="custom" data-mini="true" data-bind="checked: showPassword" />
+					<label for="showPass" class="checkPassword" style="border: none; background: none; color: #000">Mostrar
+						contraseña</label></li>
+				<li>
+					<button data-action="login" type="submit" data-theme="b" data-bind="enable: !isProcessing()">Iniciar sesión</button> <!--<p style="text-align: center; margin-top: 8px;">
+						  <a href="user-forgot-password.html" data-action="recuperarPassword" data-bind="enable: !isProcessing()">¿Olvidaste
+							tu contraseña?</a> 
+					</p>-->
+				</li>
+				<li style="border-top-width: 0; margin-top: -20px; text-align: center;"><p>
+						<a href="user-forgot-password.html" data-action="recuperarPassword" data-bind="enable: !isProcessing()">¿Olvidaste
+							tu contraseña?</a>
+					</p></li>
+				<li style="border-top-width: 0; margin-top: -20px;"><button class="ui-btn ui-btn-c" data-theme="c"
+						style="text-align: center;" data-position-to="window"
+						data-bind="click: openPopupAdressesGuest, enable: !isProcessing()">O iniciar como invitado</button></li>
+				<li style="border-top-width: 0; margin-top: -19px; text-align: center;"><p style="font-size: 13px; color: #000;">O
+						si eres un usuario nuevo:</p></li>
+				<li style="border-top-width: 0; margin-top: -20px;"><button class="ui-btn ui-btn-c" data-theme="c"
+						style="text-align: center;" data-position-to="window" data-bind="click: goToRegister, enable: !isProcessing()">Registrarse</button></li>
+			</ul>
+
+			<!--  <p style="text-align: center; margin: 10px; font-size: 11px;">O si eres un usuario nuevo:</p>
+			<a class="ui-btn ui-btn-c" href="user-register-step1.html" data-bind="enable: !isProcessing()">Registrarse</a> -->
+
+		</form>
+
+	</div>
+
+	<!-- POPUP ADDRESS GUEST -->
+
+	<div data-role="popup" id="popupAddressGuest" data-theme="d" class="ui-corner-all" style="background: #FFF; min-width: 95%">
+
+		<div style="background: #333" data-role="header">
+			<h1 style="color: #FFF;">Tu ubicación</h1>
+		</div>
+
+		<form data-bind="submit: loginAsGuest">
+			<div style="padding: 10px 20px;">
+
+				<ul data-role="listview" data-inset="true">
+					<li data-role="fieldcontain" class="ui-hide-label"><select name="city"
+						data-bind="options: data.cities, 
+						optionsValue:'value', 
+						optionsText:'label', 
+						optionsCaption: 'Ciudad',
+						value: data.state.selectedCity"
+						class="required">
+					</select></li>
+					<li data-role="fieldcontain" class="ui-hide-label"><select name="neighborhood"
+						data-bind="options: data.neighborhoods, 
+						optionsValue:'value', 
+						optionsText:'label', 
+						optionsCaption: 'Barrio'"
+						class="required">
+					</select></li>
+				</ul>
+
+				<div class="ui-grid-a">
+					<div class="ui-block-a">
+						<button data-icon="false" data-mini="true" data-bind="click: closeAddressGuestPopup" data-theme="c">Cancelar</button>
+					</div>
+					<div class="ui-block-b">
+						<button type="submit" data-icon="false" data-theme="b" data-mini="true">Continuar</button>
+					</div>
+				</div>
+
+			</div>
+		</form>
+	</div>
+
+	<!-- POPUP FACEBOOK ID -->
+
+	<div data-role="popup" id="popupfacebookId" data-theme="d" class="ui-corner-all" style="background: #FFF; min-width: 95%">
+
+		<div style="background: #333" data-role="header">
+			<h1 style="color: #FFF;">Datos</h1>
+		</div>
+
+		<form id="facebookIdSection" data-bind="submit: enterIdForFacebook">
+			<div style="padding: 10px 20px;">
+
+				<p>Por favor, solo por esta ocasión ingresa tu identificación para asociar tu cuenta de Facebook a tu cuenta de
+					Fybeca</p>
+
+				<ul data-role="listview" data-inset="true">
+
+					<li data-role="fieldcontain">
+						<fieldset class="justified" data-role="controlgroup" data-type="horizontal" data-mini="true">
+
+							<input type="radio" name="rdFacebookIdType" id="rdCedula" value="C" checked="checked" data-bind="checked: idType" />
+							<label for="rdCedula">Cédula</label> <input type="radio" name="rdFacebookIdType" id="rdPasaporte" value="P"
+								data-bind="checked: idType" /> <label for="rdPasaporte">Pasaporte</label>
+
+						</fieldset>
+					</li>
+
+					<li data-role="fieldcontain" class="ui-hide-label"><input name="facebookId" type="text"
+						placeholder="Identificación" /></li>
+				</ul>
+
+				<button type="submit" data-icon="false" data-theme="b" data-mini="true">Continuar</button>
+			</div>
+		</form>
+
+		<form id="facebookPasswordSection" data-bind="submit: enterPasswordForFacebook" style="display: none">
+			<div style="padding: 10px 20px;">
+
+				<p>Detectamos que tienes ya una cuenta en Fybeca, por favor ingresa tu contraseña para asociarla</p>
+
+				<ul data-role="listview" data-inset="true">
+					<li data-role="fieldcontain" class="ui-hide-label"><input name="facebookPassword" type="text"
+						placeholder="Contraseña" /></li>
+				</ul>
+
+				<button type="submit" data-icon="false" data-theme="b" data-mini="true">Continuar</button>
+			</div>
+		</form>
+
+	</div>
+
+</div>

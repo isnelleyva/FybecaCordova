@@ -1,0 +1,397 @@
+
+<div data-role="page" id="product-detail">
+
+	<script src="../viewmodels/product-detail.js"></script>
+
+	<style>
+#product-detail div {
+	color: #00294A;
+}
+
+#product-detail .ui-listview {
+	padding-left: 15px;
+	padding-right: 15px;
+	margin-bottom: 0px;
+}
+
+#product-detail .ui-listview>li {
+	background-color: #FFF !important;
+	margin-top: 10px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+#product-detail .ui-listview .presentationName p {
+	font-weight: bold;
+	font-size: 15px;
+	white-space: normal;
+}
+
+#product-detail .presentationImg>a { /*float: left;*/
+	width: 100px;
+}
+
+#product-detail .presentationImg>a>img {
+	max-width: 100px;
+	max-height: 100px;
+}
+
+#product-detail .presentationPrice>a { /*float: right;*/
+	
+}
+
+#product-detail .price {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#product-detail .ui-listview button {
+	width: 100%;
+	border: none;
+	padding: 7px;
+	font-weight: bold;
+	font-size: 15px;
+}
+
+#product-detail .ui-listview button:HOVER {
+	/*background-color: rgba(238, 59, 67, 1);*/
+	background-color: #38C;
+	color: #FFF
+}
+
+#product-detail .ui-listview .btnBuy {
+	border-bottom-right-radius: 10px;
+	background-color: rgba(255, 104, 47, 1) !important;
+	text-shadow: none;
+	border: none;
+	color: #FFF
+}
+
+#product-detail .ui-listview .btnBuy:active {
+	background-color: #FF9100 !important;
+}
+
+#product-detail .ui-listview .btnSave {
+	background-color: rgba(255, 255, 255, 0.9);
+	border-bottom-left-radius: 10px;
+}
+</style>
+
+	<div data-id="main-header" data-role="header" data-position="fixed"
+		data-tap-toggle="false" class="ui-alt-icon ui-nodisc-icon">
+		<a href="#" data-direction="reverse" class="backButton"
+			data-bind="click: backh">&nbsp;</a>
+		<h1 onselectstart="return false;" style="white-space: normal;"
+			data-bind="text:productName().toLowerCase()">Categorías</h1>
+	</div>
+
+	<div class="ui-content">
+
+		<div
+			data-bind="visible: presentations().length==0 && itemsWasLoaded()"
+			class="no-li-items">
+			<p>No existen presentaciones para este producto</p>
+		</div>
+
+		<ul data-role="listview" id="presentationsList"
+			data-bind="foreach:presentations">
+
+			<li data-icon="false"
+				data-bind="css:{'presentation-offer':offerPrice>0}">
+				<div class="presentationName">
+					<p data-bind="text: name, click: $root.opendetail"></p>
+				</div>
+				<div>
+					<fieldset class="ui-grid-a">
+						<div class="ui-block-a" style="text-align: center;">
+							<div class="presentationImg">
+								<a data-bind="click: $root.openZoom">
+									<img style="display: none;"
+										data-bind="attr: {src: (restricted=='N' || psicotropic == 'R') ? '../../themes/default/images2/image-restriction.png' : imageUrl}, event: {load: $root.onLoadImage}" />
+									<img style="margin-top: 20%;"
+										src="../../themes/default/images2/loading-image.gif" />
+								</a>
+							</div>
+							<div
+								style="white-space: normal; font-size: 12px; margin-top: 10px;"
+								data-bind="visible: available == 'N' || available == ''">Venta
+								disponible solo en nuestros locales</div>
+						</div>
+						<div class="ui-block-b">
+							<div class="presentationPrice" style="text-align: center;">
+								<p class="price" style="color: #f83648"
+									data-bind="text: '$' + fybecaPrice.toFixed(2)"></p>
+								<p style="margin-top: -15px; font-weight: bold;">VitalCard</p>
+								<p class="price" data-bind="text: '$' + publicPrice.toFixed(2)"></p>
+								<p style="margin-top: -15px; font-weight: bold;">Normal</p>
+							</div>
+						</div>
+					</fieldset>
+
+
+				</div>
+			</li>
+
+			<fieldset class="ui-grid-a" data-bind="visible: available == 'S'">
+				<div class="ui-block-a">
+					<button class="btnSave" type="submit" data-theme="a"
+						data-bind="click: $root.saveItem">Guardar</button>
+				</div>
+				<div class="ui-block-b">
+					<button class="btnBuy superButton" type="reset" data-theme="b"
+						data-bind="click: $root.opendetail, text: 'Comprar'"></button>
+				</div>
+			</fieldset>
+
+			<fieldset class="ui-grid-solo"
+				data-bind="visible: available == 'N' || available == ''">
+				<div class="ui-block-a">
+					<button class="btnBuy superButton" type="reset" data-theme="b"
+						style="border-radius: 0px 0px 10px 10px;"
+						data-bind="click: $root.opendetail">Más información</button>
+				</div>
+			</fieldset>
+		</ul>
+
+		<div data-id="catalog-menu" data-role="footer" data-position="fixed"
+			data-tap-toggle="false">
+			<div data-role="navbar" data-iconpos="top" class="ui-nodisc-icon">
+				<ul>
+					<li>
+						<a href="#" data-icon="search"
+							class="ui-btn-active ui-state-persist" data-bind="click: backh">Productos</a>
+					</li>
+					<li>
+						<a href="../../explore-products.html" data-icon="grid">Categorías</a>
+					</li>
+					<li>
+						<a href="my-cart.html" data-icon="cart">
+							Carrito (
+							<span data-bind="text: cartCount()"></span>
+							)
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- POPUP LOGIN -->
+
+	<div data-role="popup" id="popupLogin" data-theme="d"
+		class="ui-corner-all" style="background: #FFF;">
+		<form data-bind="submit:login">
+			<div style="padding: 10px 20px;">
+
+				<div style="text-align: justify; font-size: 13px;">Inicia
+					sesión o continua como invitado para agregar productos</div>
+
+				<fieldset class="justified" data-role="controlgroup"
+					data-type="horizontal"
+					style="text-align: center; margin-bottom: 0;" data-mini="true">
+					<input type="radio" name="rdIdType" id="rdCedula" value="C"
+						checked="checked" data-mini="true"
+						data-bind="checked: loginIdType" />
+					<label for="rdCedula">Cédula</label>
+					<input type="radio" name="rdIdType" id="rdPasaporte" value="P"
+						data-mini="true" data-bind="checked: loginIdType" />
+					<label for="rdPasaporte">Pasaporte</label>
+				</fieldset>
+
+				<input type="text" name="username" id="un" value="" data-mini="true"
+					data-bind="attr:{type: (loginIdType()=='C'?'tel':'text'), 'placeholder':(loginIdType()=='C')?'Cédula':'Pasaporte'}, css: {'identification-ec' : loginIdType()=='C'}">
+				<input type="password" name="password" id="pw" value=""
+					placeholder="Contraseña" data-mini="true"
+					data-bind="attr: {type: (showPassword() ? 'text' : 'password')}">
+				<input type="checkbox" id="showPass" name="showPass"
+					style="display: none;" class="custom" data-mini="true"
+					data-bind="checked: showPassword" />
+				<label for="showPass" style="border: none; background: none;">Mostrar
+					contraseña</label>
+
+				<button type="submit" data-icon="false" data-theme="b"
+					data-mini="true">Iniciar sesión</button>
+				<button data-icon="false" data-mini="true"
+					data-bind="click: openGuestPopup">Continuar como invitado</button>
+				<div style="text-align: center;">
+					<a href="../../user-register-step1.html">o Regístrate</a>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<!-- POPUP ADDRESS GUEST -->
+
+	<div data-role="popup" id="popupAddressGuest" data-theme="d"
+		class="ui-corner-all" style="background: #FFF;">
+
+		<div style="background: #333" data-role="header" class="popup_header">
+			<h1 style="color: #FFF;">Tu barrio y ciudad</h1>
+		</div>
+
+		<form data-bind="submit: loginAsGuest">
+			<div style="padding: 10px 20px;">
+
+				<ul data-role="listview" data-inset="true">
+					<li data-role="fieldcontain" class="ui-hide-label">
+						<select name="city"
+							data-bind="options:data.cities, 
+						optionsValue:'value', 
+						optionsText:'label', 
+						optionsCaption: 'Selecciona tu ciudad',
+						value: data.state.selectedCity"
+							class="required">
+						</select>
+					</li>
+					<li data-role="fieldcontain" class="ui-hide-label">
+						<select name="neighborhood"
+							data-bind="options:data.neighborhoods, 
+						optionsValue:'value', 
+						optionsText:'label', 
+						optionsCaption: 'Selecciona tu barrio'"
+							class="required">
+						</select>
+					</li>
+				</ul>
+
+				<div class="ui-grid-a">
+					<div class="ui-block-a">
+						<button data-icon="false" data-mini="true"
+							data-bind="click: closeAddresGuestPopup">Cancelar</button>
+					</div>
+					<div class="ui-block-b">
+						<button type="submit" data-icon="false" data-theme="b"
+							data-mini="true">Continuar</button>
+					</div>
+				</div>
+
+			</div>
+		</form>
+	</div>
+
+	<!-- POPUP ZOOM -->
+
+	<div data-role="popup" id="popupZoom" data-theme="d"
+		class="ui-corner-all" style="background: #FFF;" data-overlay-theme="b">
+
+		<style>
+#popupZoom button {
+	width: 100%;
+	border: none;
+	margin-right: 0;
+	margin-left: 0;
+	text-shadow: none;
+}
+
+#popupZoom button:hover {
+	background-color: rgba(52, 60, 75, 0.9);
+	color: #fff;
+}
+
+#popupZoom [data-role="footer"] .ui-grid-a div {
+	padding: 0px 10px;
+}
+
+#popupZoom #collVad {
+	margin: 0 !important;
+	width: 100%;
+}
+
+#popupZoom #collVad li {
+	margin-left: -15px;
+	margin-right: 15px;
+	margin-top: 0;
+}
+
+#popupZoom #collVad li a {
+	text-transform: lowercase;
+	background-color: rgba(0, 0, 0, 0);
+	font-size: 13px;
+	color: #30496F;
+	border: none;
+}
+
+#popupZoom #collVad li a:FIRST-LETTER {
+	text-transform: uppercase;
+}
+
+#popupZoom #collVad .vademecumTabActive {
+	background-color: #00ADFF !important;
+	color: #FFF !important;
+}
+</style>
+
+		<div style="background: #333; z-index: 1;" data-role="header"
+			class="popup_header">
+			<h1 style="color: #FFF;" data-bind="text: selectedName"></h1>
+		</div>
+		<a href="#"
+			style="right: 5px; bottom: 10px; z-index: 1; position: absolute; background-color: rgba(71, 79, 92, 0.7); color: #FFF; width: 85px; text-align: center; font-weight: normal; font-size: 20px; border-radius: 5px;"
+			data-bind="click: closeZoomPopup, visible: !showVademecumSection()">Cerrar</a>
+		<div id="zoomImg" style="background-color: #FFF !important;"
+			data-bind="visible: zoomInfo() == 1">
+			<div style="min-height: 200px;"
+				data-bind="visible: !isImgZoomLoaded()">
+				<div
+					style="text-align: center; position: absolute; top: 45%; left: 40%;">Cargando...</div>
+			</div>
+			<div class="panzoom"
+				style="position: relative; min-height: 200px; text-align: center;"
+				data-bind="visible: isImgZoomLoaded()">
+				<img style="max-width: 100%; max-height: 300px;"
+					data-bind="doubletap: toggleZoom, attr: {src: imageToZoom}, event: {load: onLoadImageZoom}" />
+			</div>
+		</div>
+
+		<div id="zoomVad" style="background-color: #FFF !important;"
+			data-bind="visible: zoomInfo() == 2">
+
+			<div data-bind="visible: !vademecumLoaded()"
+				style="text-align: center;">
+				<img src="../../themes/default/images2/ajax-loader-little.gif"
+					style="margin-right: 10px" />
+				Cargando información
+			</div>
+
+			<div class="ui-grid-a" style="position: relative; min-height: 100px;"
+				data-bind="visible: vademecumLoaded() && showVademecumSection()">
+				<div class="ui-block-a">
+
+					<ul id="collVad" data-theme="c" data-role="listview"
+						data-bind="foreach: vademecum">
+						<li>
+							<a href="#"
+								class="ui-alt-icon ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-carat-r ui-btn-icon-right vademecumTab"
+								style="border-radius: 10px 0px 0px 10px;"
+								data-bind="text:label, click: $root.showVademecumInfo"></a>
+						</li>
+					</ul>
+
+				</div>
+				<div class="ui-block-b"
+					style="background-color: rgba(61, 193, 255, 0.5); border-radius: 0 10px 10px 0; position: absolute; bottom: 0; right: 0; top: 0; overflow: auto;">
+					<p style="padding-left: 10px; font-size: 13px;"
+						data-bind="text: vademecumToShow"></p>
+				</div>
+			</div>
+
+		</div>
+
+		<div data-role="footer" style="overflow: hidden;"
+			data-bind="visible: showVademecumSection()">
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+					<button
+						data-bind="text: zoomInfo()==1 ? 'Información' : 'Imagen', click: toogleZoomInfo"></button>
+				</div>
+				<div class="ui-block-b">
+					<button data-bind="click: closeZoomPopup">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

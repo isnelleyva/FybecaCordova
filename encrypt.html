@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>encrypt</title>
+
+<script src="libraries/security/rsa/tools/packages.js"></script>
+<script src="libraries/security/rsa/tools/isarray.js"></script>
+<script src="libraries/security/rsa/tools/binary.js"></script>
+<script src="libraries/security/rsa/tools/elapse.js"></script>
+<script src="libraries/security/rsa/tools/trace.async.js"></script>
+<script src="libraries/security/rsa/nonstructured/nonstructured.js"></script>
+<script src="libraries/security/rsa/SecureRandom.js"></script>
+<script src="libraries/security/rsa/BigInteger.init1.js"></script>
+<script src="libraries/security/rsa/BigInteger.init2.js"></script>
+<script src="libraries/security/rsa/BigInteger.init3.js"></script>
+<script src="libraries/security/rsa/RSA.init1.js"></script>
+<script src="libraries/security/rsa/RSA.init2.js"></script>
+<script src="libraries/security/rsa/RSA.init3.js"></script>
+<script src="libraries/security/rsa/Cipher.js"></script>
+<script src="libraries/security/rsa/SOAEP.js"></script>
+<script src="libraries/security/rsa/BitPadding.js"></script>
+<script src="libraries/security/rsa/RSAKeyFormat.js"></script>
+<script src="libraries/security/rsa/RSAMessageFormat.js"></script>
+<script src="libraries/security/rsa/RSAMessageFormatSOAEP.js"></script>
+<script src="libraries/security/rsa/RSAMessageFormatBitPadding.js"></script>
+<script src="security.js"></script>
+
+<script type="text/javascript">
+__unit("test.html");
+__uses("packages.js");
+__uses("RSAKeyFormat.js");
+__uses("RSAMessageFormat.js");
+__uses("RSAMessageFormatSOAEP.js");
+__uses("RSAMessageFormatBitPadding.js");
+__uses("RSA.init1.js");
+__uses("RSA.init2.js");
+
+var RSA = __import(this, "titaniumcore.crypto.RSA");
+var RSAMessageFormatSOAEP = __import(this, "titaniumcore.crypto.RSAMessageFormatSOAEP");
+var RSAMessageFormatBitPadding = __import(this, "titaniumcore.crypto.RSAMessageFormatBitPadding");
+var RSAKeyFormat = __import(packageRoot, "titaniumcore.crypto.RSAKeyFormat");
+
+RSA.installKeyFormat(RSAKeyFormat);
+RSA.installMessageFormat(RSAMessageFormatSOAEP);
+
+var defaultText = '';
+
+function stringBreak(s, col) {
+	var result = "";
+	for ( var i = 0; i < s.length; i++) {
+		result += s.charAt(i);
+		if (((i + 1) % col == 0) && (0 < i)) {
+			result += "\n";
+		}
+	}
+	return result;
+}
+function pack(s) {
+	var result = "";
+	for ( var i = 0; i < s.length; i++) {
+		var c = s.charAt(i);
+		if (c == " " || c == "\t" || c == "\r" || c == "\n") {
+		} else {
+			result += c;
+		}
+	}
+	return result;
+}
+
+function encrypt(text) {
+	var result = '';
+	var rsa = readPublicKey(createRSA());
+	if (!publicCheckEncryption(rsa, text)) {
+		return;
+	}
+	try {
+		result = base64_encode(rsa.publicEncrypt(text));
+	} catch (e) {
+		alert(e);
+	}
+	console.log(result);
+	return result;
+};
+
+function createRSA() {
+	var rsa = new RSA();
+	rsa.messageFormat = RSAMessageFormatBitPadding;
+	return rsa;
+};
+
+function readPublicKey(rsa) {
+	rsa.publicKeyBytes(base64x_decode('bqvgHLzQjv8hKzz5mGtyLpHacgDpOWjCUQs3VqkO1xxTRpnD0k7XSmjbX5mrsLuPKs1wfuHpPErPrPxbDxajHJ8pfHCwCMDihWKSJCcGcOh1P4'));
+	return rsa;
+}
+
+function publicCheckEncryption(rsa, text) {
+	var maxsize = rsa.publicEncryptMaxSize();
+	var size = str2utf8(text).length;
+	if (maxsize < size) {
+		alert("text length (" + size + ") exceeds the maximum length(" + maxsize + ") for this RSA key");
+		return false;
+	}
+	return true;
+}
+</script>
+</head>
+<body>
+</body>
+</html>

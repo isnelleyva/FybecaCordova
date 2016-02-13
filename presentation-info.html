@@ -1,0 +1,58 @@
+
+<div data-role="page" id="presentation-info">
+
+	<style>
+#presentation-info .ui-collapsible-content.ui-body-d {
+	background-color: rgba(255, 255, 255, 0.75);
+	border: none;
+}
+
+#presentation-info [data-role="collapsible"] a {
+	color: #333 !important;
+}
+
+</style>
+
+	<script src="scripts/presentation-info.js"></script>
+	<!-- <div data-theme="b" data-role="header">
+		<a href="#" data-action="backh" data-icon="arrow-l" data-role="button">Atrás</a>
+		<h1>Informaci&oacute;n</h1>
+	</div> -->
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false" class="">
+		<a href="#" data-action="backh" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1>Informaci&oacute;n</h1>
+	</div>
+
+	<div class="ui-content">
+		<h3 id="presentationName" class="capitalized" style="margin-bottom: 30px; margin-top: 15px;"></h3>
+		<div data-role="collapsible-set" data-theme="c" data-content-theme="d"
+			style="border-radius: .6em; box-shadow: 0 1px 4px rgba(0, 0, 0, .3); -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, .3);">
+			<div data-role="collapsible" class="collapsible-element" option="1">
+				<h2 id="hhh">Indicaciones</h2>
+				<div id="list_1" class="capitalized"></div>
+			</div>
+			<div data-role="collapsible" class="collapsible-element" option="2">
+				<h2>Efectos Secundarios</h2>
+				<div id="list_2" class="capitalized"></div>
+			</div>
+			<div data-role="collapsible" class="collapsible-element" option="3">
+				<h2>Contraindicaciones</h2>
+				<div id="list_3" class="capitalized"></div>
+			</div>
+			<div data-role="collapsible" class="collapsible-element" option="4">
+				<h2>Precauci&oacute;n</h2>
+				<div id="list_4" class="capitalized"></div>
+			</div>
+			<div data-role="collapsible" class="collapsible-element" option="8">
+				<h2>Dosificaci&oacute;n</h2>
+				<div id="list_8" class="capitalized"></div>
+			</div>
+			<div data-role="collapsible" class="collapsible-element" option="9">
+				<h2>Equivalente</h2>
+				<div id="list_9" class="capitalized"></div>
+			</div>
+		</div>
+	</div>
+</div>
+

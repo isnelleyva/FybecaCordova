@@ -1,0 +1,37 @@
+<div data-role="page" id="vitalcard">
+
+	<style>
+#vitalcard .btnBlue,#vitalcard .btnBlue:hover {
+	background-color: rgba(52, 60, 75, 0.9);
+	border: none;
+	color: white;
+	text-shadow: none;
+}
+</style>
+
+	<script src="scripts/vitalcard.js"></script>
+
+	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
+		class="ui-alt-icon ui-nodisc-icon">
+		<a href="index.html#menu-vitalcard" data-direction="reverse" class="backButton">&nbsp;</a>
+		<h1>Red Vitalcard</h1>
+	</div>
+
+	<div class="ui-content">
+		<ul data-role="listview" data-inset="true" style="margin-top: 25px;">
+			<li data-role="fieldcontain" class="ui-hide-label" style="background-color: rgba(255, 255, 255, 0.9) !important;">
+				<div style="text-align: center;">
+					<img src="themes/default/images2/vitalcard2.png"
+						style="margin-top: 40px; margin-bottom: 40px; margin-left: -5px; width: 100%;">
+				</div>
+
+			</li>
+		</ul>
+		<div style="margin-top: 45px;">
+			<button class="btnBlue" data-action="mapa">Establecimientos cercanos</button>
+		</div>
+		<div style="margin-top: 15px;">
+			<button class="btnBlue" data-action="busqueda">Buscar establecimientos</button>
+		</div>
+	</div>
+</div>
