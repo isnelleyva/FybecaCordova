@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.bayteq.fibeca" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Fibeca</name>
+<widget id="com.bayteq.fybeca" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Fybeca</name>
    
     <author href="http://www.bayteq.com" email="info@bayteq.com">
         Bayteq
