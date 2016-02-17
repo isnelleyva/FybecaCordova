@@ -361,13 +361,23 @@
 			});
 
 			models.CustomerActions.getIntakesByReminderId(viewModel.reminderCodeOnEdit()).done(function(repeats) {
-
+				var ini =1;
 				$.each(repeats, function() {
 					var thisRepeat = parseInt(this) / 1000;
-					// console.log('delete ' + viewModel.reminderCodeOnEdit() +
-					// '_' + thisRepeat)
+					//console.log('delete ' + viewModel.reminderCodeOnEdit() +"-"+ thisRepeat)
+					//console.log('delete ' + viewModel.reminderCodeOnEdit() + thisRepeat)
 					try {
-						window.localNotification.cancel(viewModel.reminderCodeOnEdit() + '_' + thisRepeat);
+						if(ini==1){
+							cordova.plugins.notification.local.cancel(viewModel.reminderCodeOnEdit(), function () {
+								// Notification was cancelled
+							}, this);
+							ini=2;
+						}
+                        cordova.plugins.notification.local.cancel(viewModel.reminderCodeOnEdit() + thisRepeat, function () {
+                                                    // Notification was cancelled
+                                                }, this);
+
+						//window.localNotification.cancel(viewModel.reminderCodeOnEdit() + thisRepeat);
 					} catch (e) {
 						console.log('error ' + e);
 					}
@@ -616,6 +626,16 @@
 							typeRepeat = "none";
 
 							try {
+								//console.log("Local Notification ID: "+reminderId);
+								cordova.plugins.notification.local.schedule({
+                                        id: reminderId,
+                                        title: title,
+                                        text: rd.reminderName,
+                                        at: viewModel.reminderBeginDate,
+										sound: 'reminder',
+										data: { id: reminderId }
+                                });
+								/*
 								window.localNotification.addNotification({
 									dateIni : viewModel.reminderBeginDate,
 									dateEnd : viewModel.reminderEndDate(),
@@ -645,6 +665,7 @@
 										// null);
 									}
 								});
+								*/
 							} catch (e) {
 								console.log(e);
 							}
@@ -652,10 +673,22 @@
 						} else if (viewModel.repeatType() == 'interval') {
 
 							var intervalTime = parseInt(viewModel.reminderIntervalValue);
-							intervalTime = intervalTime * 1000 * 60;
+							//intervalTime = intervalTime * 1000 * 60;
 							typeRepeat = 'hour';
-
+							intervalTime = intervalTime * 60;
 							try {
+
+								cordova.plugins.notification.local.schedule({
+										id: reminderId,
+										title: title,
+										text: rd.reminderName,
+										at: viewModel.reminderBeginDate,
+										sound: 'reminder',
+										every: intervalTime,
+										data: { id: reminderId, dateEnd: viewModel.reminderEndDate() }
+								});
+
+								/*
 								window.localNotification.addNotificationByInterval({
 									dateIni : viewModel.reminderBeginDate,
 									dateEnd : viewModel.reminderEndDate(),
@@ -688,7 +721,9 @@
 										showMessage(msg, null, null);
 
 									}
-								});
+								});*/
+
+
 
 							} catch (e) {
 								console.log(e);
@@ -707,13 +742,24 @@
 
 								var thisTime = this;
 								var thisTimeInt = parseInt(thisTime) / 1000;
-								var thisId = reminderId + '_' + thisTimeInt;
-								// console.log('reminder ' + thisId);
+								var thisId = ""+reminderId +""+ thisTimeInt;
+								//console.log('reminder ' + thisId);
 								if (eachCount > 60) {
 									return false;
 								}
 								try {
+									//console.log("Local Notification ID: "+thisId);
+									//console.log("Local Notification ID: "+reminderId +"-"+ thisTimeInt);
+									cordova.plugins.notification.local.schedule({
+											id: thisId,
+											title: title,
+											text: rd.reminderName,
+											at: thisTime,
+											sound: 'reminder',
+											data: { id: reminderId }
+									});
 
+									/*
 									window.localNotification.addNotification({
 										dateIni : thisTime,
 										dateEnd : thisTime,
@@ -755,7 +801,7 @@
 											// }, 3000);
 										}
 									});
-
+									*/
 								} catch (e) {
 									console.log(e);
 								}

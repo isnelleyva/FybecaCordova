@@ -350,7 +350,8 @@ $(document).on('pageshow', function(e) {
 			// href="themes/default/baseIos.css" type="text/css" />');
 		}
 
-		$.getScript('scripts/cordova/carrierName.js', function() {
+// ile
+		/*$.getScript('scripts/cordova/carrierName.js', function() {
 
 			window.carrierName.getCarrier({
 				success : function(carrier1) {
@@ -361,7 +362,7 @@ $(document).on('pageshow', function(e) {
 				}
 			});
 
-		});
+		});*/
 
 		this.addEventListener("backbutton", function(e) {
 			if (debug)
@@ -618,7 +619,7 @@ $(document).on('pageshow', function(e) {
 			navigator.connection = navigator.network.connection;
 		}
 
-		if (typeof Cordova !== "undefined" && deviceType == 'AND') {
+		/*if (typeof Cordova !== "undefined" && deviceType == 'AND') {
 			$.getScript('scripts/cordova/NativeNotification.js', function() {
 				if (debug)
 					console.log("Llamar al plugin NativeNotification");
@@ -647,7 +648,7 @@ $(document).on('pageshow', function(e) {
 					}
 				});
 			});
-		}
+		}*/
 
 		cordova.exec(null, null, "SplashScreen", "hide", []);
 
@@ -657,7 +658,7 @@ $(document).on('pageshow', function(e) {
 		cordova.exec(null, null, "SplashScreen", "hide", []);
 	}
 
-	try {
+	/*try {
 
 		gaPlugin = window.plugins.gaPlugin;
 		gaPlugin.init(function(result) {
@@ -668,7 +669,7 @@ $(document).on('pageshow', function(e) {
 
 	} catch (e) {
 		console.log('error GA ' + gaPlugin);
-	}
+	}*/
 
 });
 

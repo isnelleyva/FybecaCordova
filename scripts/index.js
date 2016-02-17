@@ -46,6 +46,37 @@
 
 	$page.on('pageinit', function() {
 
+		cordova.plugins.notification.local.on("click", function (notification, state) {
+			var time = notification.at * 1000;
+			var data = jQuery.parseJSON(notification.data);
+			$(':mobile-pagecontainer').pagecontainer('change', 'reminder-view.html?id='+data.id+'&time='+time, {
+				changeHash : false
+			});
+		}, this);
+
+		cordova.plugins.notification.local.on("trigger", function(notification) {
+            //console.log("XXXXXX -- Trigger");
+            try{
+            	var time = new Date().getTime()/1000 * 1000;
+				var data = jQuery.parseJSON(notification.data);
+				//console.log("XXXXXX -- Trigger id "+data.id);
+				//console.log("XXXXXX -- Trigger time "+time);
+				MedicineIntakeRepository.countMedicineIntakeAfter(data.id, time).done(function(response) {
+					//console.log("XXXXXX -- Trigger cant "+Number(response));
+					if (result == 0){
+						//console.log("XXXXXX -- Cancelando Notificacion");
+						cordova.plugins.notification.local.cancel(notification.id, function() {
+							console.log("Cancel Notificacion "+notification.id);
+						});
+					}
+				});
+
+            }catch(error){
+            	console.log("XXXXXX -- Error Trigger Notifications");
+            }
+
+        });
+
 		FastClick.attach(document.body);
 
 		ko.applyBindings(viewModel, $page[0]);
@@ -328,7 +359,7 @@
 			customer.isAuthenticated(false);
 		}
 
-		if (customer.isGuest()) {
+		if (customer.isGuest()){
 			$page.find('#nombreUsuario').text('INVITADO');
 		}
 

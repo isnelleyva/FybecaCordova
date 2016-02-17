@@ -3,75 +3,76 @@
 	<link rel="stylesheet" href="../../themes/libs/mobiscroll-2.3.1.custom.min.css" />
 	<script src="../../libraries/other/mobiscroll-2.3.1.custom.min.js"></script>
 
-	<script src="../../scripts/cordova/LocalNotification.js"></script>
+	<!-- <script src="../../scripts/cordova/LocalNotification.js"></script> -->
+	<script src="../../cordova.js"></script>
 	<script src="../../scripts/DateFormat.js"></script>
 	<script src="../viewmodels/reminder-new.js"></script>
 
 	<style>
-#reminder-new .ui-btn {
-	background-color: inherit;
-	color: inherit;
-	text-shadow: inherit;
-}
+		#reminder-new .ui-btn {
+			background-color: inherit;
+			color: inherit;
+			text-shadow: inherit;
+		}
 
-#reminder-new .ui-btn:HOVER { /*color: #fff;*/
-	
-}
+		#reminder-new .ui-btn:HOVER { /*color: #fff;*/
 
-#reminder-new .subdetail {
-	margin-top: -0px;
-	white-space: normal;
-}
+		}
 
-#reminder-new .ui-btn.popupSubmitButton {
-	color: #fff;
-}
+		#reminder-new .subdetail {
+			margin-top: -0px;
+			white-space: normal;
+		}
 
-#reminder-new  .ui-select span {
-	color: #000;
-}
+		#reminder-new .ui-btn.popupSubmitButton {
+			color: #fff;
+		}
 
-#reminder-new  .ui-select span:HOVER {
-	color: #fff;
-}
+		#reminder-new  .ui-select span {
+			color: #000;
+		}
 
-#reminder-new .hoursList {
-	width: 150px;
-}
+		#reminder-new  .ui-select span:HOVER {
+			color: #fff;
+		}
 
-#reminder-new .hoursList li a {
-	font-size: 13px;
-}
+		#reminder-new .hoursList {
+			width: 150px;
+		}
 
-#reminder-new #popupContact-popup {
-	left: 15px !important;
-	top: 100px !important;
-}
+		#reminder-new .hoursList li a {
+			font-size: 13px;
+		}
 
-.dwbw:active {
-	background-color: #00ADFF !important;
-}
+		#reminder-new #popupContact-popup {
+			left: 15px !important;
+			top: 100px !important;
+		}
 
-#reminder-new div.ui-grid-a .ui-block-a {
-	padding-right: 3px;
-}
+		.dwbw:active {
+			background-color: #00ADFF !important;
+		}
 
-#reminder-new div.ui-grid-a .ui-block-b {
-	padding-left: 3px;
-}
+		#reminder-new div.ui-grid-a .ui-block-a {
+			padding-right: 3px;
+		}
 
-#reminder-new .loadingProducts {
-	color: #333 !important;
-	border: none;
-	text-align: center;
-	height: 13px;
-	margin-bottom: -20px;
-}
+		#reminder-new div.ui-grid-a .ui-block-b {
+			padding-left: 3px;
+		}
 
-#reminder-new  #remindersFields li {
-	background-color: #FFF !important;
-}
-</style>
+		#reminder-new .loadingProducts {
+			color: #333 !important;
+			border: none;
+			text-align: center;
+			height: 13px;
+			margin-bottom: -20px;
+		}
+
+		#reminder-new  #remindersFields li {
+			background-color: #FFF !important;
+		}
+	</style>
 
 	<div data-id="reminders-header" data-role="header" data-position="fixed" data-tap-toggle="false"
 		class="ui-alt-icon ui-nodisc-icon">
@@ -81,36 +82,49 @@
 	<form class="ui-content" data-bind="submit: saveReminder">
 
 		<ul id="remindersFields" data-role="listview" data-inset="true" style="box-shadow: none;">
-			<li data-role="fieldcontain" class="ui-hide-label"><input data-mini="true" name="reminderName" id="txtName"
-				placeholder="Nombre del recordatorio" maxlength="25" data-bind="value: reminderName" /></li>
 			<li data-role="fieldcontain" class="ui-hide-label">
-
+					<input data-mini="true" name="reminderName" id="txtName"
+						placeholder="Nombre del recordatorio" maxlength="25" data-bind="value: reminderName" />
+			</li>
+			<li data-role="fieldcontain" class="ui-hide-label">
 				<div class="input-group">
 					<input data-mini="true" class="nameInput" name="reminderMedicine" id="txtName" placeholder="Medicamento"
 						style="height: 35px;" data-bind="value: reminderMedicine, valueUpdate: 'keyup'" />
 					<button data-theme="c" class="ui-btn ui-btn-icon-notext ui-nodisc-icon ui-alt-icon ui-icon-search"
 						data-bind="click: openPopupProducts, enable: reminderMedicine().length > 2"></button>
 				</div>
-
 			</li>
-			<li><a href="#" data-theme="c" data-bind="click: openBeginDp">Inicia
-					<p class="subdetail" data-bind="text: reminderBeginDateText"></p> <input type="hidden" id="dpBegin"
-					class="datetimePicker required" />
-			</a></li>
-			<li><a href="#popupRepeatType" data-rel="popup" data-theme="c">Repetición
+			<li>
+				<a href="#" data-theme="c" data-bind="click: openBeginDp">Inicia
+					<p class="subdetail" data-bind="text: reminderBeginDateText"></p>
+					<input type="hidden" id="dpBegin" class="datetimePicker required" />
+				</a>
+			</li>
+			<li>
+				<a href="#popupRepeatType" data-rel="popup" data-theme="c">Repetición
 					<p class="subdetail" data-bind="text: repeatTypeText"></p>
-			</a></li>
-			<li><a href="#" data-rel="popup" data-theme="c" data-bind="click: openReminderEndPopup">Finaliza
+				</a>
+			</li>
+			<li>
+				<a href="#" data-rel="popup" data-theme="c" data-bind="click: openReminderEndPopup">Finaliza
 					<p class="subdetail" data-bind="text: reminderEndDateText"></p>
-			</a></li>
-			<li><a href="#popupDoctor" data-rel="popup" data-theme="c">Médico
+				</a>
+			</li>
+			<li>
+				<a href="#popupDoctor" data-rel="popup" data-theme="c">Médico
 					<p class="subdetail" data-bind="text: doctor"></p>
-			</a><a href="#" data-theme="c" class="ui-icon-phone"
-				data-bind="attr: {href: (doctorPhone() == '' ? '#' : 'tel:' + doctorPhone())}">a</a></li>
-			<li><a href="#popupBuyReminder" data-rel="popup" data-theme="c">Recordatorio de compra
+				</a>
+				<a href="#" data-theme="c" class="ui-icon-phone"
+					data-bind="attr: {href: (doctorPhone() == '' ? '#' : 'tel:' + doctorPhone())}">a
+				</a>
+			</li>
+			<li>
+				<a href="#popupBuyReminder" data-rel="popup" data-theme="c">Recordatorio de compra
 					<p class="subdetail"
-						data-bind="visible: leftTakes()!= 0 && leftTakesDaysReminder() != 0, text: leftTakes() + ' tomas disponibles.'"></p>
-			</a></li>
+						data-bind="visible: leftTakes()!= 0 && leftTakesDaysReminder() != 0, text: leftTakes() + ' tomas disponibles.'">
+					</p>
+				</a>
+			</li>
 		</ul>
 
 		<input type="hidden" id="dpEndDate" class="datetimePicker required" />
@@ -136,8 +150,10 @@
 			data-bind="visible: showProductsList">
 			<!-- <li class="loadingProducts" data-icon="false">Cargando...</li>  -->
 			<!-- ko foreach: products -->
-			<li><a href="#" style="font-weight: normal; font-size: 14px; text-transform: capitalize;"
-				data-bind="html: productNameStyled, click: $root.productChoosen"></a></li>
+			<li>
+				<a href="#" style="font-weight: normal; font-size: 14px; text-transform: capitalize;"
+					data-bind="html: productNameStyled, click: $root.productChoosen"></a>
+			</li>
 			<!-- /ko -->
 		</ul>
 

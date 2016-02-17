@@ -46,10 +46,22 @@
 
 				try {
 
-					var reminderId = viewModel.reminderId + '_' + viewModel.reminderTime;
+					var reminderId = ""+viewModel.reminderId + "" + viewModel.reminderTime;
 					var reminderTime = parseInt(viewModel.reminderTime) + 600000;
 
-					window.localNotification.addNotification({
+					cordova.plugins.notification.local.schedule({
+							id: reminderId,
+							title: 'Fybeca',
+							text: viewModel.reminderName(),
+							at: reminderTime,
+							sound: 'reminder',
+							data: { id: viewModel.reminderId }
+					});
+
+					showMessageText('Recordatorio pospuesto exitosamente', 5000);
+					$(':mobile-pagecontainer').pagecontainer('change', 'reminders-calendar.html?sm=2');
+
+					/*window.localNotification.addNotification({
 						dateIni : reminderTime,
 						dateEnd : reminderTime,
 						message : viewModel.reminderName(),
@@ -93,11 +105,21 @@
 								$.mobile.loading("hide");
 							}, 3000);
 						}
-					});
+					});*/
 
 				} catch (e) {
 					// alert(e);
 					console.log(e);
+					$.mobile.changePage('reminders-calendar.html', {});
+					$.mobile.loading("show", {
+						text : 'Recordatorio NO calendarizado. Revise los datos ingresados e intente nuevamente',
+						textVisible : true,
+						textonly : true,
+						theme : 'b'
+					});
+					setTimeout(function() {
+						$.mobile.loading("hide");
+					}, 3000);
 				}
 
 			}).fail(function(err) {

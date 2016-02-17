@@ -18,7 +18,29 @@ var ProductRepository = {
 			console.log(err.stack);
 		}
 	}
-}
+};
+
+var MedicineIntakeRepository = {
+	countMedicineIntakeAfter: function(idReminder, time){
+		var deferred = $.Deferred();
+		try{
+			db.transaction(function(tx){
+				var sql='select count(*) as c from medicine_intake where reminder_id = "'+idReminder+'" and intake_time > ?';
+				tx.executeSql(sql,[time], function(tx, result){
+					deferred.resolve(Number(result.rows.item(0).c));
+				}, function(tx, error){
+					console.log(error);
+				});
+			}, function(error){
+				console.log(error);
+			}, function(){});
+		}catch(error){
+			console.log(err.message);
+			console.log(err.stack);
+		}
+		return deferred.promise();
+	}
+};
 
 var ReminderRepository = {
 	get : function(id, callback) {
