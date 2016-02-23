@@ -252,7 +252,7 @@
 			var deferred = $.Deferred();
 
 			try {
-				var options = new ContactFindOptions();
+				/*var options = new ContactFindOptions();
 				options.filter = keyword;
 				options.multiple = true;
 				options.limit = 10;
@@ -261,7 +261,32 @@
 					deferred.resolve(data);
 				}, function(error) {
 					deferred.reject(error);
-				}, options);
+				}, options);*/
+
+				var options      = new ContactFindOptions();
+				options.filter   = keyword;
+				console.log("Filtre "+options.filter);
+				options.multiple = true;
+				options.limit = 10;
+				options.desiredFields = [navigator.contacts.fieldType.id,
+										 navigator.contacts.fieldType.displayName,
+										 navigator.contacts.fieldType.phoneNumbers,
+										 navigator.contacts.fieldType.emails,
+										 navigator.contacts.fieldType.nickname,
+										 navigator.contacts.fieldType.name];
+				options.hasPhoneNumber = true;
+				var fields       = [navigator.contacts.fieldType.displayName,
+									navigator.contacts.fieldType.name,
+									navigator.contacts.fieldType.phoneNumbers];
+
+				navigator.contacts.find(fields, function(contacts){
+						console.log(contacts.length);
+						console.log(JSON.stringify(contacts));
+						deferred.resolve(contacts);
+					}, function(error){
+						deferred.reject(error);
+					}, options);
+
 
 			} catch (e) {
 				console.log(e);

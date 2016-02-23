@@ -362,6 +362,7 @@
 
 			models.CustomerActions.getIntakesByReminderId(viewModel.reminderCodeOnEdit()).done(function(repeats) {
 				var ini =1;
+				var cont =0;
 				$.each(repeats, function() {
 					var thisRepeat = parseInt(this) / 1000;
 					//console.log('delete ' + viewModel.reminderCodeOnEdit() +"-"+ thisRepeat)
@@ -373,14 +374,18 @@
 							}, this);
 							ini=2;
 						}
-                        cordova.plugins.notification.local.cancel(viewModel.reminderCodeOnEdit() + thisRepeat, function () {
+						var idHours = ""+viewModel.reminderCodeOnEdit()+""+thisRepeat;
+                        cordova.plugins.notification.local.cancel(idHours, function () {
                                                     // Notification was cancelled
                                                 }, this);
-
-						//window.localNotification.cancel(viewModel.reminderCodeOnEdit() + thisRepeat);
+                        var idInterval = ""+viewModel.reminderCodeOnEdit()+""+cont;
+                        cordova.plugins.notification.local.cancel(idInterval, function () {
+													// Notification was cancelled
+												}, this);
 					} catch (e) {
 						console.log('error ' + e);
 					}
+					cont++;
 				});
 
 			}).always(function() {
@@ -635,37 +640,7 @@
 										sound: 'reminder',
 										data: { id: reminderId }
                                 });
-								/*
-								window.localNotification.addNotification({
-									dateIni : viewModel.reminderBeginDate,
-									dateEnd : viewModel.reminderEndDate(),
-									message : rd.reminderName,
-									title : title,
-									ticker : rd.reminderName,
-									repeat : typeRepeat,
-									intervalType : typeRepeat,
-									id : reminderId,
-									action : 'Ver',
-									hasAction : true,
-									sound : 'reminder',
-									badge : 0,
-									background : 'showReminder',
-									foreground : 'showReminder',
-									success : function(data) {
-										// showMessage('Recordatorio creado
-										// exitosamente', null, null);
-									},
-									error : function(data) {
-										console.log('XXXX JS error none');
-										is64Times = true;
-										// showMessage('Recordatorio NO
-										// calendarizado. Revise los datos
-										// ingresados e intentenuevamente',
-										// null,
-										// null);
-									}
-								});
-								*/
+
 							} catch (e) {
 								console.log(e);
 							}
@@ -675,58 +650,34 @@
 							var intervalTime = parseInt(viewModel.reminderIntervalValue);
 							//intervalTime = intervalTime * 1000 * 60;
 							typeRepeat = 'hour';
-							intervalTime = intervalTime * 60;
+							//intervalTime = intervalTime * 60;
 							try {
 
-								cordova.plugins.notification.local.schedule({
-										id: reminderId,
-										title: title,
-										text: rd.reminderName,
-										at: viewModel.reminderBeginDate,
-										sound: 'reminder',
-										every: intervalTime,
-										data: { id: reminderId, dateEnd: viewModel.reminderEndDate() }
-								});
+								var intervalMilSec = intervalTime * 60 * 60 * 1000;
+								var beginTimeMilSec =  viewModel.reminderBeginDate;
+								//console.log("Incio "+beginTimeMilSec);
+								var endTimeMilSec = viewModel.reminderEndDate();
+								//console.log("Fin "+endTimeMilSec);
 
-								/*
-								window.localNotification.addNotificationByInterval({
-									dateIni : viewModel.reminderBeginDate,
-									dateEnd : viewModel.reminderEndDate(),
-									message : rd.reminderName,
-									title : title,
-									ticker : rd.name,
-									interval : intervalTime,
-									intervalType : typeRepeat,
-									id : reminderId,
-									action : 'Ver',
-									hasAction : true,
-									sound : 'reminder',
-									badge : 0,
-									background : 'showReminder',
-									foreground : 'showReminder',
-									success : function(data) {
-										// showMessage('Recordatorio creado
-										// exitosamente', null, null);
-									},
-									error : function(data) {
-										console.log('XXXX JS error interval');
-										var msg;
-										is64Times = true;
-										if (data != null && data.length > 0) {
-											msg = 'Recordatorio NO creado. ' + data;
-										} else {
-											msg = 'Recordatorio NO creado. Revise los datosingresados e intente nuevamente';
-										}
+								var cantInterval = ((endTimeMilSec-beginTimeMilSec)/intervalMilSec)|0;
+								console.log("Cantidad de notificaciones "+cantInterval);
 
-										showMessage(msg, null, null);
-
-									}
-								});*/
-
-
+								for(i = 0; i<=cantInterval; i++){
+									var id = ""+reminderId+""+i;
+									var timeNotifications = beginTimeMilSec + (intervalMilSec*i);
+									cordova.plugins.notification.local.schedule({
+											id: id,
+											title: title,
+											text: rd.reminderName,
+											at: timeNotifications,
+											sound: 'reminder',
+											data: { id: reminderId}
+									});
+									//console.log("Notificacion "+(i+1)+" Date "+new Date(timeNotifications));
+								}
 
 							} catch (e) {
-								console.log(e);
+								console.log('XXXX JS error interval');
 							}
 
 						} else if (viewModel.repeatType() == 'hours') {
@@ -759,49 +710,6 @@
 											data: { id: reminderId }
 									});
 
-									/*
-									window.localNotification.addNotification({
-										dateIni : thisTime,
-										dateEnd : thisTime,
-										message : rd.reminderName,
-										title : title,
-										ticker : rd.reminderName,
-										repeat : 'none', // TODO:
-										intervalType : 'none',
-										id : thisId,
-										action : 'Ver',
-										hasAction : true,
-										sound : 'reminder',
-										badge : 0,
-										background : 'showReminder',
-										foreground : 'showReminder',
-										success : function(data) {
-											// showMessage('Recordatorio creado
-											// exitosamente', null, null);
-
-											// setTimeout(function() {
-											// $(':mobile-pagecontainer').pagecontainer('change',
-											// '../../reminders.html');
-											// }, 3000);
-
-										},
-										error : function(data) {
-											console.log('XXXX JS error hours');
-											is64Times = true;
-											// $.mobile.loading("show", {
-											// text : 'Recordatorio NO
-											// calendarizado. Revise los datos
-											// ingresados e intente nuevamente',
-											// textVisible : true,
-											// textonly : true,
-											// theme : 'b'
-											// });
-											// setTimeout(function() {
-											// $.mobile.loading("hide");
-											// }, 3000);
-										}
-									});
-									*/
 								} catch (e) {
 									console.log(e);
 								}

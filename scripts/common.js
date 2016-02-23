@@ -315,6 +315,31 @@ $(document).on('pageshow', function(e) {
 		cache : true
 	});
 
+	var push = PushNotification.init({ "android": {"senderID": "347387454304"},
+                     "ios": {"alert": "true", "badge": "true", "sound": "true"}, "windows": {} } );
+
+    push.on('registration', function(data) {
+		// data.registrationId
+		console.log("ID-->"+data.registrationId);
+		console.log("Registration Push Notification");
+	});
+
+	push.on('notification', function(data) {
+		// data.message,
+		// data.title,
+		// data.count,
+		// data.sound,
+		// data.image,
+		// data.additionalData
+		// alert(data.message);
+		console.log("Receive Push Notification");
+	});
+
+	push.on('error', function(e) {
+		console.log(e.message);
+		console.log("Error Push Notification");
+	});
+
 	try {
 		if (device.platform == 'Android') {
 			// Fixes for Android 2.* bugs

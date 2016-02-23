@@ -12,6 +12,8 @@
 
 		photo64 : ko.observable(''),
 
+		photoMail : ko.observable(''),
+
 		subject : 'Enviar receta',
 
 		idType : ko.observable('C'),
@@ -26,24 +28,30 @@
 				switch (device.platform) {
 				default:
 				case 'Android':
-					destinationType = navigator.camera.DestinationType.FILE_URI;
+					destinationType = Camera.DestinationType.FILE_URI;
 					break;
 				case 'iPhone':
 				case 'iPad':
 				case 'iPod touch':
 				case 'iOS':
-					destinationType = navigator.camera.DestinationType.DATA_URL;
+					destinationType = Camera.DestinationType.DATA_URL;
 					break;
 				}
 			} catch (err) {
-				destinationType = navigator.camera.DestinationType.FILE_URI;
+				destinationType = Camera.DestinationType.FILE_URI;
 			}
 
 			try {
-				navigator.camera.getPicture(viewModel.takePictureSuccess, viewModel.takePictureError, {
-					quality : 10,
-					destinationType : destinationType
-				});
+
+				navigator.camera.getPicture(viewModel.takePictureSuccess, viewModel.takePictureError,
+					{
+						quality : 10,
+						correctOrientation: true,
+						encodingType: Camera.EncodingType.JPEG,
+						destinationType : destinationType
+					}
+				);
+
 			} catch (e) {
 				console.log(e);
 				alert(e);
@@ -58,6 +66,7 @@
 
 			}
 			viewModel.photo64(thisImage);
+			viewModel.photoMail(imageData);
 		},
 
 		takePictureError : function(message) {
@@ -90,6 +99,25 @@
 		sendEmail : function(data) {
 
 			try {
+
+				cordova.plugins.email.open({
+					to:      'isnel.leyva.h@gmail.com',
+					subject: data.subject,
+					body:    data.body,
+					attachments: data.image
+					},
+					function(sent){
+						console.log(sent);
+						if (sent=='OK'){
+							viewModel.resetForm();
+							console.log('Email sent');
+						}else{
+							console.log('Email cancelled');
+							showMessage('Fallo en el envio de la receta', null, 'Mensaje');
+						}
+					}, this
+				);
+				/*
 				switch (device.platform) {
 				case 'Android':
 					var extras = {};
@@ -123,7 +151,7 @@
 				case 'BlackBerry':
 					// TODO
 					break;
-				}
+				}*/
 			} catch (err) {
 				console.log(err.message);
 				console.log(err.stack);
@@ -134,13 +162,18 @@
 		resetForm : function() {
 
 			try {
-				$page.find('#send-prescription').each(function() {
+				/*$page.find('#send-prescription').each(function() {
 					this.reset();
 				});
 				$page.find('[name="city"]').selectmenu('refresh');
-				$page.find('#picture-holder').html('');
+				$page.find('#picture-holder').html('');*/
+
+				viewModel.photo64('');
+				$('#id-form-send-pre')[0].reset();
 
 				// fillFields();
+
+				console.log('Form clean');
 
 			} catch (err) {
 				console.log(err.message);

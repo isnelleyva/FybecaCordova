@@ -364,16 +364,22 @@
 			<div style="padding: 10px 20px;">
 				<p>Ingresa los datos de contacto del médico que te recetó</p>
 				<ul data-role="listview" data-inset="true" style="background-color: rgba(255, 255, 255, 0.9)">
-					<li data-role="fieldcontain" class="ui-hide-label"><input type="text" data-mini="true" name="doctorName"
-						id="txtDoctorName" placeholder="Nombre" data-bind="value: doctor" /></li>
-					<li data-role="fieldcontain" class="ui-hide-label"><input type="tel" maxlength="14" data-mini="true"
-						name="doctorPhone" id="txtDoctorPhone" placeholder="Teléfono" data-bind="value: doctorPhone" /></li>
-					<li data-role="fieldcontain" class="ui-hide-label"><div class="ui-grid-solo">
+					<li data-role="fieldcontain" class="ui-hide-label">
+						<input type="text" data-mini="true" name="doctorName"
+							id="txtDoctorName" placeholder="Nombre" data-bind="value: doctor" />
+					</li>
+					<li data-role="fieldcontain" class="ui-hide-label">
+						<input type="tel" maxlength="14" data-mini="true"
+							name="doctorPhone" id="txtDoctorPhone" placeholder="Teléfono" data-bind="value: doctorPhone" />
+					</li>
+					<li data-role="fieldcontain" class="ui-hide-label">
+						<div class="ui-grid-solo">
 							<div class="ui-block-a">
 								<button data-mini="true" data-bind="click: openPopupContacts" style="color: #333;">Seleccionar de tus
 									contactos</button>
 							</div>
-						</div></li>
+						</div>
+					</li>
 				</ul>
 
 

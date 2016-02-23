@@ -25,7 +25,7 @@ var MedicineIntakeRepository = {
 		var deferred = $.Deferred();
 		try{
 			db.transaction(function(tx){
-				var sql='select count(*) as c from medicine_intake where reminder_id = "'+idReminder+'" and intake_time > ?';
+				var sql='select count(*) as c from medicine_intake where reminder_id = "'+idReminder+'" and cast(intake_time as number) > ?';
 				tx.executeSql(sql,[time], function(tx, result){
 					deferred.resolve(Number(result.rows.item(0).c));
 				}, function(tx, error){
@@ -33,10 +33,12 @@ var MedicineIntakeRepository = {
 				});
 			}, function(error){
 				console.log(error);
+				return false;
 			}, function(){});
 		}catch(error){
 			console.log(err.message);
 			console.log(err.stack);
+			return false;
 		}
 		return deferred.promise();
 	}

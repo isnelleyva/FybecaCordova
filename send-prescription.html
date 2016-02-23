@@ -1,15 +1,16 @@
 <div data-role="page" id="send-prescription">
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
 	<style>
-#send-prescription #take-picture {
-	opacity: 0;
-	background-image: url('themes/default/images2/camera.png');
-	background-repeat: no-repeat;
-	background-size: initial;
-	background-position: right;
-}
-</style>
+		#send-prescription #take-picture {
+			opacity: 0;
+			background-image: url('themes/default/images2/camera.png');
+			background-repeat: no-repeat;
+			background-size: initial;
+			background-position: right;
+		}
+	</style>
 
-	<script src="scripts/cordova/android/webintent.js"></script>
+	<!-- <script src="scripts/cordova/android/webintent.js"></script> -->
 	<script src="scripts/send-prescription.js"></script>
 
 	<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false"
@@ -18,25 +19,32 @@
 		<h1>Envia tu receta</h1>
 	</div>
 
-	<form class="ui-content" data-bind="submit: sendPrescription">
+	<form class="ui-content" data-bind="submit: sendPrescription" id="id-form-send-pre">
 		<ul data-role="listview" data-inset="true" style="background-color: rgba(255, 255, 255, 0.9);">
 			<li data-role="fieldcontain">
 				<fieldset class="justified horizontalDG" data-role="controlgroup" data-type="horizontal" data-mini="true">
 
-					<input type="radio" name="rv" id="rdCedula" value="C" checked="checked" data-bind="checked: idType" /> <label
-						for="rdCedula">Cédula</label> <input type="radio" name="rv" id="rdPasaporte" value="P" data-bind="checked: idType" />
+					<input type="radio" name="rv" id="rdCedula" value="C" checked="checked" data-bind="checked: idType" />
+					<label for="rdCedula">Cédula</label>
+					<input type="radio" name="rv" id="rdPasaporte" value="P" data-bind="checked: idType" />
 					<label for="rdPasaporte">Pasaporte</label>
 
 				</fieldset>
 			</li>
 
-			<li data-role="fieldcontain" class="ui-hide-label"><label for="id">Cédula:</label> <input type="tel" id="id"
-				name="id" class="required"
-				data-bind="attr: {type: (idType()=='C'?'tel':'text'), placeholder: (idType()=='C'?'Cédula':'Pasaporte')}, css: {'identification-ec' : idType()=='C'}" /></li>
-			<li data-role="fieldcontain" class="ui-hide-label"><label for="name">Nombre:</label> <input type="text" id="name"
-				name="name" class="required" placeholder="Nombre" /></li>
-			<li data-role="fieldcontain" class="ui-hide-label"><label for="phone">Teléfono de contacto:</label> <input type="tel"
-				id="phone" name="phone" class="required" placeholder="Teléfono de contacto" /></li>
+			<li data-role="fieldcontain" class="ui-hide-label">
+				<label for="id">Cédula:</label>
+				<input type="tel" id="id" name="id" class="required"
+				data-bind="attr: {type: (idType()=='C'?'tel':'text'), placeholder: (idType()=='C'?'Cédula':'Pasaporte')}, css: {'identification-ec' : idType()=='C'}" />
+			</li>
+			<li data-role="fieldcontain" class="ui-hide-label">
+				<label for="name">Nombre:</label>
+				<input type="text" id="name" name="name" class="required" placeholder="Nombre" />
+			</li>
+			<li data-role="fieldcontain" class="ui-hide-label">
+				<label for="phone">Teléfono de contacto:</label>
+				<input type="tel" id="phone" name="phone" class="required" placeholder="Teléfono de contacto" />
+			</li>
 			<li data-role="fieldcontain" class="ui-hide-label"><label for="city">Ciudad:</label> <select id="city" name="city"
 				class="required"
 				data-bind="options: cities, 
@@ -46,9 +54,11 @@
 				class="required">
 			</select></li>
 			<li data-role="fieldcontain" class="ui-hide-label">
-				<div id="picture-holder" style="text-align: center;"></div> <input id="take-picture" type="button"
-				data-action="take-picture" data-mini="false" value="Tomar foto de receta" data-bind="click: takePicture" /> <label
-				id="picture-error" class="error"></label>
+				<div id="picture-holder" style="text-align: center;">
+				</div>
+				<input id="take-picture" type="button"
+					data-action="take-picture" data-mini="false" value="Tomar foto de receta" data-bind="click: takePicture" />
+				<label id="picture-error" class="error"></label>
 				<div style="text-align: center;">
 					<img width="50%" data-bind="attr: {src: photo64()}, visible: photo64() != ''" />
 				</div>
