@@ -320,7 +320,7 @@ $(document).on('pageshow', function(e) {
 
     push.on('registration', function(data) {
 		// data.registrationId
-		console.log("ID-->"+data.registrationId);
+		// console.log("ID-->"+data.registrationId);
 		console.log("Registration Push Notification");
 	});
 
@@ -333,6 +333,8 @@ $(document).on('pageshow', function(e) {
 		// data.additionalData
 		// alert(data.message);
 		console.log("Receive Push Notification");
+		// console.log("Messages: "+data.message);
+		$.mobile.changePage('push-message-detail.html?msg='+data.message);
 	});
 
 	push.on('error', function(e) {
@@ -605,7 +607,8 @@ $(document).on('pageshow', function(e) {
 			showMessage('Cordova inicializado.');
 		}
 
-		if (!localStorage.getItem('pushInstalled')) {
+		//ile
+		/*if (!localStorage.getItem('pushInstalled')) {
 			debugger;
 			$.ajaxSetup({
 				cache : true
@@ -631,7 +634,7 @@ $(document).on('pageshow', function(e) {
 					registerPushToken(localStorage.getItem('token'));
 				}
 			});
-		}
+		}*/
 
 		if (deviceType == 'IP') {
 			$(document).on('tap', '[href="tel:*1010"]', function(e) {
@@ -640,9 +643,10 @@ $(document).on('pageshow', function(e) {
 			});
 		}
 		// Para version de Cordova menor a 2.2
-		if (typeof navigator.connection == 'undefined') {
+		//ile
+		/*if (typeof navigator.connection == 'undefined') {
 			navigator.connection = navigator.network.connection;
-		}
+		}*/
 
 		/*if (typeof Cordova !== "undefined" && deviceType == 'AND') {
 			$.getScript('scripts/cordova/NativeNotification.js', function() {
@@ -1357,14 +1361,14 @@ function ShowMessageInternetNotAvailable() {
 		if (CurrentTime > ErrorConnectionTime) {
 			if (debug)
 				alert('Fuera del tiempo');
-			showMessage('En este momento no posee conexión a internet, verifique su conexión y vuelva a intentar.', null, null);
+			showMessage('En este momento no posee conexión a internet, verifique su conexión y vuelva a intentar 11x11.', null, null);
 			lastConnectionErrorTime = new Date().getTime();
 		} else if (debug)
 			alert('Dentro del tiempo');
 	} else {
 		if (debug)
 			alert('Primera vez');
-		showMessage('En este momento no posee conexión a internet, verifique su conexión y vuelva a intentar.', null, null);
+		showMessage('En este momento no posee conexión a internet, verifique su conexión y vuelva a intentar 11x11.', null, null);
 		lastConnectionErrorTime = new Date().getTime();
 	}
 
@@ -1372,7 +1376,7 @@ function ShowMessageInternetNotAvailable() {
 
 function encryptErrorHandler(error) {
 	try {
-		showMessage("ERRORR: \r\n" + error);
+		//showMessage("ERRORR: \r\n" + error);
 	} catch (err) {
 		console.log(err.message);
 		console.log(err.stack);
@@ -1642,8 +1646,9 @@ function loadChildBrowser() {
 }
 function loadMaps() {
 	try {
-		// if (navigator.network.connection.type!=Connection.NONE) {
-		if (navigator.onLine) {
+		//if (navigator.network.connection.type!=Connection.NONE) {
+		console.log("XXXXX- Red: "+navigator.onLine);
+		//if (navigator.onLine) {
 			if (typeof google == 'undefined') {
 				setTimeout(function() {
 					$.mobile.loading("show", {
@@ -1661,10 +1666,10 @@ function loadMaps() {
 				script.src = 'https://maps.googleapis.com/maps/api/js?sensor=false&' + 'callback=initializeMaps';
 				document.body.appendChild(script);
 			}
-		} else {
+		/*} else {
 			ShowMessageInternetNotAvailable();
 			$.mobile.loading('hide');
-		}
+		}*/
 	} catch (err) {
 		console.log(err.message);
 		console.log(err.stack);
@@ -2300,7 +2305,7 @@ function getCommands() {
 
 			deviceId : device.uuid,
 			devicePlatform : device.platform,
-			deviceModel : device.name.replace(/'/g, '_'),
+			deviceModel : device.name, //device.name.replace(/'/g, "_"),
 			version : device.version
 
 		},

@@ -101,7 +101,7 @@
 			try {
 
 				cordova.plugins.email.open({
-					to:      'isnel.leyva.h@gmail.com',
+					to:      data.to, 		//'isnel.leyva.h@gmail.com',
 					subject: data.subject,
 					body:    data.body,
 					attachments: data.image

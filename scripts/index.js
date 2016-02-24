@@ -4,6 +4,15 @@
 (function() {
 	var $page = $('#index');
 
+	function isAuth() {
+    	try {
+    		return Boolean(localStorage.getItem('idPersona'));
+    	} catch (err) {
+    		console.log(err.message);
+    		console.log(err.stack);
+    	}
+    };
+
 	var viewModel = {
 		cartCount : ko.observable(0),
 

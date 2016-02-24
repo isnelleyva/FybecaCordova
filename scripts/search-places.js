@@ -157,8 +157,9 @@
 			'pageshow',
 			function(e, ui) {
 				try {
-
 					try {
+						console.log("XXXXX- Conexion: "+navigator.network.connection.type);
+						console.log("XXXXX- Valor esperado: "+Connection.NONE);
 						if (navigator.network.connection.type == Connection.NONE) {
 							ShowMessageInternetNotAvailable();
 							return;
@@ -174,21 +175,29 @@
 					var loadPlaces = pageUrl.param('l') || documentUrl.param('l');
 
 					if (loadPlaces == 'n') {
+
 						viewModel.pharmacies(data.temporalPharmacies);
+						viewModel.wasLoaded(true);
 						viewModel.currLatitude = data.temporalLatitude;
 						viewModel.currLongitude = data.temporalLongitude;
 
-						$.each(response, function() {
-							var icon = this.estado == 'A' ? iconMarkerBlue : iconMarkerRed;
-							var status = this.estado == 'A' ? '<div style="font-weight:bold; font-size:12px;"><span style="color:#3cd628; font-weight: bold;">Abierto</span> <span style="font-weight: bold;">hasta las ' + this.horaCierre + '</span></div>'
-									: '<div style="font-weight:bold; font-size:12px;"><span style="color:#d01818;">Cerrado <span style="color:black; font-weight:bold; font-size:12px;"> ' + this.horaApertura + '</span></span></div>';
-							var thisAddress = this.direccion;
+
+						var listItems = [];
+						var farthestAwayPlace = 0;
+
+						createMap(e, ui);
+
+						$.each(viewModel.pharmacies(), function() {
+							var icon = this.status == 'A' ? iconMarkerBlue : iconMarkerRed;
+							var status = this.status == 'A' ? '<div style="font-weight:bold; font-size:12px;"><span style="color:#3cd628; font-weight: bold;">Abierto</span> <span style="font-weight: bold;">hasta las ' + this.closeTime + '</span></div>'
+									: '<div style="font-weight:bold; font-size:12px;"><span style="color:#d01818;">Cerrado <span style="color:black; font-weight:bold; font-size:12px;"> ' + this.openTime + '</span></span></div>';
+							var thisAddress = this.address;
 							try {
 								thisAddress = thisAddress.toLowerCase();
 							} catch (e) {
 							}
-							var teaser = '<a data-action="show-pharmacy-detail" data-pharmacy_id="' + this.codigoFarmacia + '" data-pharmacy_distance="' + this.distanciaReferencia + '" data-pharmacy_lat="' + this.latitud.replace(',', '.') + '" data-pharmacy_lon="' + this.longitud.replace(',', '.')
-									+ '" style="color:#333; text-decoration:none;"><div style="white-space:normal;"><span style="font-weight:bold;">' + this.nombreFarmacia + '</span> <span style="font-weight:normal; font-size:11px; color:#99999;">- ' + this.distanciaReferencia + 'km</span></div>'
+							var teaser = '<a data-action="show-pharmacy-detail" data-pharmacy_id="' + this.code + '" data-pharmacy_distance="' + this.distance + '" data-pharmacy_lat="' + this.latitude.replace(',', '.') + '" data-pharmacy_lon="' + this.longitude.replace(',', '.')
+									+ '" style="color:#333; text-decoration:none;"><div style="white-space:normal;"><span style="font-weight:bold;">' + this.name + '</span> <span style="font-weight:normal; font-size:11px; color:#99999;">- ' + this.distance + 'km</span></div>'
 									+ status + '<div class="capitalized" style="font-weight:normal; font-size:11px; white-space:normal;">' + thisAddress + '</div></a>';
 
 							// Agrega marcas al mapa
@@ -197,14 +206,14 @@
 							});
 
 							var marker = new google.maps.Marker({
-								position : new google.maps.LatLng(this.latitud.replace(',', '.'), this.longitud.replace(',', '.')),
+								position : new google.maps.LatLng(this.latitude.replace(',', '.'), this.longitude.replace(',', '.')),
 								map : map,
 								icon : icon,
 								shadow : iconMarkerShadow,
 								shape : iconMarkerShape,
-								title : this.nombreFarmacia,
+								title : this.name,
 								teaser : teaser,
-								id : this.codigoFarmacia
+								id : this.code
 							});
 							markers.push(marker);
 							google.maps.event.addListener(marker, 'click', function() {
@@ -217,7 +226,7 @@
 
 							// Obtiene la distancia de la
 							// farmacia a mayor distancia
-							farthestAwayPlace = Math.max(farthestAwayPlace, Number(this.distanciaReferencia.replace(',', '.')));
+							farthestAwayPlace = Math.max(farthestAwayPlace, Number(this.distance.replace(',', '.')));
 						});
 
 						if (farthestAwayPlace > maxDistance) {
@@ -230,6 +239,7 @@
 							$page.find('#range-distance').text(maxDistance);
 						}
 						$page.find('[name="range-distance"]').slider('refresh');
+						showPlaces2(e, ui);
 						fitBounds();
 						$.mobile.loading('hide');
 						// Refresca la lista de lugares encontrados
@@ -247,6 +257,8 @@
 								showMapNoDataMessage();
 							}
 						}
+
+
 
 					} else {
 						showPlaces(e, ui);
@@ -715,4 +727,91 @@
 			console.log(err.stack);
 		}
 	}
+	function showPlaces2(e, ui) {
+
+		try {
+			if (typeof map != 'object') {
+				createMap(e, ui);
+			} else {
+				if (navigator.geolocation) {
+
+					/*$.mobile.loading("show", {
+						text : "Consultando farmacias cercanas",
+						textVisible : true,
+						textonly : false,
+						theme : 'b'
+					});*/
+
+					navigator.geolocation.getCurrentPosition(function(position) {
+
+						viewModel.currLatitude = position.coords.latitude;
+						viewModel.currLongitude = position.coords.longitude;
+
+						addCurrentPositionMarker(position);
+
+						var distance = lastCurrentLatlng ? calcDistance(lastCurrentLatlng.lat(), lastCurrentLatlng.lng(), position.coords.latitude, position.coords.longitude, 'K') : 0;
+
+						// Centra el mapa en las coordenadas del
+						// GPS
+						map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+
+						// Carga lugares más cercanas de
+						// acuerdo a la posición enviada
+						if ((!lastCurrentLatlng || distance * 1000 > refreshPlacesDistance || lastMaxDistance != maxDistance) && (!ui || $(ui.prevPage).attr('id') != 'pharmacy-detail')) {
+							// loadPlaces(position);
+							// viewModel.loadPharmacies(position);
+						} else {
+							fitBounds();
+							$.mobile.loading('hide');
+						}
+					}, function(error) {
+						$.mobile.loading('hide');
+						// alert('error Here: ' + JSON.stringify(error));
+						switch (error.code) {
+						case error.PERMISSION_DENIED:
+							showMessage("El usuario ha denegado el acceso a obtener su posición actual.");
+							break;
+						case error.POSITION_UNAVAILABLE:
+							showConfirm("Información de posición actual no está disponible. Verifique que su GPS este encendido.\n\nDesea volver a intentar?", function(buttonIndex) {
+								if (buttonIndex == 2) {
+									showPlaces(e, ui);
+								} else {
+									viewModel.wasLoaded(true);
+								}
+							});
+							break;
+						case error.TIMEOUT:
+							showConfirm("Tiempo de espera agotado para obtener la posición actual del usuario.\n\nDesea volver a intentar?", function(buttonIndex) {
+								if (buttonIndex == 2) {
+									showPlaces(e, ui);
+								} else {
+									viewModel.wasLoaded(true);
+								}
+							});
+							break;
+						case error.UNKNOWN_ERROR:
+							showConfirm("Ha ocurrido un error desconocido.\n\nDesea volver a intentar?", function(buttonIndex) {
+								if (buttonIndex == 2) {
+									showPlaces(e, ui);
+								} else {
+									viewModel.wasLoaded(true);
+								}
+							});
+							break;
+						}
+					}, {
+						enableHighAccuracy : true
+					});
+				} else {
+					console.log('geolocation not avaliable.');
+					$.mobile.loading('hide');
+				}
+			}
+		} catch (err) {
+			$.mobile.loading('hide');
+			console.log(err.message);
+			console.log(err.stack);
+		}
+	}
+
 })();
