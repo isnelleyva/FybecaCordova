@@ -55,14 +55,16 @@
 
 	$page.on('pageinit', function() {
 
-		cordova.plugins.notification.local.on("click", function (notification, state) {
-			var time = notification.at * 1000;
-			var time_at = (new Date().getTime()/10000|0) * 10000;
-			var data = jQuery.parseJSON(notification.data);
-			$(':mobile-pagecontainer').pagecontainer('change', 'reminder-view.html?id='+data.id+'&time='+time, {
-				changeHash : false
-			});
-		}, this);
+		document.addEventListener('deviceready', function(){
+			cordova.plugins.notification.local.on("click", function (notification, state) {
+				var time = notification.at * 1000;
+				var time_at = (new Date().getTime()/10000|0) * 10000;
+				var data = jQuery.parseJSON(notification.data);
+				$(':mobile-pagecontainer').pagecontainer('change', 'reminder-view.html?id='+data.id+'&time='+time, {
+					changeHash : false
+				});
+			}, this);
+		}, false);
 
 		/*cordova.plugins.notification.local.on("trigger", function(notification) {
             console.log("XXXXXX -- Trigger");
