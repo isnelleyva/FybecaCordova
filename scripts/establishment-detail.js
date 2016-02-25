@@ -10,7 +10,7 @@
 		try {
 			$page.find('#share').on('click', function() {
 				try {
-					if (navigator.network.connection.type != Connection.NONE) {
+					if (navigator.connection.type != Connection.NONE) {
 						$page.find('#shareMenu').popup('open');
 					} else {
 						ShowMessageInternetNotAvailable();
@@ -23,7 +23,7 @@
 			$page.find('#share1').on('click', function() {
 
 				try {
-					if (navigator.network.connection.type != Connection.NONE) {
+					if (navigator.connection.type != Connection.NONE) {
 						$page.find('#shareMenu').popup('open');
 					} else {
 						ShowMessageInternetNotAvailable();

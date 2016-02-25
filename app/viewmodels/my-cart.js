@@ -22,7 +22,7 @@
 		gotoMyCart : function() {
 
 			try {
-				if (navigator.network.connection.type == Connection.NONE) {
+				if (navigator.connection.type == Connection.NONE) {
 					ShowMessageInternetNotAvailable();
 					return;
 				}

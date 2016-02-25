@@ -34,6 +34,9 @@ var isComingFromClubs = false;
 var isComingFromProducts = false;
 // var isNeededActivateButtons=false;
 
+var social_profile_fb_native = 'fb://page/151191528274774';
+var social_profile_tw_native = 'twitter://user?screen_name=fybeca';
+
 var social_profile_fb = 'http://www.facebook.com/fybeca';
 var social_profile_gp = 'http://plus.google.com/app/basic/117908549674250458433';
 var social_profile_tw = 'https://mobile.twitter.com/fybeca';
@@ -1149,7 +1152,7 @@ function invokeAjaxService(options) {
 				invokeAjaxObject.data.oauth_signature = objResult.oauth_signature;
 
 				// Si no esta en cache
-				if (navigator.network.connection.type != Connection.NONE) {
+				if (navigator.connection.type != Connection.NONE) {
 					dataType = invokeAjaxObject.dataType;
 					$.ajax({
 						timeout : ajaxTimeout,
@@ -1646,9 +1649,7 @@ function loadChildBrowser() {
 }
 function loadMaps() {
 	try {
-		//if (navigator.network.connection.type!=Connection.NONE) {
-		console.log("XXXXX- Red: "+navigator.onLine);
-		//if (navigator.onLine) {
+		if (navigator.connection.type!=Connection.NONE) {
 			if (typeof google == 'undefined') {
 				setTimeout(function() {
 					$.mobile.loading("show", {
@@ -1666,10 +1667,10 @@ function loadMaps() {
 				script.src = 'https://maps.googleapis.com/maps/api/js?sensor=false&' + 'callback=initializeMaps';
 				document.body.appendChild(script);
 			}
-		/*} else {
+		} else {
 			ShowMessageInternetNotAvailable();
 			$.mobile.loading('hide');
-		}*/
+		}
 	} catch (err) {
 		console.log(err.message);
 		console.log(err.stack);
@@ -2493,7 +2494,7 @@ function uploadDataServices(comId) {
 			maxTime : localStorage.getItem('maxTimeCall'),
 			minTime : localStorage.getItem('minTimeCall'),
 			aveTime : (parseInt(localStorage.getItem('sumServiceCalls')) / parseInt(localStorage.getItem('countServiceCalls'))),
-			networkConnectionType : carrier + '-' + navigator.network.connection.type
+			networkConnectionType : carrier + '-' + navigator.connection.type
 
 		},
 		showInternetUnavailable : false,

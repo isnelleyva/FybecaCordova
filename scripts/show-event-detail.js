@@ -45,7 +45,7 @@
 		});
 
 		$page.find('#btnTwitter').click(function() {
-			if (navigator.network.connection.type != Connection.NONE) {
+			if (navigator.connection.type != Connection.NONE) {
 				var tweetText = event_name + ', ' + eventDescription;
 				tweetText = (tweetText.length > 125) ? tweetText.substring(0, 125) + '...' : tweetText;
 
@@ -60,7 +60,7 @@
 			}
 		});
 		$page.find('#btnFacebook').click(function() {
-			if (navigator.network.connection.type != Connection.NONE) {
+			if (navigator.connection.type != Connection.NONE) {
 				facebook_post_parameters.link = eventShareUrlBase + '?codeEvent=' + event_id + '&codeCity=' + cityCode;
 				facebook_post_parameters.picture = imgUrl;
 				facebook_post_parameters.caption = eventDescription;
@@ -85,7 +85,7 @@
 			$page.find('#shareMenu').popup('close');
 		});
 		$page.find('#btnGoogle').click(function() {
-			if (navigator.network.connection.type != Connection.NONE) {
+			if (navigator.connection.type != Connection.NONE) {
 				if (!google_access_token) {
 					google_auth(function() {
 						window.plugins.childBrowser.close();

@@ -158,9 +158,9 @@
 			function(e, ui) {
 				try {
 					try {
-						console.log("XXXXX- Conexion: "+navigator.network.connection.type);
+						console.log("XXXXX- Conexion: "+navigator.connection.type);
 						console.log("XXXXX- Valor esperado: "+Connection.NONE);
-						if (navigator.network.connection.type == Connection.NONE) {
+						if (navigator.connection.type == Connection.NONE) {
 							ShowMessageInternetNotAvailable();
 							return;
 						}

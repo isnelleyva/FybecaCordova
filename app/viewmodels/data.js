@@ -131,7 +131,7 @@
 		}
 
 		try {
-			if (navigator.network.connection.type == Connection.NONE) {
+			if (navigator.connection.type == Connection.NONE) {
 				showMessageText('En este momento no posees conexión a internet, verifica tu conexión y vuelve a intentarlo');
 				return;
 			}

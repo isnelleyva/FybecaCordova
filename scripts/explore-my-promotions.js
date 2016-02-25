@@ -20,7 +20,7 @@
 
 		$page.find('#btnTwitter').click(function() {
 			try {
-				if (navigator.network.connection.type != Connection.NONE) {
+				if (navigator.connection.type != Connection.NONE) {
 					var tweetText = promotionName + ', ' + promotionDescription;
 					tweetText = (tweetText.length > 125) ? tweetText.substring(0, 125) + '...' : tweetText;
 
@@ -42,7 +42,7 @@
 
 		$page.find('#btnFacebook').click(function() {
 			try {
-				if (navigator.network.connection.type != Connection.NONE) {
+				if (navigator.connection.type != Connection.NONE) {
 					facebook_post_parameters.link = promotionURL;
 					facebook_post_parameters.picture = promotionImageURL;
 					facebook_post_parameters.caption = promotionDescription;
@@ -73,7 +73,7 @@
 		$page.find('#btnGoogle').click(function() {
 
 			try {
-				if (navigator.network.connection.type != Connection.NONE) {
+				if (navigator.connection.type != Connection.NONE) {
 					if (!google_access_token) {
 						google_auth(function() {
 							window.plugins.childBrowser.close();

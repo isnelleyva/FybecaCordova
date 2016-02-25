@@ -387,7 +387,7 @@
 					invokeAjaxObject.data.oauth_signature = objResult.oauth_signature;
 
 					// Si no esta en cache
-					if (navigator.network.connection.type != Connection.NONE) {
+					if (navigator.connection.type != Connection.NONE) {
 						dataType = invokeAjaxObject.dataType;
 						$.ajax({
 							timeout : ajaxTimeout,

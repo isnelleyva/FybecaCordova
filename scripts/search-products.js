@@ -80,7 +80,7 @@
 			var keyword = $self.val();                
             if (typeof keyword != 'undefined' && $.trim(keyword)!=''){
             $page.find('.products-loading').remove();
-            if (navigator.network.connection.type!=Connection.NONE) {
+            if (navigator.connection.type!=Connection.NONE) {
             	
 	            $('<div class="products-loading" style="padding: 5px; text-align: center; font-size: 11px; margin: -15px; margin-bottom: 15px; background:#DDD;">Buscando más productos...</div>').insertAfter($page.find('.ui-listview-filter')).hide().slideDown();
 	            //Solicitud remota
